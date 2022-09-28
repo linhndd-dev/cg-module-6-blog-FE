@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Container from "./components/Container";
 import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
+import ListPost from "./components/ListPost";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/register"></Route>
             <Route path="/"></Route>
             <Route path="/post" element={<Post/>}>
+              <Route path="list" element={<ListPost/>}></Route>
               <Route path="create" element={<CreatePost/>}></Route>
             </Route>
           </Routes>
