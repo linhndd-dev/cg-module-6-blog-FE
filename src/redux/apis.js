@@ -10,10 +10,28 @@ if(user){
 }else{
     alert("Deo co quyen")
 }
-export const getAllPost = createAsyncThunk(
+export const getAllPostByUser = createAsyncThunk(
     'case6/getAll',
     async (id) => {
         let posts = await axios.get(`${baseURL}/${id}`,{headers:{"Authorization": `Bearer ${token}`}})
         return posts.data
+    }
+)
+
+export const createPostByUser = createAsyncThunk(
+    'case6/creatPost',
+    async (id, value) => {
+        console.log(value);
+        await axios.post(
+            `${baseURL}/${id}`, 
+            value, 
+            {
+                headers:{
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+            )
+        return value 
     }
 )

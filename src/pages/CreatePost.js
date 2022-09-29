@@ -7,11 +7,17 @@ import './create-post.css';
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage"
 import { storage } from './firebase';
 import { async } from '@firebase/util';
+import { useDispatch } from 'react-redux';
+import { createPostByUser } from '../redux/apis';
+import { useParams } from 'react-router-dom';
 
 export default function CreatePost() {
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
   const [editor, setEditor] = useState("");
+  let local = JSON.parse(localStorage.getItem('login'));
+  let id = local.idUser
+  const dispatch = useDispatch();
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -39,8 +45,12 @@ export default function CreatePost() {
     );
   }
 
-  const handleCreatePostByUser = (values) => {
+  const changeEditor = (e) => {
+    setEditor(e);
+  }
+  const handleCreatePostByUser = (id, values) => {
     console.log(values);
+    dispatch(createPostByUser(id, values))
   }
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -48,7 +58,7 @@ export default function CreatePost() {
         initialValues={{ 
           title: "",
           summary: "",
-          content: "",
+          content: {editor},
           avatar: "",
           accessModified: "",
         }}
@@ -65,7 +75,7 @@ export default function CreatePost() {
        onSubmit={(values) => {
         values.avatar = file
         values.content = editor;
-        handleCreatePostByUser(values); 
+        handleCreatePostByUser(id, values); 
        }}
      >
        {({ isSubmitting }) => (
@@ -79,7 +89,7 @@ export default function CreatePost() {
             <ErrorMessage className="error" name="summary" component="div" />
             <br/>
             Nội dung bài viết
-            <Field name="content" className="inputTextSelect">
+            <Field name="content" onChange={(e) => changeEditor(e)} className="inputTextSelect">
               {({field, meta}) => (
                 <div>
                   <Editor
@@ -139,7 +149,7 @@ export default function CreatePost() {
                         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                     }}
                     onEditorChange={(e) => {
-                      console.log(e);
+                      changeEditor(e);
                   }}
                 />
                 </div>

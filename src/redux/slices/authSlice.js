@@ -69,14 +69,14 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     [loginUser.fulfilled]: (state, action) => {
-      const { success, message, accessToken, userId } = action.payload;
+      const { success, message, accessToken, idUser } = action.payload;
       localStorage.setItem(
         "login",
         JSON.stringify({
           success,
           message,
           accessToken,
-          userId,
+          idUser,
         })
       );
       state.status = "successful";
