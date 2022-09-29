@@ -11,7 +11,7 @@ export default function Post(){
             </Box>
             <Toolbar />
             <Box sx={{display: "flex"}}>
-                <Navbar></Navbar>
+                <Navbar/>
                 <Outlet></Outlet>
             </Box>
         </Box>

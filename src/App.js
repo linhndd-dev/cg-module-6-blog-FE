@@ -11,6 +11,8 @@ import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
+import Register from "./pages/Register/Register";
+import ListPost from "./components/ListPost";
 
 function App() {
   return (
