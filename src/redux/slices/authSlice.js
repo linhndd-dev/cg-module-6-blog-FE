@@ -36,7 +36,7 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     [loginUser.fulfilled]: (state, action) => {
-      const { success, message, accessToken, userId } =
+      const { success, message, accessToken, idUser } =
         action.payload;
       localStorage.setItem(
         "login",
@@ -44,7 +44,7 @@ export const authSlice = createSlice({
           success,
           message,
           accessToken,
-          userId
+          idUser
         })
       );
       state.status = 'successful';
