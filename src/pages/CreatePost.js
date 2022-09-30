@@ -36,6 +36,7 @@ export default function CreatePost() {
   }
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <h2>Create Post</h2>
       <Formik
         initialValues={{ 
           title: "",
@@ -78,21 +79,21 @@ export default function CreatePost() {
      >
        {({ isSubmitting }) => (
           <Form className="container">
-            Tiêu đề
+            Title
             <Field name="title" className="inputTextSelect" />
             <ErrorMessage className="error" name="title" component="div" />
             <br/>
-            Mô tả ngắn
+            Sumary
             <Field name="summary" className="inputTextSelect" />
             <ErrorMessage className="error" name="summary" component="div" />
             <br/>
-            Nội dung bài viết
+            Content
             <Field name="content" onChange={(e) => changeEditor(e)} className="inputTextSelect">
               {({field, meta}) => (
                 <div>
                   <Editor
                     onInit={(evt, editor) => editorRef.current = editor}
-                    initialValue="<p>This is the initial content of the editor.</p>"
+                    initialValue=""
                     init={{
                         selector: 'textarea#file-picker',
                         plugins: 'image code',
@@ -135,7 +136,7 @@ export default function CreatePost() {
             <br/>
             <Field type="file" name="avatar" onChange={handleChangeFileBase} accept="/image/*"/>
             <br/>
-            Quyền
+            Access Modified
             <Field name="accessModified" as="select" className="inputTextSelect">
               <option>--Chọn quyền--</option>
               <option value="Public">Public</option>

@@ -17,7 +17,6 @@ const postSlice = createSlice({
             state.posts = action.payload
         })
         .addCase(createMyPost.fulfilled, (state, action) => {
-            console.log(action.payload);
             return [...state.posts, action.payload]
         })
     }

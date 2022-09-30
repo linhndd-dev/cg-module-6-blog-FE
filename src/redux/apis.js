@@ -13,8 +13,14 @@ if(user){
 export const getAllMyPost = createAsyncThunk(
     'case6/getAll',
     async () => {
-        let posts = await axios.get(`${baseURL}`,{headers:{"Authorization": `Bearer ${token}`}})
-        return posts.data
+        let posts = await axios.get(`${baseURL}`,
+            {
+                headers:{
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+        return posts.data.posts
     }
 )
 
