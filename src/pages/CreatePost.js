@@ -1,35 +1,154 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Box } from '@mui/material';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import {} from '@mui/icons-material';
+import './create-post.css';
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage"
+import { storage } from './firebase';
+import { async } from '@firebase/util';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createMyPost } from '../redux/apis';
 
 export default function CreatePost() {
+  const [file, setFile] = useState("");
+  const [percent, setPercent] = useState(0);
+  const [editor, setEditor] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
   };
+  const handleChangeFileBase = async (event) => {
+    await setFile(event.target.files[0]);
+  }
+
+  const changeEditor = (e) => {
+    setEditor(e);
+  }
+  const handleCreatePostByUser = (value) => {
+    dispatch(createMyPost(value));
+    navigate('/post/list')
+  }
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-      <Editor
-        onInit={(evt, editor) => editorRef.current = editor}
-        initialValue="<p>This is the initial content of the editor.</p>"
-        init={{
-          height: 500,
-          menubar: false,
-          plugins: [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount'
-          ],
-          toolbar: 'undo redo | formatselect | ' +
-          'bold italic backcolor | alignleft aligncenter ' +
-          'alignright alignjustify | bullist numlist outdent indent | ' +
-          'removeformat | help',
-          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+      <Formik
+        initialValues={{ 
+          title: "",
+          summary: "",
+          content: {editor},
+          avatar: "",
+          accessModified: "",
         }}
-      />
-      <button onClick={log}>Log editor content</button>
+       validate={values => {
+         const errors = {};
+         if (!values.title) {
+          errors.title = 'Require';
+         } 
+         if (!values.content) {
+          errors.content = "Require"
+         }
+         return errors;
+       }}
+       onSubmit={(values) => {
+        const storageRef = ref(storage, `/files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const percent = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                setPercent(percent);
+            },
+            (err) => console.log(err),
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                    values.avatar = url
+                    values.content = editor;
+                    handleCreatePostByUser(values); 
+                });
+            }
+        );
+       }}
+     >
+       {({ isSubmitting }) => (
+          <Form className="container">
+            Tiêu đề
+            <Field name="title" className="inputTextSelect" />
+            <ErrorMessage className="error" name="title" component="div" />
+            <br/>
+            Mô tả ngắn
+            <Field name="summary" className="inputTextSelect" />
+            <ErrorMessage className="error" name="summary" component="div" />
+            <br/>
+            Nội dung bài viết
+            <Field name="content" onChange={(e) => changeEditor(e)} className="inputTextSelect">
+              {({field, meta}) => (
+                <div>
+                  <Editor
+                    onInit={(evt, editor) => editorRef.current = editor}
+                    initialValue="<p>This is the initial content of the editor.</p>"
+                    init={{
+                        selector: 'textarea#file-picker',
+                        plugins: 'image code',
+                        toolbar: 'undo redo | link image | code',
+                        image_title: true,
+                        automatic_uploads: true,
+                        file_picker_types: 'image',
+                        file_picker_callback: function (cb, value, meta) {
+                            var input = document.createElement('input');
+                            input.setAttribute('type', 'file');
+                            input.setAttribute('accept', 'image/*');
+                            input.onchange = function () {
+                                var file = this.files[0];
+
+                                var reader = new FileReader();
+                                reader.onload = function () {
+                                    var id = 'blobid' + (new Date()).getTime();
+                                    var blobCache =  window.tinymce.activeEditor.editorUpload.blobCache;
+                                    var base64 = reader.result.split(',')[1];
+                                    var blobInfo = blobCache.create(id, file, base64);
+                                    blobCache.add(blobInfo);
+                                    cb(blobInfo.blobUri(), { title: file.name });
+                                };
+                                reader.readAsDataURL(file);
+                            };
+                            input.click();
+                        },
+                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                    onEditorChange={(e) => {
+                      changeEditor(e);
+                  }}
+                />
+                </div>
+              )}
+            </Field>
+            <ErrorMessage className="error" name="content" component="div" />
+            <br/>
+            Avatar
+            <br/>
+            <Field type="file" name="avatar" onChange={handleChangeFileBase} accept="/image/*"/>
+            <br/>
+            Quyền
+            <Field name="accessModified" as="select" className="inputTextSelect">
+              <option>--Chọn quyền--</option>
+              <option value="Public">Public</option>
+              <option value="Private">Private</option>
+            </Field>
+            <ErrorMessage className="error" name="accessModified"  component="div" />
+            <br/>
+            <button type="submit" className="inputSubmit" disabled={isSubmitting}>
+              Create
+            </button>
+         </Form>
+       )}
+     </Formik>
     </Box>
   );
 }
