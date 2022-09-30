@@ -8,46 +8,31 @@ import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage"
 import { storage } from './firebase';
 import { async } from '@firebase/util';
 import { useDispatch } from 'react-redux';
-import { createPostByUser } from '../redux/apis';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createMyPost } from '../redux/apis';
 
 export default function CreatePost() {
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
   const [editor, setEditor] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
   };
-  const handleChangeFileBase = (event) => {
-    setFile(event.target.files[0]);
-    const storageRef = ref(storage, `/files/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-            const percent = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setPercent(percent);
-        },
-        (err) => console.log(err),
-        () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                setFile(url)
-            });
-        }
-    );
+  const handleChangeFileBase = async (event) => {
+    await setFile(event.target.files[0]);
   }
 
   const changeEditor = (e) => {
     setEditor(e);
   }
-  const handleCreatePostByUser = (id, value) => {
-    dispatch(createPostByUser(id, value))
+  const handleCreatePostByUser = (value) => {
+    dispatch(createMyPost(value));
+    navigate('/post/list')
   }
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -62,17 +47,33 @@ export default function CreatePost() {
        validate={values => {
          const errors = {};
          if (!values.title) {
-          errors.title = 'Không được để trống tiêu đề';
+          errors.title = 'Require';
          } 
          if (!values.content) {
-          errors.content = "Không được để trống nội dung"
+          errors.content = "Require"
          }
          return errors;
        }}
        onSubmit={(values) => {
-        values.avatar = file
-        values.content = editor;
-        handleCreatePostByUser(values); 
+        const storageRef = ref(storage, `/files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const percent = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                setPercent(percent);
+            },
+            (err) => console.log(err),
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                    values.avatar = url
+                    values.content = editor;
+                    handleCreatePostByUser(values); 
+                });
+            }
+        );
        }}
      >
        {({ isSubmitting }) => (
@@ -132,7 +133,7 @@ export default function CreatePost() {
             <br/>
             Avatar
             <br/>
-            <Field type="file" name="avatar" onChange={handleChangeFileBase}/>
+            <Field type="file" name="avatar" onChange={handleChangeFileBase} accept="/image/*"/>
             <br/>
             Quyền
             <Field name="accessModified" as="select" className="inputTextSelect">

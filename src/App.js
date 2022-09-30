@@ -12,7 +12,7 @@ import Post from "./pages/Post";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
-import ListPost from "./components/ListPost";
+import ListPost from "./pages/ListPost";
 
 function App() {
   return (

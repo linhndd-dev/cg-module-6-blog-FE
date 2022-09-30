@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createPostByUser, getAllPostByUser } from "../apis"
+import { createMyPost, getAllMyPost } from "../apis"
 
 const initialState ={ 
     posts: [
@@ -13,11 +13,10 @@ const postSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(getAllPostByUser.fulfilled, (state, action) => {
-            console.log(action.payload);
+        .addCase(getAllMyPost.fulfilled, (state, action) => {
             state.posts = action.payload
         })
-        .addCase(createPostByUser.fulfilled, (state, action) => {
+        .addCase(createMyPost.fulfilled, (state, action) => {
             console.log(action.payload);
             return [...state.posts, action.payload]
         })
