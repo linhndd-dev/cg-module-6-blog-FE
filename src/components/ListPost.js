@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
-import { getAllPostByUser } from "../redux/apis";
+import { getAllPost } from "../redux/apis";
 
 export default function ListPost(){
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function ListPost(){
     let local = JSON.parse(localStorage.getItem('login'));
     let id = local.idUser
     useEffect(() => {
-        dispath(getAllPostByUser(id));
+        dispath(getAllPost(id));
     },[])
     const posts = useSelector(state => state.posts.posts)
     console.log(posts);
