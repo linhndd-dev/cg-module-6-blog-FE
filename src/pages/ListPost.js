@@ -2,7 +2,7 @@ import { Box, Button, Fab, Pagination } from "@mui/material";
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
-import { getAllMyPost } from "../redux/apis";
+import { getAllMyPost, getDetailPost } from "../redux/apis";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -17,14 +17,18 @@ import { Stack } from "@mui/system";
 export default function ListPost(){
     const navigate = useNavigate();
     const dispath = useDispatch();
-    const [page, setPage] = useState(1);
-    const handleChangePage = (event, value) => {
-        setPage(value)
-    }
-    const posts = useSelector(state => state.posts.posts)
     useEffect(() => {
         dispath(getAllMyPost());
     },[])
+    let posts = useSelector(state => state.posts.posts);
+    const [page, setPage] = useState(1);
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    }
+    const handleEditPost = async (id) => {
+        await dispath(getDetailPost(id));
+        navigate(`/post/edit/${id}`)
+    }
     return (
         <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <h2>List Post</h2>
@@ -56,7 +60,7 @@ export default function ListPost(){
                     <TableCell align="right">{row.like}</TableCell>
                     <TableCell align="right">{row.comment}</TableCell>
                     <TableCell align="center">
-                        <Fab color="primary" aria-label="edit">
+                        <Fab color="primary" aria-label="edit" onClick={() => handleEditPost(row._id)}>
                             <EditIcon />
                         </Fab>
                     </TableCell>

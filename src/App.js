@@ -13,8 +13,13 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
 import ListPost from "./pages/ListPost";
+import { getAllMyPost } from "./redux/apis";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import EditPost from "./pages/EditPost";
 
 function App() {
+
   return (
       <BrowserRouter>
           <Routes>
@@ -24,6 +29,7 @@ function App() {
             <Route path="/post" element={<Post/>}>
               <Route path="list" element={<ListPost/>}></Route>
               <Route path="create" element={<CreatePost/>}></Route>
+              <Route path="edit/:id" element={<EditPost/>}></Route>
             </Route>
           </Routes>
       </BrowserRouter>
