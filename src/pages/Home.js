@@ -61,6 +61,8 @@ function Home() {
 
     let {posts} = useSelector((data) => data.posts)
 
+    console.log(posts)
+
     useEffect(() => {
         dispatch(getAllMyPost())
     }, [])
@@ -116,7 +118,7 @@ function Home() {
                             <Grid container spacing={2}>
                                 <Grid item>
                                     <ButtonBase sx={{width: 128, height: 128}}>
-                                        <Img alt="complex" src="../../public/Screenshot from 2022-08-04 11-17-24.png"/>
+                                        {/*<Img alt="complex" src="../../public/Screenshot from 2022-08-04 11-17-24.png"/>*/}
                                     </ButtonBase>
                                 </Grid>
                                 <Grid item xs={12} sm container>
@@ -194,7 +196,7 @@ function Home() {
                     <Grid container spacing={2}>
                         <Grid item>
                             <ButtonBase sx={{width: 128, height: 128}}>
-                                <Img alt="complex" src="../../public/Screenshot from 2022-08-04 11-17-24.png"/>
+                                {/*<Img alt="complex" src="../../public/Screenshot from 2022-08-04 11-17-24.png"/>*/}
                             </ButtonBase>
                         </Grid>
                         <Grid item xs={12} sm container>
@@ -226,7 +228,7 @@ function Home() {
                     <Grid container spacing={2}>
                         <Grid item>
                             <ButtonBase sx={{width: 128, height: 128}}>
-                                <Img alt="complex" src='../../public/Screenshot from 2022-08-04 11-17-24.png'/>
+                                {/*<Img alt="complex" src='../../public/Screenshot from 2022-08-04 11-17-24.png'/>*/}
                             </ButtonBase>
                         </Grid>
                         <Grid item xs={12} sm container>
@@ -258,7 +260,7 @@ function Home() {
                     <Grid container spacing={2}>
                         <Grid item>
                             <ButtonBase sx={{width: 128, height: 128}}>
-                                <Img alt="complex" src='../../public/Screenshot from 2022-08-04 11-17-24.png'/>
+                                {/*<Img alt="complex" src='../../public/Screenshot from 2022-08-04 11-17-24.png'/>*/}
                             </ButtonBase>
                         </Grid>
                         <Grid item xs={12} sm container>
