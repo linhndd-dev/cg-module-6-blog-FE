@@ -13,10 +13,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
+import ListIcon from '@mui/icons-material/List';
 
 const drawerWidth = 240;
 
 export default function Navbar() {
+  const navigate = useNavigate();
   return (
     <Box>
       <Drawer
@@ -30,16 +34,22 @@ export default function Navbar() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
+              <ListItem>
+                <ListItemButton onClick={() => navigate('/post/create')}>
                   <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    <AddIcon />
                   </ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemText primary="Create Post" />
                 </ListItemButton>
               </ListItem>
-            ))}
+              <ListItem>
+                <ListItemButton onClick={() => navigate('/post/list')}>
+                  <ListItemIcon>
+                    <ListIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="List Post" />
+                </ListItemButton>
+              </ListItem>
           </List>
           <Divider />
           <List>
