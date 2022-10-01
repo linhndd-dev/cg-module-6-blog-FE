@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Box } from '@mui/material';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -7,18 +7,19 @@ import './create-post.css';
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage"
 import { storage } from './firebase';
 import { async } from '@firebase/util';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createMyPost } from '../redux/apis';
+import { createMyPost, editPost } from '../redux/apis';
 
-export default function CreatePost() {
+export default function EditPost() {
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
   const [editor, setEditor] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const editorRef = useRef(null);
-  
+  let {id} = useParams();
+  let post = useSelector(state => state.posts.post)
   const handleChangeFileBase = (event) => {
     setFile(event.target.files[0]);
   }
@@ -26,11 +27,9 @@ export default function CreatePost() {
   const changeEditor = (e) => {
     setEditor(e);
   }
-  const handleCreatePostByUser = (value) => {
-    dispatch(createMyPost(value));
-    setTimeout(() => {
-      navigate('/post/list')
-    }, 3000);
+  const handleCreatePostByUser = async (values) => {
+    await dispatch(editPost({values, id}));
+    navigate('/post/list')
   }
   
   return (
@@ -38,11 +37,11 @@ export default function CreatePost() {
       <h2>Create Post</h2>
       <Formik
         initialValues={{ 
-          title: "",
-          summary: "",
+          title: post.title,
+          summary: post.summary,
           content: {editor},
           avatar: "",
-          accessModified: "",
+          accessModified: post.accessModified,
         }}
        validate={values => {
          const errors = {};
@@ -92,7 +91,7 @@ export default function CreatePost() {
                 <div>
                   <Editor
                     onInit={(evt, editor) => editorRef.current = editor}
-                    initialValue=""
+                    initialValue={post.content}
                     init={{
                         selector: 'textarea#file-picker',
                         plugins: 'image code',
@@ -144,7 +143,7 @@ export default function CreatePost() {
             <ErrorMessage className="error" name="accessModified"  component="div" />
             <br/>
             <button type="submit" className="inputSubmit" disabled={isSubmitting}>
-              Create
+              Update
             </button>
          </Form>
        )}
