@@ -1,7 +1,7 @@
 import { Box, Button, Fab, Pagination } from "@mui/material";
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { getAllMyPost } from "../redux/apis";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,8 +11,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Stack } from "@mui/system";
+import ShowDetail from "./ShowDetail";
 
 export default function ListPost(){
     const navigate = useNavigate();
@@ -58,6 +60,11 @@ export default function ListPost(){
                     <TableCell align="center">
                         <Fab color="primary" aria-label="edit">
                             <EditIcon />
+                        </Fab>
+                    </TableCell>
+                        <TableCell align="center">
+                        <Fab color="warning" aria-label="showdetail">
+                            <Link to={'/showDetail'} color={'inherit'} element={<ShowDetail/>}><InsertDriveFileIcon /></Link>
                         </Fab>
                     </TableCell>
                     <TableCell align="center">

@@ -13,6 +13,7 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
 import ListPost from "./pages/ListPost";
+import ShowDetail from "./pages/ShowDetail";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
-            <Route path="/" element={<Home/>}></Route>
+            <Route path="/" element={<ShowDetail/>}></Route>
             <Route path="/post" element={<Post/>}>
               <Route path="list" element={<ListPost/>}></Route>
               <Route path="create" element={<CreatePost/>}></Route>

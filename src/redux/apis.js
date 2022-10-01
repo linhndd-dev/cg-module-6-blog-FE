@@ -1,13 +1,13 @@
 import axios from "axios"
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import postSlice from "./slices/postSlice";
 
 const baseURL = "http://localhost:5000/posts";
 let user = JSON.parse(localStorage.getItem('login'));
 let token;
-if(user){
+if (user) {
     token = user.accessToken;
-}else{
+} else {
     alert("Deo co quyen")
 }
 export const getAllMyPost = createAsyncThunk(
@@ -15,7 +15,7 @@ export const getAllMyPost = createAsyncThunk(
     async () => {
         let posts = await axios.get(`${baseURL}`,
             {
-                headers:{
+                headers: {
                     "Authorization": `Bearer ${token}`
                 }
             }
@@ -29,16 +29,32 @@ export const createMyPost = createAsyncThunk(
     async (prop) => {
         console.log(prop);
         await axios.post(
-            `${baseURL}`, 
-            prop, 
-                {
-                    headers:{
-                        "Content-type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
+            `${baseURL}`,
+            prop,
+            {
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 }
-            )
+            }
+        )
 
         return prop
+    }
+)
+
+export const getDetailPost = createAsyncThunk(
+    'case6/getDetail',
+    async (id) => {
+        console.log(id)
+        let posts = await axios.get(`${baseURL}/:id`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+
+                }
+            }
+        )
+        return posts.data.posts
     }
 )
