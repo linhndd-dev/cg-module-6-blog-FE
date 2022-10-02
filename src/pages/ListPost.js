@@ -31,6 +31,10 @@ export default function ListPost(){
         await dispath(getDetailPost(id));
         navigate(`/post/edit/${id}`)
     }
+    const handleShowDetail = async (id) => {
+        await dispath(getDetailPost(id))
+        navigate(`/post/${id}`)
+    }
     return (
         <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <h2>List Post</h2>
@@ -67,8 +71,8 @@ export default function ListPost(){
                         </Fab>
                     </TableCell>
                         <TableCell align="center">
-                        <Fab color="warning" aria-label="showdetail">
-                            <Link to={'/showDetail'} color={'inherit'} element={<ShowDetail/>}><InsertDriveFileIcon /></Link>
+                        <Fab color="warning" aria-label="showdetail" onClick={() => handleShowDetail(row._id)}>
+                            <EditIcon />
                         </Fab>
                     </TableCell>
                     <TableCell align="center">

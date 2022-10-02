@@ -17,6 +17,7 @@ import { getAllMyPost } from "./redux/apis";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EditPost from "./pages/EditPost";
+import ShowDetail from "./pages/ShowDetail";
 
 function App() {
 
@@ -25,11 +26,12 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
-            <Route path="/" element={<ShowDetail/>}></Route>
+            <Route path="/" element={<Home/>}></Route>
             <Route path="/post" element={<Post/>}>
               <Route path="list" element={<ListPost/>}></Route>
               <Route path="create" element={<CreatePost/>}></Route>
               <Route path="edit/:id" element={<EditPost/>}></Route>
+              <Route path=":id" element={<ShowDetail/>}></Route>
             </Route>
           </Routes>
       </BrowserRouter>
