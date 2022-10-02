@@ -1,19 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createMyPost, deletePost, editPost, getAllMyPost, getDetailPost } from "../apis"
+import { createMyPost, deletePost, editPost, getAllMyPost, getDetailPost, getPostsByGuest } from "../apis"
 
 const initialState ={ 
     posts: [
     ],
-    post: {}
+    post: {},
+    status: 'idle',
+    currentPage: 1,
+    numberOfPages: null,
 }
 
 const postSlice = createSlice({
     name: "post",
     initialState,
     reducers: { 
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
+        .addCase(getPostsByGuest.pending, (state, action) => {
+            state.status = "loading";
+        })
+        .addCase(getPostsByGuest.fulfilled, (state, action) => {
+            state.status = "successful";
+            state.posts = action.payload.posts;
+            state.numberOfPages = action.payload.numberOfPages;
+            state.currentPage = action.payload.currentPage;
+        })
+        .addCase(getPostsByGuest.rejected, (state, action) => {
+            state.status = "failed";
+        })
         .addCase(getAllMyPost.fulfilled, (state, action) => {
             state.posts = action.payload;
         })
@@ -41,4 +59,4 @@ const postSlice = createSlice({
 
 export default postSlice.reducer;
 
-export const { LoginGG, logout } = postSlice.actions
+export const { setCurrentPage } = postSlice.actions

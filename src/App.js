@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import Container from "./components/Container";
 import CreatePost from "./pages/CreatePost";
-import Post from "./pages/Post";
+import Layout from "./pages/Layout";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
@@ -25,8 +25,10 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
+            <Route element={<Layout/>}>
             <Route path="/" element={<Home/>}></Route>
-            <Route path="/post" element={<Post/>}>
+            </Route>
+            <Route path="/post" element={<Layout/>}>
               <Route path="list" element={<ListPost/>}></Route>
               <Route path="create" element={<CreatePost/>}></Route>
               <Route path="edit/:id" element={<EditPost/>}></Route>

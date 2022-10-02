@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
-export default function Post(){
+export default function Layout(){
     return (
         <Box>
             <Box sx={{display: "fixed"}}>

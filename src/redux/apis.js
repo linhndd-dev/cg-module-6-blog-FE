@@ -8,8 +8,6 @@ let user = JSON.parse(localStorage.getItem('login'));
 let token;
 if(user){
     token = user.accessToken;
-}else{
-    alert("Deo co quyen")
 }
 export const getAllMyPost = createAsyncThunk(
     'post/getAll',
@@ -23,6 +21,15 @@ export const getAllMyPost = createAsyncThunk(
         )
         return posts.data.posts
     }
+)
+
+export const getPostsByGuest = createAsyncThunk(
+    'post/getPostsByGuest',
+    async (page) => {
+        const {data} = await axios.get(`${baseURL}/guest?page=${page}`)
+        return data;
+    }
+    
 )
 
 export const createMyPost = createAsyncThunk(
