@@ -12,7 +12,7 @@ if(user){
     alert("Deo co quyen")
 }
 export const getAllMyPost = createAsyncThunk(
-    'case6/getAll',
+    'post/getAll',
     async () => {
         let posts = await axios.get(`${baseURL}`,
             {
@@ -26,7 +26,7 @@ export const getAllMyPost = createAsyncThunk(
 )
 
 export const createMyPost = createAsyncThunk(
-    'case6/creatPost',
+    'post/creatPost',
     async (prop) => {
         await axios.post(
             `${baseURL}`, 
@@ -44,7 +44,7 @@ export const createMyPost = createAsyncThunk(
 )
 
 export const editPost = createAsyncThunk(
-    'case6/editPost',
+    'post/editPost',
     async (prop) => {
         await axios.put(
             `${baseURL}/${prop.id}`,
@@ -61,8 +61,23 @@ export const editPost = createAsyncThunk(
     }
 )
 
+export const deletePost = createAsyncThunk(
+    'post/deletePost',
+    async (prop) => {
+        await axios.delete(
+            `${baseURL}/${prop}`,
+            {
+                headers:{
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+        return prop;
+    }
+)
+
 export const getDetailPost = createAsyncThunk(
-    'case6/getDetailPost',
+    'post/getDetailPost',
     async (prop) => {
         let post = await axios.get(
             `${baseURL}/${prop}`,

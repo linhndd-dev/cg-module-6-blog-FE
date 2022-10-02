@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createMyPost, editPost, getAllMyPost, getDetailPost } from "../apis"
+import { createMyPost, deletePost, editPost, getAllMyPost, getDetailPost } from "../apis"
 
 const initialState ={ 
     posts: [
@@ -8,7 +8,7 @@ const initialState ={
 }
 
 const postSlice = createSlice({
-    name: "case6",
+    name: "post",
     initialState,
     reducers: { 
     },
@@ -27,6 +27,11 @@ const postSlice = createSlice({
                     item._id = action.payload.id;
                 }
             })
+        })
+        .addCase(deletePost.fulfilled, (state, action) => {
+            state.posts = state.posts.filter((item) =>
+                item._id !== action.payload
+            )
         })
         .addCase(getDetailPost.fulfilled, (state, action) => {
             state.post = action.payload;

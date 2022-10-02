@@ -2,7 +2,7 @@ import { Box, Button, Fab, Pagination } from "@mui/material";
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
-import { getAllMyPost, getDetailPost } from "../redux/apis";
+import { deletePost, getAllMyPost, getDetailPost } from "../redux/apis";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,21 +13,40 @@ import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Stack } from "@mui/system";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 export default function ListPost(){
     const navigate = useNavigate();
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
+    const [postId, setPostId] = useState(0);
+    const handleDeletePost = async (id) => {
+        await dispatch(deletePost(id));
+        handleClose();
+        navigate('/post/list')
+    }
+    const handleClickOpen = (id) => {
+        setPostId(id)
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    let {posts} = useSelector(state => state.post);
     useEffect(() => {
-        dispath(getAllMyPost());
+        dispatch(getAllMyPost());
     },[])
-    let posts = useSelector(state => state.posts.posts);
     const [page, setPage] = useState(1);
     const handleChangePage = (event, value) => {
         setPage(value);
     }
     const handleEditPost = async (id) => {
-        await dispath(getDetailPost(id));
-        navigate(`/post/edit/${id}`)
+        await dispatch(getDetailPost(id));
+        navigate(`/post/edit/${id}`);
     }
     return (
         <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
@@ -65,7 +84,7 @@ export default function ListPost(){
                         </Fab>
                     </TableCell>
                     <TableCell align="center">
-                        <Fab color="secondary" aria-label="delete">
+                        <Fab color="secondary" aria-label="delete" onClick={() => handleClickOpen(row._id)}>
                             <DeleteIcon />
                         </Fab>
                     </TableCell>
@@ -74,6 +93,26 @@ export default function ListPost(){
                 </TableBody>
             </Table>
             </TableContainer>
+            <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            >
+            <DialogTitle id="alert-dialog-title">
+                {"Are you sure to delete the post?"}
+                </DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose}>Disagree</Button>
+                <Button onClick={() => handleDeletePost(postId)} autoFocus>
+                    Agree
+                </Button>
+                </DialogActions>
+            </Dialog>
             <Stack spacing={2}>
                 <Pagination count={10} color="primary" onChange={handleChangePage}/>
             </Stack>
