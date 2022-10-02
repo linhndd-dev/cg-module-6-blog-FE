@@ -48,7 +48,6 @@ export default function Home() {
               </Box>
             ) : (
               status === "successful" &&
-              status === "successful" &&
               posts.map((row) => (
                 <TableRow
                   key={row._id}

@@ -10,6 +10,7 @@ import { async } from '@firebase/util';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createMyPost, editPost } from '../redux/apis';
+import { getDetailPost } from '../redux/apis';
 
 export default function EditPost() {
   const [file, setFile] = useState("");
@@ -20,6 +21,7 @@ export default function EditPost() {
   const editorRef = useRef(null);
   let {id} = useParams();
   let {post} = useSelector(state => state.post)
+  console.log(post);
   const handleChangeFileBase = (event) => {
     setFile(event.target.files[0]);
   }
@@ -31,10 +33,13 @@ export default function EditPost() {
     await dispatch(editPost({values, id}));
     navigate('/post/list')
   }
+  useEffect(() => {
+    dispatch(getDetailPost(id))
+  },[])
   
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-      <h2>Create Post</h2>
+      <h2>Edit Post</h2>
       <Formik
         initialValues={{ 
           title: post.title,

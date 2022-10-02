@@ -2,6 +2,8 @@ import axios from "axios"
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import postSlice from "./slices/postSlice";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import Swal from "sweetalert2";
+
 
 const baseURL = "http://localhost:5000/posts";
 let user = JSON.parse(localStorage.getItem('login'));
@@ -11,15 +13,15 @@ if(user){
 }
 export const getAllMyPost = createAsyncThunk(
     'post/getAll',
-    async () => {
-        let posts = await axios.get(`${baseURL}`,
+    async (page) => {
+        let {data} = await axios.get(`${baseURL}?page=${page}`,
             {
                 headers:{
                     "Authorization": `Bearer ${token}`
                 }
             }
         )
-        return posts.data.posts
+        return data;
     }
 )
 
@@ -32,21 +34,43 @@ export const getPostsByGuest = createAsyncThunk(
     
 )
 
+export const searchMyPosts = createAsyncThunk(
+    "post/searchMyPosts",
+    async (searchQuery, { rejectWithValue }) => {
+      try {
+        const {data} = await axios.get(`${baseURL}/search?searchQuery=${searchQuery}`)
+        return data;
+      } catch (err) {
+        return rejectWithValue(err.response.data);
+      }
+    }
+  );
+
+
 export const createMyPost = createAsyncThunk(
     'post/creatPost',
-    async (prop) => {
-        await axios.post(
-            `${baseURL}`, 
-            prop, 
-                {
-                    headers:{
-                        "Content-type": "application/json",
-                        "Authorization": `Bearer ${token}`
+    async ({value,navigate}) => {
+        try {
+            await axios.post(
+                `${baseURL}`, 
+                value, 
+                    {
+                        headers:{
+                            "Content-type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        }
                     }
-                }
-            )
-
-        return prop
+                )
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Create new post successful!',
+                  })
+                  navigate('/post/list')
+            return value
+        } catch (error) {
+            
+        }
+        
     }
 )
 
@@ -70,16 +94,17 @@ export const editPost = createAsyncThunk(
 
 export const deletePost = createAsyncThunk(
     'post/deletePost',
-    async (prop) => {
+    async (postId, ThunkAPI) => {
         await axios.delete(
-            `${baseURL}/${prop}`,
+            `${baseURL}/${postId}`,
             {
                 headers:{
                     "Authorization": `Bearer ${token}`
                 }
             }
         )
-        return prop;
+        ThunkAPI.dispatch(getAllMyPost())
+        return postId;
     }
 )
 
@@ -94,17 +119,6 @@ export const getDetailPost = createAsyncThunk(
                 }
             }
         )
-        return post.data.post[0];
+        return post.data.posts[0];
     }
 )
-
-export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
-  endpoints: (builder) => ({
-    listPosts: builder.query({
-      query: (page = 1) => `posts/?page=${page}`,
-    }),
-  }),
-})
-
-export const { useListPostsQuery } = api

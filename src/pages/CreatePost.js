@@ -27,10 +27,7 @@ export default function CreatePost() {
     setEditor(e);
   }
   const handleCreatePostByUser = (value) => {
-    dispatch(createMyPost(value));
-    setTimeout(() => {
-      navigate('/post/list')
-    }, 3000);
+    dispatch(createMyPost({value,navigate}));
   }
   
   return (

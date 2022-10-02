@@ -63,7 +63,11 @@ export const registerUser = createAsyncThunk(
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setAuth: (state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+    },
+  },
   extraReducers: {
     [loginUser.pending]: (state, action) => {
       state.status = "loading";
@@ -77,6 +81,7 @@ export const authSlice = createSlice({
           message,
           accessToken,
           idUser,
+          isLoggedIn: true
         })
       );
       state.status = "successful";
@@ -101,3 +106,5 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const { setAuth } = authSlice.actions;
+
