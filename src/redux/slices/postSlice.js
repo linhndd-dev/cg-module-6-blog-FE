@@ -18,7 +18,7 @@ const postSlice = createSlice({
             state.posts = action.payload;
         })
         .addCase(createMyPost.fulfilled, (state, action) => {
-            return [...state.posts, action.payload];
+            state.posts.push(action.payload);
         })
         .addCase(editPost.fulfilled, (state, action) => {
             state.posts.map((item) => {
