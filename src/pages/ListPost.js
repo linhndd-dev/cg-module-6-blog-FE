@@ -27,7 +27,6 @@ export default function ListPost(){
     const handleDeletePost = async (id) => {
         await dispatch(deletePost(id));
         handleClose();
-        navigate('/post/list')
     }
     const handleClickOpen = (id) => {
         setPostId(id)
