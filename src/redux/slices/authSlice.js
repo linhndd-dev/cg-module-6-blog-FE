@@ -67,6 +67,10 @@ export const authSlice = createSlice({
     setAuth: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
     },
+    logout: (state, action) => {
+      localStorage.clear();
+      state.isLoggedIn = false;
+    },
   },
   extraReducers: {
     [loginUser.pending]: (state, action) => {
