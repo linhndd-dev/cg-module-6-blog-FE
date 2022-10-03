@@ -1,24 +1,55 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createMyPost, editPost, getAllMyPost, getDetailPost } from "../apis"
+import { createMyPost, deletePost, editPost, getAllMyPost, getDetailPost, getPostsByGuest } from "../apis"
 
 const initialState ={ 
     posts: [
     ],
-    post: {}
+    post: {
+        author: {
+            username: ''
+        }
+    },
+    status: 'idle',
+    currentPage: 1,
+    numberOfPages: null,
 }
 
 const postSlice = createSlice({
-    name: "case6",
+    name: "post",
     initialState,
     reducers: { 
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
+        .addCase(getPostsByGuest.pending, (state, action) => {
+            state.status = "loading";
+        })
+        .addCase(getPostsByGuest.fulfilled, (state, action) => {
+            state.status = "successful";
+            state.posts = action.payload.posts;
+            state.numberOfPages = action.payload.numberOfPages;
+            state.currentPage = action.payload.currentPage;
+        })
+        .addCase(getPostsByGuest.rejected, (state, action) => {
+            state.status = "failed";
+        })
+        .addCase(getAllMyPost.pending, (state, action) => {
+            state.status = "loading";
+        })
         .addCase(getAllMyPost.fulfilled, (state, action) => {
-            state.posts = action.payload;
+            state.status = "successful";
+            state.posts = action.payload.posts;
+            state.numberOfPages = action.payload.numberOfPages;
+            state.currentPage = action.payload.currentPage;
+        })
+        .addCase(getAllMyPost.rejected, (state, action) => {
+            state.status = "failed";
         })
         .addCase(createMyPost.fulfilled, (state, action) => {
-            return [...state.posts, action.payload];
+            state.posts.push(action.payload);
         })
         .addCase(editPost.fulfilled, (state, action) => {
             state.posts.map((item) => {
@@ -28,6 +59,11 @@ const postSlice = createSlice({
                 }
             })
         })
+        .addCase(deletePost.fulfilled, (state, action) => {
+            state.posts = state.posts.filter((item) =>
+                item._id !== action.payload
+            )
+        })
         .addCase(getDetailPost.fulfilled, (state, action) => {
             state.post = action.payload;
         })
@@ -36,4 +72,4 @@ const postSlice = createSlice({
 
 export default postSlice.reducer;
 
-export const { LoginGG, logout } = postSlice.actions
+export const { setCurrentPage } = postSlice.actions

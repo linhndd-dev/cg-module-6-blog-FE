@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import Container from "./components/Container";
 import CreatePost from "./pages/CreatePost";
-import Post from "./pages/Post";
+import Layout from "./pages/Layout";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
@@ -17,21 +17,32 @@ import { getAllMyPost } from "./redux/apis";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EditPost from "./pages/EditPost";
-import ShowDetail from "./pages/ShowDetail";
+import { setAuth } from "./redux/slices/authSlice";
+import SinglePost from "./pages/SinglePost";
 
 function App() {
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  useEffect(() => {
+    const { isLoggedIn } = JSON.parse(localStorage.getItem("login")) || {};
+    if (isLoggedIn) {
+      dispatch(setAuth({ isLoggedIn }));
+    }
+  }, [dispatch, isLoggedIn]);
 
   return (
       <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
+            <Route element={<Layout/>}>
             <Route path="/" element={<Home/>}></Route>
-            <Route path="/post" element={<Post/>}>
+            </Route>
+            <Route path="/post" element={<Layout/>}>
               <Route path="list" element={<ListPost/>}></Route>
               <Route path="create" element={<CreatePost/>}></Route>
               <Route path="edit/:id" element={<EditPost/>}></Route>
-              <Route path=":id" element={<ShowDetail/>}></Route>
+              <Route path=":id" element={<SinglePost/>}></Route>
             </Route>
           </Routes>
       </BrowserRouter>
