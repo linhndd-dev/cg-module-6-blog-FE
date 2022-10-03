@@ -48,7 +48,7 @@ export const searchMyPosts = createAsyncThunk(
 
 
 export const createMyPost = createAsyncThunk(
-    'post/creatPost',
+    'post/createPost',
     async ({value,navigate}) => {
         try {
             await axios.post(
