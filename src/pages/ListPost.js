@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Stack } from "@mui/system";
 import Dialog from "@mui/material/Dialog";
@@ -94,7 +95,7 @@ export default function ListPost() {
               <TableCell align="center">Summary</TableCell>
               <TableCell align="center">Like</TableCell>
               <TableCell align="center">Comment</TableCell>
-              <TableCell align="center" colSpan={2}>
+              <TableCell align="center" colSpan={3}>
                 Actions
               </TableCell>
             </TableRow>
@@ -115,6 +116,15 @@ export default function ListPost() {
                   <TableCell align="center">{row.comment}</TableCell>
                   <TableCell align="center">
                     <Fab
+                      color="secondary"
+                      aria-label="showdetail"
+                      onClick={() => handleShowDetail(row._id)}
+                    >
+                      <InfoIcon />
+                    </Fab>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Fab
                       color="primary"
                       aria-label="edit"
                       onClick={() => handleEditPost(row._id)}
@@ -122,18 +132,10 @@ export default function ListPost() {
                       <EditIcon />
                     </Fab>
                   </TableCell>
+
                   <TableCell align="center">
                     <Fab
                       color="warning"
-                      aria-label="showdetail"
-                      onClick={() => handleShowDetail(row._id)}
-                    >
-                      <EditIcon />
-                    </Fab>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="secondary"
                       aria-label="delete"
                       onClick={() => handleClickOpen(row._id)}
                     >
