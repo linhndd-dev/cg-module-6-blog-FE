@@ -22,7 +22,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { setCurrentPage } from "../redux/slices/postSlice";
 import { searchMyPosts } from "../redux/apis";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import GradeIcon from "@mui/icons-material/Grade";
+import SmsIcon from "@mui/icons-material/Sms";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -99,12 +99,12 @@ export default function ListPost() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <img style={{ width: "200px" }} src={`${row.avatar}`} />
+                    <img style={{ width: "300px" }} src={`${row.avatar}`} />
                   </TableCell>
                   <TableCell align="left">
-                    <h3>
+                    <h2>
                       <strong>{row.title}</strong>
-                    </h3>
+                    </h2>
                     {row.summary}
                   </TableCell>
 
@@ -114,7 +114,7 @@ export default function ListPost() {
                     {row.like}
                   </TableCell>
                   <TableCell align="center">
-                    <GradeIcon fontSize="large" />
+                    <SmsIcon fontSize="large" />
                     <br />
                     {row.comment}
                   </TableCell>
