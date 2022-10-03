@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { searchMyPosts,createMyPost, deletePost, editPost, getAllMyPost, getDetailPost, getPostsByGuest } from "../apis"
+import { createMyPost, deletePost, editPost, getAllMyPost, getDetailPost, getPostsByGuest } from "../apis"
 
 const initialState ={ 
     posts: [
     ],
-    post: {},
+    post: {
+        author: {
+            username: ''
+        }
+    },
     status: 'idle',
     currentPage: 1,
     numberOfPages: null,
@@ -32,17 +36,8 @@ const postSlice = createSlice({
         .addCase(getPostsByGuest.rejected, (state, action) => {
             state.status = "failed";
         })
-        .addCase(getAllMyPost.pending, (state, action) => {
-            state.status = "loading";
-        })
         .addCase(getAllMyPost.fulfilled, (state, action) => {
-            state.status = "successful";
-            state.posts = action.payload.posts;
-            state.numberOfPages = action.payload.numberOfPages;
-            state.currentPage = action.payload.currentPage;
-        })
-        .addCase(getAllMyPost.rejected, (state, action) => {
-            state.status = "failed";
+            state.posts = action.payload;
         })
         .addCase(createMyPost.fulfilled, (state, action) => {
             state.posts.push(action.payload);
@@ -55,29 +50,10 @@ const postSlice = createSlice({
                 }
             })
         })
-        .addCase(deletePost.pending, (state, action) => {
-            state.status = "loading"
-        })
         .addCase(deletePost.fulfilled, (state, action) => {
             state.posts = state.posts.filter((item) =>
                 item._id !== action.payload
             )
-            state.status = "successful"
-        })
-        .addCase(deletePost.rejected, (state, action) => {
-            state.status = "failed"
-        })
-        .addCase(searchMyPosts.pending, (state, action) => {
-            state.status = "loading";
-        })
-        .addCase(searchMyPosts.fulfilled, (state, action) => {
-            state.status = "successful";
-            state.posts = action.payload.posts;
-            state.numberOfPages = action.payload.numberOfPages;
-            state.currentPage = action.payload.currentPage;
-        })
-        .addCase(searchMyPosts.rejected, (state, action) => {
-            state.status = "failed";
         })
         .addCase(getDetailPost.fulfilled, (state, action) => {
             state.post = action.payload;

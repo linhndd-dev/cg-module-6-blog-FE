@@ -24,6 +24,9 @@ export default function Home() {
   const { posts, status, currentPage, numberOfPages } = useSelector(
     (state) => state.post
   );
+  const handleShowDetail = async (id) => {
+    navigate(`/post/${id}`)
+}
   useEffect(() => {
     dispatch(getPostsByGuest(currentPage));
   }, [currentPage, dispatch]);
@@ -64,6 +67,12 @@ export default function Home() {
                   <TableCell align="right">{row.summary}</TableCell>
                   <TableCell align="right">{row.like}</TableCell>
                   <TableCell align="right">{row.comment}</TableCell>
+                  <TableCell align="center">
+                        <Fab color="warning" aria-label="showdetail" onClick={() => handleShowDetail(row._id)}>
+                            <EditIcon />
+                        </Fab>
+                    </TableCell>
+                <TableCell align="center"></TableCell>
                 </TableRow>
               ))
             )}

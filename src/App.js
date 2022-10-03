@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EditPost from "./pages/EditPost";
 import { setAuth } from "./redux/slices/authSlice";
+import SinglePost from "./pages/SinglePost";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function App() {
               <Route path="list" element={<ListPost/>}></Route>
               <Route path="create" element={<CreatePost/>}></Route>
               <Route path="edit/:id" element={<EditPost/>}></Route>
+              <Route path=":id" element={<SinglePost/>}></Route>
             </Route>
           </Routes>
       </BrowserRouter>

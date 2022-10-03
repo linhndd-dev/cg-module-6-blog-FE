@@ -112,12 +112,7 @@ export const getDetailPost = createAsyncThunk(
     'post/getDetailPost',
     async (prop) => {
         let post = await axios.get(
-            `${baseURL}/${prop}`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+            `${baseURL}/${prop}`
         )
         return post.data.posts[0];
     }

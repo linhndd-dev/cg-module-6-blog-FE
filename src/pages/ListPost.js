@@ -58,6 +58,9 @@ export default function ListPost() {
     await dispatch(deletePost(id));
     handleClose();
   };
+  const handleShowDetail = async (id) => {
+    navigate(`/post/${id}`)
+}
   const handleClickOpen = (id) => {
     setPostId(id);
     setOpen(true);
@@ -119,6 +122,11 @@ export default function ListPost() {
                     <EditIcon />
                   </Fab>
                 </TableCell>
+                <TableCell align="center">
+                        <Fab color="warning" aria-label="showdetail" onClick={() => handleShowDetail(row._id)}>
+                            <EditIcon />
+                        </Fab>
+                    </TableCell>
                 <TableCell align="center">
                   <Fab
                     color="secondary"

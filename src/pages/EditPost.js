@@ -21,7 +21,6 @@ export default function EditPost() {
   const editorRef = useRef(null);
   let {id} = useParams();
   let {post} = useSelector(state => state.post)
-  console.log(post);
   const handleChangeFileBase = (event) => {
     setFile(event.target.files[0]);
   }
