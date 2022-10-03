@@ -36,8 +36,17 @@ const postSlice = createSlice({
         .addCase(getPostsByGuest.rejected, (state, action) => {
             state.status = "failed";
         })
+        .addCase(getAllMyPost.pending, (state, action) => {
+            state.status = "loading";
+        })
         .addCase(getAllMyPost.fulfilled, (state, action) => {
-            state.posts = action.payload;
+            state.status = "successful";
+            state.posts = action.payload.posts;
+            state.numberOfPages = action.payload.numberOfPages;
+            state.currentPage = action.payload.currentPage;
+        })
+        .addCase(getAllMyPost.rejected, (state, action) => {
+            state.status = "failed";
         })
         .addCase(createMyPost.fulfilled, (state, action) => {
             state.posts.push(action.payload);
