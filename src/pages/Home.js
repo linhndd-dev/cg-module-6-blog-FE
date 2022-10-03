@@ -25,8 +25,8 @@ export default function Home() {
     (state) => state.post
   );
   const handleShowDetail = async (id) => {
-    navigate(`/post/${id}`)
-}
+    navigate(`/post/${id}`);
+  };
   useEffect(() => {
     dispatch(getPostsByGuest(currentPage));
   }, [currentPage, dispatch]);
@@ -38,10 +38,10 @@ export default function Home() {
           <TableHead>
             <TableRow>
               <TableCell>Avatar</TableCell>
-              <TableCell align="right">Title</TableCell>
-              <TableCell align="right">Summary</TableCell>
-              <TableCell align="right">Like</TableCell>
-              <TableCell align="right">Comment</TableCell>
+              <TableCell align="center">Title</TableCell>
+              <TableCell align="center">Summary</TableCell>
+              <TableCell align="center">Like</TableCell>
+              <TableCell align="center">Comment</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,16 +63,20 @@ export default function Home() {
                       alt=""
                     />
                   </TableCell>
-                  <TableCell align="right">{row.title}</TableCell>
-                  <TableCell align="right">{row.summary}</TableCell>
-                  <TableCell align="right">{row.like}</TableCell>
-                  <TableCell align="right">{row.comment}</TableCell>
+                  <TableCell align="left">{row.title}</TableCell>
+                  <TableCell align="left">{row.summary}</TableCell>
+                  <TableCell align="center">{row.like}</TableCell>
+                  <TableCell align="center">{row.comment}</TableCell>
                   <TableCell align="center">
-                        <Fab color="warning" aria-label="showdetail" onClick={() => handleShowDetail(row._id)}>
-                            <EditIcon />
-                        </Fab>
-                    </TableCell>
-                <TableCell align="center"></TableCell>
+                    <Fab
+                      color="warning"
+                      aria-label="showdetail"
+                      onClick={() => handleShowDetail(row._id)}
+                    >
+                      <EditIcon />
+                    </Fab>
+                  </TableCell>
+                  <TableCell align="center"></TableCell>
                 </TableRow>
               ))
             )}
