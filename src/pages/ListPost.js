@@ -92,7 +92,7 @@ export default function ListPost() {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
-            {posts &&
+            {posts.length > 0 && status === 'successful' &&
               posts.map((row) => (
                 <TableRow
                   key={row._id}
@@ -171,11 +171,17 @@ export default function ListPost() {
         </DialogActions>
       </Dialog>
       <Stack spacing={2}>
-        <Pagination
+        {posts.length > 0 && status === 'successful' && (
+            <Pagination
           count={numberOfPages ? numberOfPages : 1}
           color="primary"
           onChange={handleChangePage}
         />
+        )}
+        {posts.length === 0 && status === 'successful' && (
+            <p>You don't have any post yet!</p>
+        )}
+        
       </Stack>
     </Box>
   );
