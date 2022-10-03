@@ -35,6 +35,11 @@ export default function ListPost(){
         await dispath(getDetailPost(id))
         navigate(`/post/${id}`)
     }
+    const handleLogOut = () => {
+        localStorage.removeItem('authToken')
+
+        navigate('/')
+    }
     return (
         <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <h2>List Post</h2>
