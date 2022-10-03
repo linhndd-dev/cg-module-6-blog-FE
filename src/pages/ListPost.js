@@ -21,6 +21,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { setCurrentPage } from "../redux/slices/postSlice";
 import { searchMyPosts } from "../redux/apis";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import GradeIcon from "@mui/icons-material/Grade";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -71,7 +73,7 @@ export default function ListPost() {
     dispatch(getAllMyPost(currentPage));
   }, [currentPage, dispatch]);
   const handleEditPost = async (id) => {
-    await dispatch(getDetailPost(id))
+    await dispatch(getDetailPost(id));
     navigate(`/post/edit/${id}`);
   };
   return (
@@ -99,10 +101,23 @@ export default function ListPost() {
                   <TableCell component="th" scope="row">
                     <img style={{ width: "200px" }} src={`${row.avatar}`} />
                   </TableCell>
-                  <TableCell align="left">{row.title}</TableCell>
-                  <TableCell align="left">{row.summary}</TableCell>
-                  <TableCell align="center">{row.like}</TableCell>
-                  <TableCell align="center">{row.comment}</TableCell>
+                  <TableCell align="left">
+                    <h3>
+                      <strong>{row.title}</strong>
+                    </h3>
+                    {row.summary}
+                  </TableCell>
+
+                  <TableCell align="center">
+                    <ThumbUpIcon fontSize="large" />
+                    <br />
+                    {row.like}
+                  </TableCell>
+                  <TableCell align="center">
+                    <GradeIcon fontSize="large" />
+                    <br />
+                    {row.comment}
+                  </TableCell>
                   <TableCell align="center">
                     <Fab
                       color="secondary"
