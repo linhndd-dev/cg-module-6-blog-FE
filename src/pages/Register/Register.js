@@ -106,6 +106,11 @@ const Register = () => {
             </button>
           </Form>
           </Formik>
+          <Link to="/">
+            <button type="button" className={styles.white_btn}>
+              Back to Home
+            </button>
+          </Link>
         </div>
         <div className={styles.right}>
           <h1>Have account ?</h1>
