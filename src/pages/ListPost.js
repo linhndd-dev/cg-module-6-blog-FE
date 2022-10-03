@@ -88,18 +88,6 @@ export default function ListPost() {
       </form>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Avatar</TableCell>
-              <TableCell align="center">Title</TableCell>
-              <TableCell align="center">Summary</TableCell>
-              <TableCell align="center">Like</TableCell>
-              <TableCell align="center">Comment</TableCell>
-              <TableCell align="center" colSpan={3}>
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
           <TableBody>
             {posts &&
               posts.map((row) => (
@@ -108,7 +96,7 @@ export default function ListPost() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <img style={{ width: "50px" }} src={`${row.avatar}`} />
+                    <img style={{ width: "200px" }} src={`${row.avatar}`} />
                   </TableCell>
                   <TableCell align="left">{row.title}</TableCell>
                   <TableCell align="left">{row.summary}</TableCell>
