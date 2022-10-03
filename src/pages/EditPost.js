@@ -32,9 +32,6 @@ export default function EditPost() {
     await dispatch(editPost({values, id}));
     navigate('/post/list')
   }
-  useEffect(() => {
-    dispatch(getDetailPost(id))
-  },[])
   
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

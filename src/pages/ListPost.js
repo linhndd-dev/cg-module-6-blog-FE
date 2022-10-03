@@ -71,6 +71,7 @@ export default function ListPost() {
     dispatch(getAllMyPost(currentPage));
   }, [currentPage, dispatch]);
   const handleEditPost = async (id) => {
+    await dispatch(getDetailPost(id))
     navigate(`/post/edit/${id}`);
   };
   return (
