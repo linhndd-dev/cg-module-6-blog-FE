@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Home from "./pages/CreatePost";
 import { Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Container from "./components/Container";
 import CreatePost from "./pages/CreatePost";
 import Layout from "./pages/Layout";
+import AdminLayout from "./pages/AdminLayout";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
@@ -20,16 +21,18 @@ import EditPost from "./pages/EditPost";
 import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
 import axios from "axios";
-import PersistentDrawerLeft from "./pages/MyPost";
+import AdminPost from "./pages/Admin/AdminPost";
+import AdminUser from "./pages/Admin/AdminUser";
 
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
   if ("login" in localStorage) {
-    console.log(12);
     const login = JSON.parse(localStorage.getItem("login"));
-    axios.defaults.headers.common["authorization"] = `Bearer ${login.accessToken}`;
-}
+    axios.defaults.headers.common[
+      "authorization"
+    ] = `Bearer ${login.accessToken}`;
+  }
   useEffect(() => {
     const { isLoggedIn } = JSON.parse(localStorage.getItem("login")) || {};
     if (isLoggedIn) {
@@ -38,22 +41,25 @@ function App() {
   }, [dispatch, isLoggedIn]);
 
   return (
-      <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login/>}></Route>
-            <Route path="/register" element={<Register/>}></Route>
-            <Route path="/mypost" element={<PersistentDrawerLeft/>}></Route>
-            <Route element={<Layout/>}>
-            <Route path="/" element={<Home/>}></Route>
-            </Route>
-            <Route path="/post" element={<Layout/>}>
-              <Route path="list" element={<ListPost/>}></Route>
-              <Route path="create" element={<CreatePost/>}></Route>
-              <Route path="edit/:id" element={<EditPost/>}></Route>
-              <Route path=":id" element={<SinglePost/>}></Route>
-            </Route>
-          </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />}></Route>
+        </Route>
+        <Route path="/post" element={<Layout />}>
+          <Route path="list" element={<ListPost />}></Route>
+          <Route path="create" element={<CreatePost />}></Route>
+          <Route path="edit/:id" element={<EditPost />}></Route>
+          <Route path=":id" element={<SinglePost />}></Route>
+        </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="posts" element={<AdminPost />} />
+          <Route path="users" element={<AdminUser />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
