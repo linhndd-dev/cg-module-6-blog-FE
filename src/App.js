@@ -25,14 +25,13 @@ import AdminPost from "./pages/Admin/AdminPost";
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if ("login" in localStorage) {
-      const login = JSON.parse(localStorage.getItem("login"));
-      axios.defaults.headers.common[
-        "authorization"
-      ] = `Bearer ${login.accessToken}`;
-    }
-  }, [isLoggedIn]);
+  if ("login" in localStorage) {
+    console.log(12);
+    const login = JSON.parse(localStorage.getItem("login"));
+    axios.defaults.headers.common[
+      "authorization"
+    ] = `Bearer ${login.accessToken}`;
+  }
   useEffect(() => {
     const { isLoggedIn } = JSON.parse(localStorage.getItem("login")) || {};
     if (isLoggedIn) {
