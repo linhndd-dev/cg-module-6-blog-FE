@@ -18,11 +18,11 @@ export const getPostsFromAdmin = createAsyncThunk(
   }
 );
 
-export const getUsersFromAdmin = createAsyncThunk(
-  "post/getUsersFromAdmin",
-  async () => {
-    let { data } = await axios.get(`${baseURL}/admin/users`);
-    return data;
+export const getDetailPost = createAsyncThunk(
+  "post/getDetailPostFromAdmin",
+  async (prop) => {
+    let post = await axios.get(`${baseURL}/admin/posts/${prop}`);
+    return post.data.posts[0];
   }
 );
 
@@ -35,10 +35,19 @@ export const deletePostFromAdmin = createAsyncThunk(
   }
 );
 
-export const getDetailPost = createAsyncThunk(
-  "post/getDetailPostFromAdmin",
-  async (prop) => {
-    let post = await axios.get(`${baseURL}/admin/posts/${prop}`);
-    return post.data.posts[0];
+export const getUsersFromAdmin = createAsyncThunk(
+  "post/getUsersFromAdmin",
+  async () => {
+    let { data } = await axios.get(`${baseURL}/admin/users`);
+    return data;
+  }
+);
+
+export const deleteUserFromAdmin = createAsyncThunk(
+  "post/deleteUserFromAdmin",
+  async (userId, ThunkAPI) => {
+    await axios.delete(`${baseURL}/admin/users/${userId}`);
+    ThunkAPI.dispatch(getUsersFromAdmin());
+    return userId;
   }
 );

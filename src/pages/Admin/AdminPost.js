@@ -95,7 +95,7 @@ export default function ListPost() {
                   <TableCell align="left">{row.createdAt}</TableCell>
                   <TableCell align="left">{row.title}</TableCell>
                   <TableCell component="th" scope="row">
-                    <img style={{ width: "50px" }} src={`${row.avatar}`} />
+                    <img style={{ width: "100px" }} src={`${row.avatar}`} />
                   </TableCell>
                   <TableCell align="left">{row.summary}</TableCell>
                   <TableCell align="center">
