@@ -24,37 +24,16 @@ import { searchMyPosts } from "../redux/apis";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 export default function ListPost() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [search, setSearch] = useState("");
 
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
-  const handleChangePage = (event, value) => {
-    dispatch(setCurrentPage(value));
-  };
-  const { posts, status, currentPage, numberOfPages } = useSelector(
+  const { posts, status } = useSelector(
     (state) => state.post
   );
-  const query = useQuery();
-  const searchQuery = query.get("searchQuery");
-  const location = useLocation();
 
-  const handleSearch = (e) => {
-    console.log(search);
-    e.preventDefault();
-    if (search) {
-      dispatch(searchMyPosts(search));
-      navigate(`/posts/search?searchQuery=${search}`);
-      setSearch("");
-    } else {
-      navigate("/post/list");
-    }
-  };
   const handleDeletePost = async (id) => {
     await dispatch(deletePost(id));
     handleClose();
@@ -70,8 +49,8 @@ export default function ListPost() {
     setOpen(false);
   };
   useEffect(() => {
-    dispatch(getAllMyPost(currentPage));
-  }, [currentPage, dispatch]);
+    dispatch(getAllMyPost());
+  }, []);
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
     navigate(`/post/edit/${id}`);
@@ -80,14 +59,6 @@ export default function ListPost() {
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <form>
         <h2>My Posts</h2>
-        <TextField
-          sx={{ minWidth: 650 }}
-          label={"Search Posts"}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <Button variant="contained" size="large" onSubmit={handleSearch}>
-          Search
-        </Button>
       </form>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -171,17 +142,9 @@ export default function ListPost() {
         </DialogActions>
       </Dialog>
       <Stack spacing={2}>
-        {posts.length > 0 && status === 'successful' && (
-            <Pagination
-          count={numberOfPages ? numberOfPages : 1}
-          color="primary"
-          onChange={handleChangePage}
-        />
-        )}
         {posts.length === 0 && status === 'successful' && (
             <p>You don't have any post yet!</p>
-        )}
-        
+        )} 
       </Stack>
     </Box>
   );

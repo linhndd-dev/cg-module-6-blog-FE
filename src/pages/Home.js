@@ -12,25 +12,21 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import InfoIcon from "@mui/icons-material/Info";
 import { Stack } from "@mui/system";
-import { setCurrentPage } from "../redux/slices/postSlice";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleChangePage = (event, value) => {
-    dispatch(setCurrentPage(value));
-  };
-  const { posts, status, currentPage, numberOfPages } = useSelector(
+  const { posts, status } = useSelector(
     (state) => state.post
   );
   const handleShowDetail = async (id) => {
     navigate(`/post/${id}`);
   };
   useEffect(() => {
-    dispatch(getPostsByGuest(currentPage));
-  }, [currentPage, dispatch]);
+    dispatch(getPostsByGuest());
+  }, []);
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <h2>All Posts</h2>
@@ -88,11 +84,6 @@ export default function Home() {
         </Table>
       </TableContainer>
       <Stack spacing={2}>
-        <Pagination
-          count={numberOfPages ? numberOfPages : 1}
-          color="primary"
-          onChange={handleChangePage}
-        />
       </Stack>
     </Box>
   );
