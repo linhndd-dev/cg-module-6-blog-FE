@@ -19,10 +19,17 @@ import { useDispatch, useSelector } from "react-redux";
 import EditPost from "./pages/EditPost";
 import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
+import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if ("login" in localStorage) {
+      const login = JSON.parse(localStorage.getItem("login"));
+      axios.defaults.headers.common["authorization"] = `Bearer ${login.accessToken}`;
+    }
+  }, [isLoggedIn]);
   useEffect(() => {
     const { isLoggedIn } = JSON.parse(localStorage.getItem("login")) || {};
     if (isLoggedIn) {
