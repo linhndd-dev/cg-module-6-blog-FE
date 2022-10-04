@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const baseURL = "http://localhost:5000/posts";
 let user = JSON.parse(localStorage.getItem('login'));
 let token;
+console.log(token);
 if(user){
     token = user.accessToken;
 }

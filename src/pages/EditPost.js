@@ -24,7 +24,6 @@ export default function EditPost() {
   const handleChangeFileBase = (event) => {
     setFile(event.target.files[0]);
   };
-
   const changeEditor = (e) => {
     setEditor(e);
   };
@@ -55,25 +54,36 @@ export default function EditPost() {
           return errors;
         }}
         onSubmit={(values) => {
-          const storageRef = ref(storage, `/files/${file.name}`);
-          const uploadTask = uploadBytesResumable(storageRef, file);
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const percent = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          if(editor == ""){
+            values.content = post.content;
+          } else {
+            values.content = editor;
+          }
+          if(!file){
+            values.avatar = post.avatar;
+          } else {
+            const storageRef = ref(storage, `/files/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                const percent = Math.round(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                setPercent(percent);
+              },
+              (err) => console.log(err),
+              () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                  values.avatar = url;
+                });
+              }
               );
-              setPercent(percent);
-            },
-            (err) => console.log(err),
-            () => {
-              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                values.avatar = url;
-                values.content = editor;
-                handleCreatePostByUser(values);
-              });
             }
-          );
+            setTimeout(() => {
+              console.log(values);
+              handleCreatePostByUser(values);
+            }, 3000)
         }}
       >
         {({ isSubmitting }) => (
