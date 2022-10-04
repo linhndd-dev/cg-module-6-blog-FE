@@ -10,17 +10,12 @@ const initialState ={
         }
     },
     status: 'idle',
-    currentPage: 1,
-    numberOfPages: null,
 }
 
 const postSlice = createSlice({
     name: "post",
     initialState,
     reducers: { 
-        setCurrentPage: (state, action) => {
-            state.currentPage = action.payload;
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -30,8 +25,6 @@ const postSlice = createSlice({
         .addCase(getPostsByGuest.fulfilled, (state, action) => {
             state.status = "successful";
             state.posts = action.payload.posts;
-            state.numberOfPages = action.payload.numberOfPages;
-            state.currentPage = action.payload.currentPage;
         })
         .addCase(getPostsByGuest.rejected, (state, action) => {
             state.status = "failed";
@@ -42,8 +35,6 @@ const postSlice = createSlice({
         .addCase(getAllMyPost.fulfilled, (state, action) => {
             state.status = "successful";
             state.posts = action.payload.posts;
-            state.numberOfPages = action.payload.numberOfPages;
-            state.currentPage = action.payload.currentPage;
         })
         .addCase(getAllMyPost.rejected, (state, action) => {
             state.status = "failed";
@@ -71,5 +62,3 @@ const postSlice = createSlice({
 })
 
 export default postSlice.reducer;
-
-export const { setCurrentPage } = postSlice.actions

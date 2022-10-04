@@ -6,21 +6,10 @@ import Swal from "sweetalert2";
 
 
 const baseURL = "http://localhost:5000/posts";
-let user = JSON.parse(localStorage.getItem('login'));
-let token;
-console.log(token);
-if(user){
-    token = user.accessToken;
-}
 export const getAllMyPost = createAsyncThunk(
     'post/getAll',
-    async (page) => {
-        let {data} = await axios.get(`${baseURL}?page=${page}`,
-            {
-                headers:{
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    async () => {
+        let {data} = await axios.get(`${baseURL}`,
         )
         return data;
     }
@@ -28,8 +17,8 @@ export const getAllMyPost = createAsyncThunk(
 
 export const getPostsByGuest = createAsyncThunk(
     'post/getPostsByGuest',
-    async (page) => {
-        const {data} = await axios.get(`${baseURL}/guest?page=${page}`)
+    async () => {
+        const {data} = await axios.get(`${baseURL}/guest`)
         return data;
     }
     
@@ -55,12 +44,6 @@ export const createMyPost = createAsyncThunk(
             await axios.post(
                 `${baseURL}`, 
                 value, 
-                    {
-                        headers:{
-                            "Content-type": "application/json",
-                            "Authorization": `Bearer ${token}`
-                        }
-                    }
                 )
                 Swal.fire({
                     icon: 'success',
@@ -81,12 +64,6 @@ export const editPost = createAsyncThunk(
         await axios.put(
             `${baseURL}/${prop.id}`,
             prop.values,
-            {
-                headers: {
-                    "Content-type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            }
         )
 
         return prop;
@@ -98,11 +75,6 @@ export const deletePost = createAsyncThunk(
     async (postId, ThunkAPI) => {
         await axios.delete(
             `${baseURL}/${postId}`,
-            {
-                headers:{
-                    "Authorization": `Bearer ${token}`
-                }
-            }
         )
         ThunkAPI.dispatch(getAllMyPost())
         return postId;
