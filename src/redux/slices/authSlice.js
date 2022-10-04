@@ -21,17 +21,17 @@ export const loginUser = createAsyncThunk(
         values
       );
       Swal.fire({
-        icon: 'success',
-        title: 'Login successful!',
-      })
+        icon: "success",
+        title: "Login successful!",
+      });
       navigate("/");
       return data;
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: error.response.data.message,
-      })
+      });
       resetForm();
     }
   }
@@ -45,17 +45,17 @@ export const registerUser = createAsyncThunk(
         registerData
       );
       Swal.fire({
-        icon: 'success',
-        title: 'Register successful!',
-      })
+        icon: "success",
+        title: "Register successful!",
+      });
       navigate("/login");
       return data;
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: error.response.data.message,
-      })
+      });
       resetForm();
     }
   }
@@ -85,7 +85,7 @@ export const authSlice = createSlice({
           message,
           accessToken,
           idUser,
-          isLoggedIn: true
+          isLoggedIn: true,
         })
       );
       state.status = "successful";
@@ -110,5 +110,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setAuth,logout } = authSlice.actions;
-
+export const { setAuth, logout } = authSlice.actions;

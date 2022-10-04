@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Container from "./components/Container";
 import CreatePost from "./pages/CreatePost";
 import Layout from "./pages/Layout";
+import AdminLayout from "./pages/AdminLayout";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
@@ -54,7 +55,7 @@ function App() {
           <Route path="edit/:id" element={<EditPost />}></Route>
           <Route path=":id" element={<SinglePost />}></Route>
         </Route>
-        <Route path="/admin" element={<Layout />}>
+        <Route path="/admin" element={<AdminLayout />}>
           <Route path="post" element={<AdminPost />} />
         </Route>
       </Routes>
