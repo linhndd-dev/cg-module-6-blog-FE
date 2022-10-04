@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Home from "./pages/CreatePost";
 import { Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
@@ -20,6 +20,7 @@ import EditPost from "./pages/EditPost";
 import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
 import axios from "axios";
+import AdminPost from "./pages/Admin/AdminPost";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ function App() {
   useEffect(() => {
     if ("login" in localStorage) {
       const login = JSON.parse(localStorage.getItem("login"));
-      axios.defaults.headers.common["authorization"] = `Bearer ${login.accessToken}`;
+      axios.defaults.headers.common[
+        "authorization"
+      ] = `Bearer ${login.accessToken}`;
     }
   }, [isLoggedIn]);
   useEffect(() => {
@@ -38,21 +41,24 @@ function App() {
   }, [dispatch, isLoggedIn]);
 
   return (
-      <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login/>}></Route>
-            <Route path="/register" element={<Register/>}></Route>
-            <Route element={<Layout/>}>
-            <Route path="/" element={<Home/>}></Route>
-            </Route>
-            <Route path="/post" element={<Layout/>}>
-              <Route path="list" element={<ListPost/>}></Route>
-              <Route path="create" element={<CreatePost/>}></Route>
-              <Route path="edit/:id" element={<EditPost/>}></Route>
-              <Route path=":id" element={<SinglePost/>}></Route>
-            </Route>
-          </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />}></Route>
+        </Route>
+        <Route path="/post" element={<Layout />}>
+          <Route path="list" element={<ListPost />}></Route>
+          <Route path="create" element={<CreatePost />}></Route>
+          <Route path="edit/:id" element={<EditPost />}></Route>
+          <Route path=":id" element={<SinglePost />}></Route>
+        </Route>
+        <Route path="/admin" element={<Layout />}>
+          <Route path="post" element={<AdminPost />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
