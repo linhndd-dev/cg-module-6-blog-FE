@@ -20,6 +20,7 @@ import EditPost from "./pages/EditPost";
 import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
 import axios from "axios";
+import PersistentDrawerLeft from "./pages/MyPost";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
+            <Route path="/mypost" element={<PersistentDrawerLeft/>}></Route>
             <Route element={<Layout/>}>
             <Route path="/" element={<Home/>}></Route>
             </Route>
