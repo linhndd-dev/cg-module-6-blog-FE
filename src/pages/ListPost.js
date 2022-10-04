@@ -23,6 +23,8 @@ import { setCurrentPage } from "../redux/slices/postSlice";
 import { searchMyPosts } from "../redux/apis";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import Loading from "../components/Loading";
+
 
 export default function ListPost() {
   const navigate = useNavigate();
@@ -63,6 +65,11 @@ export default function ListPost() {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
+            {posts && posts.length > 0 && status === 'loading' && (
+              <>
+              <Loading/>
+              </>
+            )}
             {posts.length > 0 && status === 'successful' &&
               posts.map((row) => (
                 <TableRow

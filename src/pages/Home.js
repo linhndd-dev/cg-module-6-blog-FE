@@ -14,6 +14,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Stack } from "@mui/system";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import Loading from "../components/Loading";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -34,9 +35,7 @@ export default function Home() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             {posts && status === "loading" ? (
-              <Box sx={{ display: "flex" }}>
-                <CircularProgress />
-              </Box>
+              <Loading/>
             ) : (
               status === "successful" &&
               posts.map((row) => (
