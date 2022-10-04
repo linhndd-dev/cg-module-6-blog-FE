@@ -18,7 +18,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../redux/slices/postSlice";
 
 const drawerWidth = 240;
 
@@ -46,7 +45,6 @@ export default function Navbar() {
               <ListItemButton
                 onClick={() => {
                   navigate("/")
-                  dispatch(setCurrentPage(1));
                 }}
               >
                 <ListItemIcon>
@@ -69,7 +67,6 @@ export default function Navbar() {
                   <ListItemButton
                     onClick={() => {
                       navigate(`/post/list`);
-                      dispatch(setCurrentPage(1));
                     }}
                   >
                     <ListItemIcon>
