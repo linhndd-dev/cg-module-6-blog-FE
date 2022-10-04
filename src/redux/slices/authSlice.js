@@ -15,6 +15,7 @@ const REACT_APP_API_URL = "http://localhost:5000";
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ values, resetForm, navigate }) => {
+    console.log(values.username);
     try {
       const { data } = await axios.post(
         `${REACT_APP_API_URL}/auth/login`,
@@ -24,7 +25,11 @@ export const loginUser = createAsyncThunk(
         icon: "success",
         title: "Login successful!",
       });
-      navigate("/");
+      if (values.username === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
       return data;
     } catch (error) {
       Swal.fire({

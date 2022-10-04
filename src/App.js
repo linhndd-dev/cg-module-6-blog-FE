@@ -22,12 +22,12 @@ import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
+import AdminUser from "./pages/Admin/AdminUser";
 
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
   if ("login" in localStorage) {
-    console.log(12);
     const login = JSON.parse(localStorage.getItem("login"));
     axios.defaults.headers.common[
       "authorization"
@@ -55,7 +55,8 @@ function App() {
           <Route path=":id" element={<SinglePost />}></Route>
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="post" element={<AdminPost />} />
+          <Route path="posts" element={<AdminPost />} />
+          <Route path="users" element={<AdminUser />} />
         </Route>
       </Routes>
     </BrowserRouter>

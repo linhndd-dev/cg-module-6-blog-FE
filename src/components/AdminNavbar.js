@@ -41,38 +41,26 @@ export default function Navbar() {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            <ListItem>
-              <ListItemButton
-                onClick={() => {
-                  navigate("/")
-                }}
-              >
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItemButton>
-            </ListItem>
             {isLoggedIn && (
               <>
                 <ListItem>
-                  <ListItemButton onClick={() => navigate("/post/create")}>
+                  <ListItemButton onClick={() => navigate("/admin/posts")}>
                     <ListItemIcon>
                       <AddIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Create Post" />
+                    <ListItemText primary="Post Management" />
                   </ListItemButton>
                 </ListItem>
                 <ListItem>
                   <ListItemButton
                     onClick={() => {
-                      navigate(`/post/list`);
+                      navigate("/admin/users");
                     }}
                   >
                     <ListItemIcon>
                       <ListIcon />
                     </ListItemIcon>
-                    <ListItemText primary="My Posts" />
+                    <ListItemText primary="User Management" />
                   </ListItemButton>
                 </ListItem>
               </>
