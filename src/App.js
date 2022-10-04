@@ -4,8 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Home from "./pages/CreatePost";
 import { Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
 import Container from "./components/Container";
 import CreatePost from "./pages/CreatePost";
 import Layout from "./pages/Layout";
