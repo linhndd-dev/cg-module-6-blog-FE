@@ -13,6 +13,11 @@ import { getPostsFromAdmin } from "../adminApi";
 const initialState = {
   posts: [],
   status: "idle",
+  post: {
+    author: {
+      username : ''
+    }
+  }
 };
 
 const postSlice = createSlice({

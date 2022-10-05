@@ -80,6 +80,7 @@ export default function ListPost() {
       
         <h2>My Posts</h2>
         <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
+            <label>Search post by title</label>
             <input
               type="text"
               className="form-control"

@@ -67,6 +67,11 @@ export default function Home() {
                     </h2>
                     {row.summary}
                   </TableCell>
+                  <TableCell align="left">
+                    <h2>
+                      By - <strong>{row.author.username}</strong>
+                    </h2>
+                  </TableCell>
                   <TableCell align="center">
                     <ThumbUpIcon fontSize="large" />
                     <br />
