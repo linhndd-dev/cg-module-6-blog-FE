@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createMyPost, deletePost, editPost, getAllMyPost, getDetailPost, getPostsByGuest } from "../apis"
+import { createMyPost, deletePost, editPost, getAllMyPost, getDetailPost, getPostsByGuest, searchMyPosts } from "../apis"
 
 const initialState ={ 
     posts: [
@@ -57,6 +57,16 @@ const postSlice = createSlice({
         })
         .addCase(getDetailPost.fulfilled, (state, action) => {
             state.post = action.payload;
+        })
+        .addCase(searchMyPosts.pending, (state, action) => {
+            state.status = "loading";
+        })
+        .addCase(searchMyPosts.fulfilled, (state, action) => {
+            state.status = "successful";
+            state.posts = action.payload.posts;
+        })
+        .addCase(searchMyPosts.rejected, (state, action) => {
+            state.status = "failed";
         })
     }
 })
