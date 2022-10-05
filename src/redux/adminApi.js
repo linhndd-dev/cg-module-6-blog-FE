@@ -13,7 +13,6 @@ export const getPostsFromAdmin = createAsyncThunk(
   "post/getPostsFromAdmin",
   async () => {
     let { data } = await axios.get(`${baseURL}/admin/posts`);
-    console.log(data);
     return data;
   }
 );

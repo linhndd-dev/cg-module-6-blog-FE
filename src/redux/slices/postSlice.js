@@ -6,17 +6,12 @@ import {
   getAllMyPost,
   getDetailPost,
   getPostsByGuest,
-  searchMyPosts
+  searchMyPosts,
 } from "../apis";
 import { getPostsFromAdmin } from "../adminApi";
 
 const initialState = {
   posts: [],
-  post: {
-    author: {
-      username: "",
-    },
-  },
   status: "idle",
 };
 
@@ -75,14 +70,14 @@ const postSlice = createSlice({
       })
       .addCase(searchMyPosts.pending, (state, action) => {
         state.status = "loading";
-    })
-    .addCase(searchMyPosts.fulfilled, (state, action) => {
+      })
+      .addCase(searchMyPosts.fulfilled, (state, action) => {
         state.status = "successful";
         state.posts = action.payload.posts;
-    })
-    .addCase(searchMyPosts.rejected, (state, action) => {
+      })
+      .addCase(searchMyPosts.rejected, (state, action) => {
         state.status = "failed";
-    });
+      });
   },
 });
 

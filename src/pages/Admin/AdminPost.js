@@ -55,16 +55,10 @@ export default function ListPost() {
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                <h3>USERNAME</h3>
-              </TableCell>
-              <TableCell align="center">
-                <h3>CREATED AT</h3>
+                <h3>AVATAR</h3>
               </TableCell>
               <TableCell align="center">
                 <h3>TITLE</h3>
-              </TableCell>
-              <TableCell align="center">
-                <h3>AVATAR</h3>
               </TableCell>
               <TableCell align="center">
                 <h3>DESCRIPTION</h3>
@@ -77,6 +71,12 @@ export default function ListPost() {
               </TableCell>
               <TableCell align="center">
                 <h3>STATUS</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>USERNAME</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>CREATED AT</h3>
               </TableCell>
               <TableCell align="center" colSpan={2}>
                 <h3>ACTIONS</h3>
@@ -91,11 +91,11 @@ export default function ListPost() {
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="left">{row.author}</TableCell>
-                  <TableCell align="left">{row.createdAt}</TableCell>
-                  <TableCell align="left">{row.title}</TableCell>
                   <TableCell component="th" scope="row">
                     <img style={{ width: "100px" }} src={`${row.avatar}`} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <h4>{row.title}</h4>
                   </TableCell>
                   <TableCell align="left">{row.summary}</TableCell>
                   <TableCell align="center">
@@ -109,6 +109,8 @@ export default function ListPost() {
                     {row.comment}
                   </TableCell>
                   <TableCell align="left">{row.accessModified}</TableCell>
+                  <TableCell align="left">{row.author.username}</TableCell>
+                  <TableCell align="left">{row.createdAt}</TableCell>
                   <TableCell align="center">
                     <Fab
                       color="secondary"
