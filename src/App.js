@@ -23,6 +23,7 @@ import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
+import MyPost from "./pages/MyPost";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/mypost" element={<MyPost />}></Route>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
         </Route>

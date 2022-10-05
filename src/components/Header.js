@@ -23,7 +23,6 @@ import Button from '@mui/material/Button';
 import { logout } from '../redux/slices/authSlice';
 
 
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
