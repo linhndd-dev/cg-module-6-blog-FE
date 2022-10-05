@@ -32,7 +32,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Button from '@mui/material/Button';
 import { logout } from '../redux/slices/authSlice';
-import { Grid, Paper } from '@mui/material';
+import { Avatar, Grid, Paper } from '@mui/material';
+import { green } from '@mui/material/colors';
 
 
 const drawerWidth = 240;
@@ -130,6 +131,19 @@ const Search = styled('div')(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
+  const StyledPaper = styled(Paper)(({  theme }) => ({ 
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    boxSizing:"border-box",
+    padding: "10%",
+    maxWidth: "80%",
+    color: theme.palette.text.primary,
+    
+  }));
+  
+  const message = `Truncation should be conditionally applicable on this long line of text
+   as this is a much longer line than what the container can support. `;
+  
 export default function PersistentDrawerLeft() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -269,9 +283,7 @@ export default function PersistentDrawerLeft() {
                 </Box>
                 </Box>
             </Box>
-            {/* 
             
-             */}
         </Toolbar>
       </AppBar>
       {renderMenu}
@@ -320,33 +332,40 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <StyledPaper
+        sx={{
+          my: 1,
+          mx: 'auto',
+          p: 2,
+          ":hover": {
+            backgroundColor: "#fff",
+            border: "1px solid transparent",
+            boxShadow: "0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);"
+          }
+        }}
+      >
+        <Box sx={{ width: 1 }}>
+        <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" >
+          <Box  gridColumn="span 2" sx={{display:"flex", justifyContent:"center"}}>
+          </Box>
+          <Box display="grid"  gridColumn="span 10" gridTemplateColumns="repeat(12, 1fr)" gap={3}>
+            <Box gridColumn="span 6">
+              123
+            </Box>
+            <Box gridColumn="span 6">
+              123
+            </Box>
+            <Box gridColumn="span 6">
+              123
+            </Box>
+            <Box gridColumn="span 6">
+              123
+            </Box>
+            
+          </Box>
+        </Box>
+      </Box>
+      </StyledPaper>
       </Main>
     </Box>
   );

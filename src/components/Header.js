@@ -15,12 +15,13 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { CssBaseline } from '@mui/material';
+import { Avatar, CssBaseline, Divider, ListItemIcon, MenuList, Paper, Stack, Tooltip } from '@mui/material';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Button from '@mui/material/Button';
 import { logout } from '../redux/slices/authSlice';
+import { Logout, PersonAdd, Settings } from '@mui/icons-material';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -87,26 +88,60 @@ export default function Header() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+      id="account-menu"
+      open={open}
+      onClose={handleClose}
+      onClick={handleClose}
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          overflow: 'visible',
+          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+          mt: 1.5,
+          '& .MuiAvatar-root': {
+            width: 32,
+            height: 32,
+            ml: -0.5,
+            mr: 1,
+          },
+          '&:before': {
+            content: '""',
+            display: 'block',
+            position: 'absolute',
+            top: 0,
+            right: 14,
+            width: 10,
+            height: 10,
+            bgcolor: 'background.paper',
+            transform: 'translateY(-50%) rotate(45deg)',
+            zIndex: 0,
+          },
+        },
       }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem>
+        <Avatar />My Profile
+      </MenuItem>
+      <MenuItem onClick={() => navigate("/")}>
+        <ListItemIcon>
+          <Logout fontSize="small" />
+        </ListItemIcon>
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -115,48 +150,51 @@ export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar position="fixed" color='inherit' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
-            variant="h6"
+            variant="h3"
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
+            onClick={() => navigate("/")}
+            autoComplete
           >
             Blog
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {isLoggedIn ? (
               <>
-              <Button variant="contained" color='error' onClick={() => {
+              <React.Fragment>
+              <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                <Tooltip title="Account settings">
+                  <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                  >
+                    <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              {renderMenu}
+            </React.Fragment>
+
+              {/* <Button variant="contained" color='error' onClick={() => {
                 navigate('/')
                 dispatch(logout())
-              }}>Logout</Button>
+              }}>Logout</Button> */}
               </>
             ) : (
-              <>
-              <Button variant="contained" color='success' onClick={() => navigate('/login')}>Login</Button>
-              <Button variant="contained" color='warning' onClick={() => navigate('/register')}>Register</Button>
-              </>
+              <Stack direction="row" spacing={2}>
+                <Button variant="outlined" sx={{color: "black", border: "1px solid #cfd8dc"}}  onClick={() => navigate('/login')}>Login</Button>
+                <Button variant="outlined" sx={{color: "black", border: "1px solid #cfd8dc"}}   onClick={() => navigate('/register')}>Register</Button>
+              </Stack>
+              
 
             )}
           </Box>
@@ -174,7 +212,6 @@ export default function Header() {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMenu}
     </Box>
   );
 }
