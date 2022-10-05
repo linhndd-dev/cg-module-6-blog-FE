@@ -6,6 +6,7 @@ import {
   getAllMyPost,
   getDetailPost,
   getPostsByGuest,
+  searchMyPosts
 } from "../apis";
 import { getPostsFromAdmin } from "../adminApi";
 
@@ -71,7 +72,17 @@ const postSlice = createSlice({
       })
       .addCase(getDetailPost.fulfilled, (state, action) => {
         state.post = action.payload;
-      });
+      })
+      .addCase(searchMyPosts.pending, (state, action) => {
+        state.status = "loading";
+    })
+    .addCase(searchMyPosts.fulfilled, (state, action) => {
+        state.status = "successful";
+        state.posts = action.payload.posts;
+    })
+    .addCase(searchMyPosts.rejected, (state, action) => {
+        state.status = "failed";
+    });
   },
 });
 

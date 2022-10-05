@@ -49,6 +49,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
         </Route>
         <Route path="/post" element={<Layout />}>
+          <Route path="search" element={<ListPost/>}></Route>
           <Route path="list" element={<ListPost />}></Route>
           <Route path="create" element={<CreatePost />}></Route>
           <Route path="edit/:id" element={<EditPost />}></Route>
