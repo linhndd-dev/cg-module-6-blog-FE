@@ -55,6 +55,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="users/search" element={<AdminUser />} />
+          <Route path="posts/search" element={<AdminPost />} />
           <Route path="posts" element={<AdminPost />}></Route>
           <Route path="users" element={<AdminUser />} />
         </Route>

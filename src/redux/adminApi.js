@@ -56,3 +56,16 @@ export const searchUsersByUsername = createAsyncThunk(
     }
   }
 );
+export const searchPostsByTitle = createAsyncThunk(
+  "post/searchPostsByTitle",
+  async (searchQuery, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${baseURL}/admin/posts/search?searchQuery=${searchQuery}`
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
