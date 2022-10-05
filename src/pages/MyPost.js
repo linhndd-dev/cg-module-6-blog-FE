@@ -18,7 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-
+import AddIcon from "@mui/icons-material/Add";
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -144,9 +144,6 @@ export default function PersistentDrawerLeft() {
         }
     };
 
-    const handleDrawerClose = () => {
-    setOpen(false);
-    };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const { isLoggedIn } = useSelector((state) => state.auth);
@@ -193,56 +190,6 @@ export default function PersistentDrawerLeft() {
     );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-    <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-        }}
-        id={mobileMenuId}
-        keepMounted
-        transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-        }}
-        open={isMobileMenuOpen}
-        onClose={handleMobileMenuClose}
-    >
-        <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="error">
-            <MailIcon />
-            </Badge>
-        </IconButton>
-        <p>Messages</p>
-        </MenuItem>
-        <MenuItem>
-        <IconButton
-            size="large"
-            aria-label="show 17 new notifications"
-            color="inherit"
-        >
-            <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-            </Badge>
-        </IconButton>
-        <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-        >
-            <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-        </MenuItem>
-    </Menu>
-    );
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -263,7 +210,13 @@ export default function PersistentDrawerLeft() {
                 </IconButton>
                 <h3>Blog</h3>
                 </Box>
-                <Box height={"48px"} lineHeight={"48px"} width="100%" display="flex" justifyContent={"center"}>
+                <Box sx={{
+                  height:"48px",
+                  lineHeight:"48px", 
+                  width:"100%",
+                  display:"flex", 
+                  justifyContent:"center",
+                }} >
                     <Box width={"720px"}>
                         <Search>
                             <SearchIconWrapper>
@@ -274,13 +227,19 @@ export default function PersistentDrawerLeft() {
                             lineHeight="46px"
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
-                            maxWidth={"720px"}
                             />
                         </Search>
                     </Box>
                 </Box>
-                <Box lineHeight={"48px"} height={"48px"} display="flex" justifyContent={"center"}>
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                <Box sx={{
+                  lineHeight:"48px", 
+                  height:"48px" ,
+                  display:"flex" ,
+                  justifyContent:"center"
+                }}>
+                <Box sx={{ 
+                  display: { xs: 'none', md: 'flex' } 
+                }}>
                 {isLoggedIn ? (
                 <>
                 <Button variant="contained" color='error' onClick={() => {
@@ -315,7 +274,6 @@ export default function PersistentDrawerLeft() {
              */}
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
       {renderMenu}
       <Drawer
         sx={{
@@ -324,6 +282,7 @@ export default function PersistentDrawerLeft() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+            lineHeight: "47px"
           },
         }}
         variant="persistent"
@@ -331,22 +290,19 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+            <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <AddIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="Create Post" />
               </ListItemButton>
             </ListItem>
-          ))}
         </List>
         <Divider />
         <List>
