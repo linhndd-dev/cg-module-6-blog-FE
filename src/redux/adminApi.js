@@ -17,10 +17,10 @@ export const getPostsFromAdmin = createAsyncThunk(
   }
 );
 
-export const getDetailPost = createAsyncThunk(
-  "post/getDetailPostFromAdmin",
+export const getPostDetailFromAdmin = createAsyncThunk(
+  "post/getPostDetailFromAdmin",
   async (prop) => {
-    let post = await axios.get(`${baseURL}/admin/posts/${prop}`);
+    let post = await axios.get(`${baseURL}/${prop}`);
     return post.data.posts[0];
   }
 );
