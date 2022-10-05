@@ -1,7 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import Home from "./pages/CreatePost";
 import { Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
 import Container from "./components/Container";
@@ -12,7 +11,6 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
 import ListPost from "./pages/ListPost";
-import { getAllMyPost } from "./redux/apis";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EditPost from "./pages/EditPost";
@@ -21,6 +19,7 @@ import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
+import AdminHome from "./pages/Admin/AdminHome";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ function App() {
   if ("login" in localStorage) {
     const login = JSON.parse(localStorage.getItem("login"));
     axios.defaults.headers.common[
-      "authorization"
+      "Authorization"
     ] = `Bearer ${login.accessToken}`;
   }
   useEffect(() => {
@@ -54,6 +53,7 @@ function App() {
           <Route path=":id" element={<SinglePost />}></Route>
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
+          <Route path="home" element={<AdminHome />} />
           <Route path="users/search" element={<AdminUser />} />
           <Route path="posts" element={<AdminPost />}></Route>
           <Route path="users" element={<AdminUser />} />

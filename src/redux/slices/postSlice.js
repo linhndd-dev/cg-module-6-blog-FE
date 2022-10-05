@@ -8,7 +8,7 @@ import {
   getPostsByGuest,
   searchMyPosts,
 } from "../apis";
-import { getPostsFromAdmin, getPostDetailFromAdmin } from "../adminApi";
+import { getPostsFromAdmin, deletePostFromAdmin } from "../adminApi";
 
 const initialState = {
   posts: [],
@@ -34,6 +34,15 @@ const postSlice = createSlice({
         state.posts = action.payload.posts;
       })
       .addCase(getPostsFromAdmin.rejected, (state, action) => {
+        state.status = "failed";
+      })
+      .addCase(deletePostFromAdmin.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(deletePostFromAdmin.fulfilled, (state, action) => {
+        state.posts = state.posts.filter((item) => item._id !== action.payload);
+      })
+      .addCase(deletePostFromAdmin.rejected, (state, action) => {
         state.status = "failed";
       })
       .addCase(getPostsByGuest.pending, (state, action) => {

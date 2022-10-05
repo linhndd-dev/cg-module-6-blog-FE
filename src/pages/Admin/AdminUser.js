@@ -26,7 +26,6 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-
 export default function AdminUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -69,18 +68,16 @@ export default function AdminUser() {
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <h2>USER MANAGEMENT</h2>
       <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
-            <label>Search users by username</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Users"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <div style={{ marginTop: "5px", marginLeft: "5px" }}>
-              
-            </div>
-          </form>
+        <label>Search users by username</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search Users"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div style={{ marginTop: "5px", marginLeft: "5px" }}></div>
+      </form>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -113,12 +110,12 @@ export default function AdminUser() {
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="left">{row.username}</TableCell>
-                  <TableCell align="left">{row.createdAt}</TableCell>
-                  <TableCell component="th" scope="row">
+                  <TableCell align="center">{row.username}</TableCell>
+                  <TableCell align="center">{row.createdAt}</TableCell>
+                  <TableCell component="th" scope="row" align="center">
                     <img style={{ width: "100px" }} src={`${row.avatar}`} />
                   </TableCell>
-                  <TableCell align="left">{row.fullname}</TableCell>
+                  <TableCell align="center">{row.fullname}</TableCell>
                   <TableCell align="center">{row.status}</TableCell>
                   <TableCell align="center">
                     <Fab
