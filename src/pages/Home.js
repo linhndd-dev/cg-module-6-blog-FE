@@ -1,7 +1,7 @@
 import { Box, Button, Fab, Pagination, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getPostsByGuest } from "../redux/apis";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,35 +12,41 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import InfoIcon from "@mui/icons-material/Info";
 import { Stack } from "@mui/system";
-import { setCurrentPage } from "../redux/slices/postSlice";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import Loading from "../components/Loading";
+
+
+
 
 export default function Home() {
   const navigate = useNavigate();
+  
+  
   const dispatch = useDispatch();
-  const handleChangePage = (event, value) => {
-    dispatch(setCurrentPage(value));
-  };
-  const { posts, status, currentPage, numberOfPages } = useSelector(
+  
+  
+  
+
+  const { posts, status } = useSelector(
     (state) => state.post
   );
+
   const handleShowDetail = async (id) => {
     navigate(`/post/${id}`);
   };
   useEffect(() => {
-    dispatch(getPostsByGuest(currentPage));
-  }, [currentPage, dispatch]);
+    dispatch(getPostsByGuest());
+  }, []);
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <h2>All Posts</h2>
+      
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             {posts && status === "loading" ? (
-              <Box sx={{ display: "flex" }}>
-                <CircularProgress />
-              </Box>
+              <Loading/>
             ) : (
               status === "successful" &&
               posts.map((row) => (
@@ -60,6 +66,11 @@ export default function Home() {
                       <strong>{row.title}</strong>
                     </h2>
                     {row.summary}
+                  </TableCell>
+                  <TableCell align="left">
+                    <h2>
+                      By - <strong>{row.author.username}</strong>
+                    </h2>
                   </TableCell>
                   <TableCell align="center">
                     <ThumbUpIcon fontSize="large" />
@@ -88,11 +99,7 @@ export default function Home() {
         </Table>
       </TableContainer>
       <Stack spacing={2}>
-        <Pagination
-          count={numberOfPages ? numberOfPages : 1}
-          color="primary"
-          onChange={handleChangePage}
-        />
+      
       </Stack>
     </Box>
   );

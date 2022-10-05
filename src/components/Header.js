@@ -18,6 +18,9 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { CssBaseline } from '@mui/material';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Button from '@mui/material/Button';
+import { logout } from '../redux/slices/authSlice';
 
 
 
@@ -63,6 +66,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -191,31 +196,20 @@ export default function Header() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {isLoggedIn ? (
+              <>
+              <Button variant="contained" color='error' onClick={() => {
+                navigate('/')
+                dispatch(logout())
+              }}>Logout</Button>
+              </>
+            ) : (
+              <>
+              <Button variant="contained" color='success' onClick={() => navigate('/login')}>Login</Button>
+              <Button variant="contained" color='warning' onClick={() => navigate('/register')}>Register</Button>
+              </>
+
+            )}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

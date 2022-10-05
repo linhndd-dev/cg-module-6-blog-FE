@@ -2,12 +2,7 @@ import { Box, Button, Fab, Pagination, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import {
-  deletePost,
-  getAllMyPost,
-  getDetailPost,
-  searchMyPosts,
-} from "../redux/apis";
+import { getUsersFromAdmin, deleteUserFromAdmin } from "../../redux/adminApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -26,66 +21,58 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
-import Loading from "../components/Loading";
-
+import { searchUsersByUsername } from "../../redux/adminApi";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-export default function ListPost() {
-  const { posts, status } = useSelector((state) => state.post);
+export default function AdminUser() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const { users, status } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
   const query = useQuery();
-  const dispatch = useDispatch();
   const searchQuery = query.get("searchQuery");
   const location = useLocation();
-  console.log(search);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search) {
-      dispatch(searchMyPosts(search));
-      navigate(`/post/search?searchQuery=${search}`);
+      dispatch(searchUsersByUsername(search));
+      navigate(`/admin/users/search?searchQuery=${search}`);
       // setSearch("");
     } else {
-      dispatch(getAllMyPost());
+      dispatch(getUsersFromAdmin());
     }
   };
-
-  const [open, setOpen] = useState(false);
-  const [postId, setPostId] = useState(0);
-
-  const handleDeletePost = async (id) => {
-    await dispatch(deletePost(id));
+  console.log(search);
+  const handleDeleteUser = async (id) => {
+    await dispatch(deleteUserFromAdmin(id));
     handleClose();
   };
-  const handleShowDetail = async (id) => {
-    navigate(`/post/${id}`);
-  };
+
   const handleClickOpen = (id) => {
-    setPostId(id);
-    setOpen(true);
+    // setUserId(id);
+    // setOpen(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    // setOpen(false);
   };
   useEffect(() => {
-    dispatch(getAllMyPost());
+    dispatch(getUsersFromAdmin());
   }, []);
-  const handleEditPost = async (id) => {
-    await dispatch(getDetailPost(id));
-    navigate(`/post/edit/${id}`);
-  };
+
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
-      <h2>My Posts</h2>
+      <h2>USER MANAGEMENT</h2>
       <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
-        <label>Search post by title</label>
+        <label>Search users by username</label>
         <input
           type="text"
           className="form-control"
-          placeholder="Search Post"
+          placeholder="Search Users"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -93,58 +80,43 @@ export default function ListPost() {
       </form>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">
+                <h3>USERNAME</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>CREATED AT</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>AVATAR</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>FULLNAME</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>STATUS</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>ACTIONS</h3>
+              </TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
-            {posts && posts.length > 0 && status === "loading" && (
-              <>
-                <Loading />
-              </>
-            )}
-            {posts.length > 0 &&
+            {users.length > 0 &&
               status === "successful" &&
-              posts.map((row) => (
+              users.map((row) => (
                 <TableRow
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
-                    <img style={{ width: "300px" }} src={`${row.avatar}`} />
+                  <TableCell align="center">{row.username}</TableCell>
+                  <TableCell align="center">{row.createdAt}</TableCell>
+                  <TableCell component="th" scope="row" align="center">
+                    <img style={{ width: "100px" }} src={`${row.avatar}`} />
                   </TableCell>
-                  <TableCell align="left">
-                    <h2>
-                      <strong>{row.title}</strong>
-                    </h2>
-                    {row.summary}
-                  </TableCell>
-
-                  <TableCell align="center">
-                    <ThumbUpIcon fontSize="large" />
-                    <br />
-                    {row.like}
-                  </TableCell>
-                  <TableCell align="center">
-                    <SmsIcon fontSize="large" />
-                    <br />
-                    {row.comment}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="secondary"
-                      aria-label="showdetail"
-                      onClick={() => handleShowDetail(row._id)}
-                    >
-                      <InfoIcon />
-                    </Fab>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="primary"
-                      aria-label="edit"
-                      onClick={() => handleEditPost(row._id)}
-                    >
-                      <EditIcon />
-                    </Fab>
-                  </TableCell>
-
+                  <TableCell align="center">{row.fullname}</TableCell>
+                  <TableCell align="center">{row.status}</TableCell>
                   <TableCell align="center">
                     <Fab
                       color="warning"
@@ -166,21 +138,21 @@ export default function ListPost() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure to delete the post?"}
+          {"Are you sure to delete this user?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description"></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={() => handleDeletePost(postId)} autoFocus>
+          <Button onClick={() => handleDeleteUser(userId)} autoFocus>
             Agree
           </Button>
         </DialogActions>
       </Dialog>
       <Stack spacing={2}>
-        {posts.length === 0 && status === "successful" && (
-          <p>You don't have any post yet!</p>
+        {users.length === 0 && status === "successful" && (
+          <p>There is no user!</p>
         )}
       </Stack>
     </Box>

@@ -46,9 +46,6 @@ export default function CreatePost() {
           if (!values.title) {
             errors.title = "Require";
           }
-          if (!values.content) {
-            errors.content = "Require";
-          }
           return errors;
         }}
         onSubmit={(values) => {

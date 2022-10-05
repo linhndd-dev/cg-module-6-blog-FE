@@ -11,10 +11,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import AddIcon from "@mui/icons-material/Add";
-import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,38 +38,26 @@ export default function Navbar() {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            <ListItem>
-              <ListItemButton
-                onClick={() => {
-                  navigate("/")
-                }}
-              >
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItemButton>
-            </ListItem>
             {isLoggedIn && (
               <>
                 <ListItem>
-                  <ListItemButton onClick={() => navigate("/post/create")}>
+                  <ListItemButton onClick={() => navigate("/admin/posts")}>
                     <ListItemIcon>
                       <AddIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Create Post" />
+                    <ListItemText primary="Post Management" />
                   </ListItemButton>
                 </ListItem>
                 <ListItem>
                   <ListItemButton
                     onClick={() => {
-                      navigate(`/post/list`);
+                      navigate("/admin/users");
                     }}
                   >
                     <ListItemIcon>
                       <ListIcon />
                     </ListItemIcon>
-                    <ListItemText primary="My Posts" />
+                    <ListItemText primary="User Management" />
                   </ListItemButton>
                 </ListItem>
               </>

@@ -15,23 +15,28 @@ const REACT_APP_API_URL = "http://localhost:5000";
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ values, resetForm, navigate }) => {
+    console.log(values.username);
     try {
       const { data } = await axios.post(
         `${REACT_APP_API_URL}/auth/login`,
         values
       );
       Swal.fire({
-        icon: 'success',
-        title: 'Login successful!',
-      })
-      navigate("/");
+        icon: "success",
+        title: "Login successful!",
+      });
+      if (values.username === "admin") {
+        navigate("/admin/home");
+      } else {
+        navigate("/");
+      }
       return data;
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: error.response.data.message,
-      })
+      });
       resetForm();
     }
   }
@@ -45,17 +50,17 @@ export const registerUser = createAsyncThunk(
         registerData
       );
       Swal.fire({
-        icon: 'success',
-        title: 'Register successful!',
-      })
+        icon: "success",
+        title: "Register successful!",
+      });
       navigate("/login");
       return data;
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: error.response.data.message,
-      })
+      });
       resetForm();
     }
   }
@@ -66,6 +71,10 @@ export const authSlice = createSlice({
   reducers: {
     setAuth: (state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
+    },
+    logout: (state, action) => {
+      localStorage.clear();
+      state.isLoggedIn = false;
     },
   },
   extraReducers: {
@@ -81,7 +90,7 @@ export const authSlice = createSlice({
           message,
           accessToken,
           idUser,
-          isLoggedIn: true
+          isLoggedIn: true,
         })
       );
       state.status = "successful";
@@ -106,5 +115,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setAuth } = authSlice.actions;
-
+export const { setAuth, logout } = authSlice.actions;

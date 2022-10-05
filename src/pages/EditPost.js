@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import {} from "@mui/icons-material";
 import "./create-post.css";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { storage } from "./firebase";
 import { async } from "@firebase/util";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +24,6 @@ export default function EditPost() {
   const handleChangeFileBase = (event) => {
     setFile(event.target.files[0]);
   };
-
   const changeEditor = (e) => {
     setEditor(e);
   };
@@ -54,26 +53,28 @@ export default function EditPost() {
           }
           return errors;
         }}
-        onSubmit={(values) => {
-          const storageRef = ref(storage, `/files/${file.name}`);
-          const uploadTask = uploadBytesResumable(storageRef, file);
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const percent = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              );
-              setPercent(percent);
-            },
-            (err) => console.log(err),
-            () => {
-              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                values.avatar = url;
-                values.content = editor;
-                handleCreatePostByUser(values);
-              });
+        onSubmit={ (values) => {
+          if(editor == ""){
+            values.content = post.content;
+            console.log(1, values)
+          } else {
+            values.content = editor;
+            console.log(2, values)
+          }
+          if(!file){
+            values.avatar = post.avatar;
+              handleCreatePostByUser(values);
+          } else {
+            const storageRef = ref(storage, `/files/${file.name}`);
+             uploadBytes(storageRef, file)
+            .then(async (snapshot) => {
+              await getDownloadURL(snapshot.ref)
+            .then((url) => {
+                values.avatar = url
+              handleCreatePostByUser(values);
+              })
+            })
             }
-          );
         }}
       >
         {({ isSubmitting }) => (
@@ -143,9 +144,10 @@ export default function EditPost() {
             <Field
               type="file"
               name="avatar"
-              onChange={handleChangeFileBase}
+              onChange={(e) =>handleChangeFileBase(e)}
               accept="/image/*"
             />
+            <span>{percent}%</span>
             <br />
             <br />
             <Field

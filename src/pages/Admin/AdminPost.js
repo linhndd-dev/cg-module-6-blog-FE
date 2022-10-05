@@ -2,12 +2,7 @@ import { Box, Button, Fab, Pagination, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import {
-  deletePost,
-  getAllMyPost,
-  getDetailPost,
-  searchMyPosts,
-} from "../redux/apis";
+import { getPostsFromAdmin, deletePostFromAdmin } from "../../redux/adminApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -26,38 +21,17 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
-import Loading from "../components/Loading";
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 export default function ListPost() {
-  const { posts, status } = useSelector((state) => state.post);
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const query = useQuery();
   const dispatch = useDispatch();
-  const searchQuery = query.get("searchQuery");
-  const location = useLocation();
-  console.log(search);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (search) {
-      dispatch(searchMyPosts(search));
-      navigate(`/post/search?searchQuery=${search}`);
-      // setSearch("");
-    } else {
-      dispatch(getAllMyPost());
-    }
-  };
 
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
+  const { posts, status } = useSelector((state) => state.post);
 
   const handleDeletePost = async (id) => {
-    await dispatch(deletePost(id));
+    await dispatch(deletePostFromAdmin(id));
     handleClose();
   };
   const handleShowDetail = async (id) => {
@@ -71,34 +45,45 @@ export default function ListPost() {
     setOpen(false);
   };
   useEffect(() => {
-    dispatch(getAllMyPost());
+    dispatch(getPostsFromAdmin());
   }, []);
-  const handleEditPost = async (id) => {
-    await dispatch(getDetailPost(id));
-    navigate(`/post/edit/${id}`);
-  };
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
-      <h2>My Posts</h2>
-      <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
-        <label>Search post by title</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search Post"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <div style={{ marginTop: "5px", marginLeft: "5px" }}></div>
-      </form>
+      <h2>POST MANAGEMENT</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">
+                <h3>AVATAR</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>TITLE</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>DESCRIPTION</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>LIKES</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>COMMENTS</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>STATUS</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>USERNAME</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>CREATED AT</h3>
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                <h3>ACTIONS</h3>
+              </TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
-            {posts && posts.length > 0 && status === "loading" && (
-              <>
-                <Loading />
-              </>
-            )}
             {posts.length > 0 &&
               status === "successful" &&
               posts.map((row) => (
@@ -107,25 +92,25 @@ export default function ListPost() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <img style={{ width: "300px" }} src={`${row.avatar}`} />
+                    <img style={{ width: "100px" }} src={`${row.avatar}`} />
                   </TableCell>
                   <TableCell align="left">
-                    <h2>
-                      <strong>{row.title}</strong>
-                    </h2>
-                    {row.summary}
+                    <h4>{row.title}</h4>
                   </TableCell>
-
+                  <TableCell align="left">{row.summary}</TableCell>
                   <TableCell align="center">
-                    <ThumbUpIcon fontSize="large" />
+                    <ThumbUpIcon fontSize="medium" />
                     <br />
                     {row.like}
                   </TableCell>
                   <TableCell align="center">
-                    <SmsIcon fontSize="large" />
+                    <SmsIcon fontSize="medium" />
                     <br />
                     {row.comment}
                   </TableCell>
+                  <TableCell align="left">{row.accessModified}</TableCell>
+                  <TableCell align="left">{row.author.username}</TableCell>
+                  <TableCell align="left">{row.createdAt}</TableCell>
                   <TableCell align="center">
                     <Fab
                       color="secondary"
@@ -135,16 +120,6 @@ export default function ListPost() {
                       <InfoIcon />
                     </Fab>
                   </TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="primary"
-                      aria-label="edit"
-                      onClick={() => handleEditPost(row._id)}
-                    >
-                      <EditIcon />
-                    </Fab>
-                  </TableCell>
-
                   <TableCell align="center">
                     <Fab
                       color="warning"
@@ -166,7 +141,7 @@ export default function ListPost() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure to delete the post?"}
+          {"Are you sure you want to delete this post?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description"></DialogContentText>
