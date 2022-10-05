@@ -50,3 +50,17 @@ export const deleteUserFromAdmin = createAsyncThunk(
     return userId;
   }
 );
+
+export const searchUsersByUsername = createAsyncThunk(
+  "post/searchUsersByUsername",
+  async (searchQuery, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${baseURL}/admin/users/search?searchQuery=${searchQuery}`
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);

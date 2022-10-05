@@ -26,7 +26,7 @@ export const loginUser = createAsyncThunk(
         title: "Login successful!",
       });
       if (values.username === "admin") {
-        navigate("/admin");
+        navigate("/admin/posts");
       } else {
         navigate("/");
       }

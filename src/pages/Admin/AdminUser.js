@@ -21,6 +21,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import { searchUsersByUsername } from "../../redux/adminApi";
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 
 export default function AdminUser() {
   const navigate = useNavigate();
@@ -29,7 +34,21 @@ export default function AdminUser() {
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState(0);
   const { users, status } = useSelector((state) => state.user);
-
+  const [search, setSearch] = useState("");
+  const query = useQuery();
+  const searchQuery = query.get("searchQuery");
+  const location = useLocation();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (search) {
+      dispatch(searchUsersByUsername(search));
+      navigate(`/admin/users/search?searchQuery=${search}`);
+      // setSearch("");
+    } else {
+      dispatch(getUsersFromAdmin());
+    }
+  };
+  console.log(search);
   const handleDeleteUser = async (id) => {
     await dispatch(deleteUserFromAdmin(id));
     handleClose();
@@ -49,6 +68,19 @@ export default function AdminUser() {
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <h2>USER MANAGEMENT</h2>
+      <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
+            <label>Search users by username</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search Users"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div style={{ marginTop: "5px", marginLeft: "5px" }}>
+              
+            </div>
+          </form>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

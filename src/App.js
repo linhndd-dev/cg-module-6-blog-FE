@@ -54,6 +54,7 @@ function App() {
           <Route path=":id" element={<SinglePost />}></Route>
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
+          <Route path="users/search" element={<AdminUser />} />
           <Route path="posts" element={<AdminPost />} />
           <Route path="users" element={<AdminUser />} />
         </Route>
