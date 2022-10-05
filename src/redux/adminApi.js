@@ -17,14 +17,6 @@ export const getPostsFromAdmin = createAsyncThunk(
   }
 );
 
-export const getPostDetailFromAdmin = createAsyncThunk(
-  "post/getPostDetailFromAdmin",
-  async (prop) => {
-    let post = await axios.get(`${baseURL}/${prop}`);
-    return post.data.posts[0];
-  }
-);
-
 export const deletePostFromAdmin = createAsyncThunk(
   "post/deletePostFromAdmin",
   async (postId, ThunkAPI) => {

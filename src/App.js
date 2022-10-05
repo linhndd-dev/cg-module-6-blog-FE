@@ -47,7 +47,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
         </Route>
         <Route path="/post" element={<Layout />}>
-          <Route path="search" element={<ListPost/>}></Route>
+          <Route path="search" element={<ListPost />}></Route>
           <Route path="list" element={<ListPost />}></Route>
           <Route path="create" element={<CreatePost />}></Route>
           <Route path="edit/:id" element={<EditPost />}></Route>
@@ -55,7 +55,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="users/search" element={<AdminUser />} />
-          <Route path="posts" element={<AdminPost />} />
+          <Route path="posts" element={<AdminPost />}></Route>
           <Route path="users" element={<AdminUser />} />
         </Route>
       </Routes>

@@ -35,14 +35,14 @@ export default function ListPost() {
     handleClose();
   };
   const handleShowDetail = async (id) => {
-    navigate(`admin/posts/${id}`);
+    navigate(`/post/${id}`);
   };
   const handleClickOpen = (id) => {
-    // setPostId(id);
-    // setOpen(true);
+    setPostId(id);
+    setOpen(true);
   };
   const handleClose = () => {
-    // setOpen(false);
+    setOpen(false);
   };
   useEffect(() => {
     dispatch(getPostsFromAdmin());
@@ -141,7 +141,7 @@ export default function ListPost() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure to delete the post?"}
+          {"Are you sure you want to delete this post?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description"></DialogContentText>
