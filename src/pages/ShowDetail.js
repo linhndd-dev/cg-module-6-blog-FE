@@ -1,5 +1,6 @@
 import {Box, Button, Fab, Grid, Pagination} from "@mui/material";
-import { useSelector } from "react-redux";
+import TextField from '@mui/material/TextField';
+import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom"
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
@@ -9,6 +10,13 @@ function ShowDetail(){
     let content = post.content
     return (
         <Box md={5} width={'100%'} height={'100%'}>
+            component="form"
+            sx={{
+            '& .MuiTextField-root': {m: 1, width: '25ch'},
+        }}
+            noValidate
+            autoComplete="off"
+            >
             <Typography variant={'h3'} gutterBottom align={'center'}>
                 {post.title}
             </Typography>
@@ -25,8 +33,27 @@ function ShowDetail(){
                 </Grid>
             </Grid>
             <hr/>
-            <Typography paddingLeft={2} paddingRight={2} align="justify" dangerouslySetInnerHTML={{__html: content}}></Typography>
+            <Typography paddingLeft={2} paddingRight={2} align="justify"
+                        dangerouslySetInnerHTML={{__html: content}}></Typography>
+            <hr/>
+            <Typography>Comment</Typography>
+            <TextField id="outlined-search" label="Search field" type="search"/>
+            <TextField
+                id="outlined-helperText"
+                label="Helper text"
+                defaultValue="Default Value"
+                helperText="Some important text"
+            />
+            <TextField
+                required
+                id="filled-required"
+                label="Required"
+                defaultValue="Hello World"
+                variant="filled"
+            />
         </Box>
+
+
     )
 }
 
