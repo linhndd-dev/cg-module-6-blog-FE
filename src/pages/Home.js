@@ -1,7 +1,7 @@
 import { Box, Button, Fab, Pagination, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getPostsByGuest } from "../redux/apis";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,13 +14,24 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Stack } from "@mui/system";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import Loading from "../components/Loading";
+
+
+
 
 export default function Home() {
   const navigate = useNavigate();
+  
+  
   const dispatch = useDispatch();
+  
+  
+  
+
   const { posts, status } = useSelector(
     (state) => state.post
   );
+
   const handleShowDetail = async (id) => {
     navigate(`/post/${id}`);
   };
@@ -30,13 +41,12 @@ export default function Home() {
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <h2>All Posts</h2>
+      
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             {posts && status === "loading" ? (
-              <Box sx={{ display: "flex" }}>
-                <CircularProgress />
-              </Box>
+              <Loading/>
             ) : (
               status === "successful" &&
               posts.map((row) => (
@@ -84,6 +94,7 @@ export default function Home() {
         </Table>
       </TableContainer>
       <Stack spacing={2}>
+      
       </Stack>
     </Box>
   );
