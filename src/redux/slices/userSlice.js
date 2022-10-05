@@ -17,7 +17,7 @@ const userSlice = createSlice({
       })
       .addCase(getUsersFromAdmin.fulfilled, (state, action) => {
         state.status = "successful";
-        state.posts = action.payload.posts;
+        state.users = action.payload.users;
       })
       .addCase(getUsersFromAdmin.rejected, (state, action) => {
         state.status = "failed";
