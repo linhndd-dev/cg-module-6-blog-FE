@@ -30,9 +30,7 @@ export default function ListPost() {
 
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
-  const { posts, status } = useSelector(
-    (state) => state.post
-  );
+  const { posts, status } = useSelector((state) => state.post);
 
   const handleDeletePost = async (id) => {
     await dispatch(deletePost(id));
@@ -63,7 +61,8 @@ export default function ListPost() {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
-            {posts.length > 0 && status === 'successful' &&
+            {posts.length > 0 &&
+              status === "successful" &&
               posts.map((row) => (
                 <TableRow
                   key={row._id}
@@ -142,9 +141,9 @@ export default function ListPost() {
         </DialogActions>
       </Dialog>
       <Stack spacing={2}>
-        {posts.length === 0 && status === 'successful' && (
-            <p>You don't have any post yet!</p>
-        )} 
+        {posts.length === 0 && status === "successful" && (
+          <p>You don't have any post yet!</p>
+        )}
       </Stack>
     </Box>
   );
