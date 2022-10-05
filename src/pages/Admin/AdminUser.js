@@ -36,7 +36,7 @@ export default function AdminUser() {
   };
 
   const handleClickOpen = (id) => {
-    // setPostId(id);
+    // setUserId(id);
     // setOpen(true);
   };
   const handleClose = () => {
