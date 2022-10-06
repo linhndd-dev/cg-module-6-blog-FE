@@ -3,8 +3,6 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
-import Container from "./components/Container";
-import CreatePost from "./pages/CreatePost";
 import Layout from "./pages/Layout";
 import AdminLayout from "./pages/AdminLayout";
 import Login from "./pages/Login/Login";
@@ -19,7 +17,8 @@ import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
-import AdminHome from "./pages/Admin/AdminHome";
+import AdminHome from "./pages/Admin/AdminUser";
+import CreatePost from "./pages/CreatePost";
 
 function App() {
   const dispatch = useDispatch();
