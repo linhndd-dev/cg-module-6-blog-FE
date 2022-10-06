@@ -1,106 +1,65 @@
-import { Box, Button, Fab, Pagination, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Container, CssBaseline } from "@mui/material";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
 import { getPostsByGuest } from "../redux/apis";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import InfoIcon from "@mui/icons-material/Info";
 import { Stack } from "@mui/system";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import SmsIcon from "@mui/icons-material/Sms";
 import Loading from "../components/Loading";
-
-
-
+import Post from "../components/Post";
 
 export default function Home() {
-  const navigate = useNavigate();
-  
-  
   const dispatch = useDispatch();
-  
-  
-  
 
-  const { posts, status } = useSelector(
-    (state) => state.post
-  );
+  const { posts, status } = useSelector((state) => state.post);
 
-  const handleShowDetail = async (id) => {
-    navigate(`/post/${id}`);
-  };
   useEffect(() => {
     dispatch(getPostsByGuest());
   }, []);
   return (
-    <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
-      <h2>All Posts</h2>
-      
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableBody>
-            {posts && status === "loading" ? (
-              <Loading/>
-            ) : (
-              status === "successful" &&
-              posts.map((row) => (
-                <TableRow
-                  key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    <img
-                      style={{ width: "300px" }}
-                      src={`${row.avatar}`}
-                      alt=""
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <h2>
-                      <strong>{row.title}</strong>
-                    </h2>
-                    {row.summary}
-                  </TableCell>
-                  <TableCell align="left">
-                    <h2>
-                      By - <strong>{row.author.username}</strong>
-                    </h2>
-                  </TableCell>
-                  <TableCell align="center">
-                    <ThumbUpIcon fontSize="large" />
-                    <br />
-                    {row.like}
-                  </TableCell>
-                  <TableCell align="center">
-                    <SmsIcon fontSize="large" />
-                    <br />
-                    {row.comment}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="warning"
-                      aria-label="showdetail"
-                      onClick={() => handleShowDetail(row._id)}
-                    >
-                      <InfoIcon />
-                    </Fab>
-                  </TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Stack spacing={2}>
-      
-      </Stack>
-    </Box>
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="auto" sx={{ margin: "0 120px" }}>
+        <Box sx={{ bgcolor: "#f2f2f2", height: "auto" }}>
+          <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
+            <Box
+              display="grid"
+              gridColumn="span 10"
+              gridTemplateColumns="repeat(12, 1fr)"
+              gap={3}
+              marginBottom={"20px"}
+            >
+              <Box
+                gridColumn="span 6"
+                sx={{ display: "flex", justifyContent: "flex-start" }}
+              >
+                <h2>All Posts</h2>
+              </Box>
+            </Box>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableBody sx={{ borderSpacing: "5em" }}>
+                  {posts && posts.length > 0 && status === "loading" && (
+                    <>
+                      <Loading />
+                    </>
+                  )}
+                  {posts.length > 0 &&
+                    status === "successful" &&
+                    posts.map((post) => <Post key={post._id} post={post} />)}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Stack spacing={2}>
+              {posts.length === 0 && status === "successful" && (
+                <p>You don't have any post yet!</p>
+              )}
+            </Stack>
+          </Box>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 }
