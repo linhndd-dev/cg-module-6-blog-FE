@@ -63,7 +63,7 @@ export const deletePost = createAsyncThunk(
   "post/deletePost",
   async (postId, ThunkAPI) => {
     await axios.delete(`${baseURL}/${postId}`);
-    ThunkAPI.dispatch(getAllMyPost());
+    // ThunkAPI.dispatch(getAllMyPost());
     return postId;
   }
 );
