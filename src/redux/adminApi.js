@@ -21,7 +21,7 @@ export const deletePostFromAdmin = createAsyncThunk(
   "post/deletePostFromAdmin",
   async (postId, ThunkAPI) => {
     await axios.delete(`${baseURL}/admin/posts/${postId}`);
-    ThunkAPI.dispatch(getPostsFromAdmin());
+    // ThunkAPI.dispatch(getPostsFromAdmin());
     return postId;
   }
 );
@@ -38,7 +38,7 @@ export const deleteUserFromAdmin = createAsyncThunk(
   "post/deleteUserFromAdmin",
   async (userId, ThunkAPI) => {
     await axios.delete(`${baseURL}/admin/users/${userId}`);
-    ThunkAPI.dispatch(getUsersFromAdmin());
+    // ThunkAPI.dispatch(getUsersFromAdmin());
     return userId;
   }
 );
@@ -49,6 +49,19 @@ export const searchUsersByUsername = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `${baseURL}/admin/users/search?searchQuery=${searchQuery}`
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const searchPostsByTitle = createAsyncThunk(
+  "post/searchPostsByTitle",
+  async (searchQuery, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${baseURL}/admin/posts/search?searchQuery=${searchQuery}`
       );
       return data;
     } catch (err) {

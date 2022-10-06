@@ -22,6 +22,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 export default function ListPost() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
