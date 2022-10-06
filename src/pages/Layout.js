@@ -11,7 +11,6 @@ export default function Layout(){
             </Box>
             <Toolbar />
             <Box sx={{display: "flex"}}>
-                <Navbar/>
                 <Outlet></Outlet>
             </Box>
         </Box>

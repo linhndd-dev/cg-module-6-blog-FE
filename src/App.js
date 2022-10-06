@@ -3,8 +3,6 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
-import Container from "./components/Container";
-import CreatePost from "./pages/CreatePost";
 import Layout from "./pages/Layout";
 import AdminLayout from "./pages/AdminLayout";
 import Login from "./pages/Login/Login";
@@ -20,14 +18,16 @@ import HomeT from "./pages/HomeT";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
-import AdminHome from "./pages/Admin/AdminHome";
+import AdminHome from "./pages/Admin/AdminUser";
+import CreatePost from "./pages/CreatePost";
+
 function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
   if ("login" in localStorage) {
     const login = JSON.parse(localStorage.getItem("login"));
     axios.defaults.headers.common[
-      "Authorization"
+      "authorization"
     ] = `Bearer ${login.accessToken}`;
   }
   useEffect(() => {
@@ -55,6 +55,7 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="home" element={<AdminHome />} />
           <Route path="users/search" element={<AdminUser />} />
+          <Route path="posts/search" element={<AdminPost />} />
           <Route path="posts" element={<AdminPost />}></Route>
           <Route path="users" element={<AdminUser />} />
         </Route>
