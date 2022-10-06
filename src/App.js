@@ -17,7 +17,6 @@ import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
-import AdminHome from "./pages/Admin/AdminHome";
 import CreatePost from "./pages/CreatePost";
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
   if ("login" in localStorage) {
     const login = JSON.parse(localStorage.getItem("login"));
     axios.defaults.headers.common[
-      "Authorization"
+      "authorization"
     ] = `Bearer ${login.accessToken}`;
   }
   useEffect(() => {
@@ -52,7 +51,6 @@ function App() {
           <Route path=":id" element={<SinglePost />}></Route>
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="home" element={<AdminHome />} />
           <Route path="users/search" element={<AdminUser />} />
           <Route path="posts" element={<AdminPost />}></Route>
           <Route path="users" element={<AdminUser />} />

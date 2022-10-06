@@ -27,7 +27,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import Loading from "../components/Loading";
-import { searchMyPosts } from "../redux/apis";
 import SearchIcon from '@mui/icons-material/Search';
 
 function useQuery() {
