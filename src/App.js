@@ -13,13 +13,13 @@ import ListPost from "./pages/ListPost";
 import { getAllMyPost } from "./redux/apis";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EditPost from "./pages/EditPost";
+import EditPost from "./pages/EditPost1";
 import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
-import CreatePost from "./pages/CreatePost1";
+import CreatePost from "./pages/CreatePost";
 
 function App() {
   const dispatch = useDispatch();
