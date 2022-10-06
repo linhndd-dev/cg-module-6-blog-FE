@@ -40,7 +40,6 @@ export default function ListPost() {
   const dispatch = useDispatch();
   const searchQuery = query.get("searchQuery");
   const location = useLocation();
-  console.log(search);
 
   const handleSubmit = (e) => {
     e.preventDefault();

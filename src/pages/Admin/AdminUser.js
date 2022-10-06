@@ -47,7 +47,7 @@ export default function AdminUser() {
       dispatch(getUsersFromAdmin());
     }
   };
-  console.log(search);
+
   const handleDeleteUser = async (id) => {
     await dispatch(deleteUserFromAdmin(id));
     handleClose();
