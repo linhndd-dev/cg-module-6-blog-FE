@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.read-more-less--more,
+.read-more-less--less {
+    color: #999;
+}
 :root {
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;

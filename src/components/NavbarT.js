@@ -10,24 +10,31 @@ function NavbarT() {
 
     const navigate = useNavigate()
 
-    const handleLogin = () =>{
+    const handleLogin = () => {
         navigate('/login')
     }
 
+    const handleRegister = () => {
+        navigate('/register')
+    }
+
     return (
-            <AppBar color={'inherit'}>
-                <Toolbar style={{
-                    display:'flex',
-                    justifyContent: 'space-between'
-                }}>
-                    <Typography variant="h3" paddingLeft={2} color="inherit">BLOG</Typography>
-                    <div>
+        <AppBar color={'inherit'}>
+            <Toolbar style={{
+                display: 'flex',
+                justifyContent: 'space-between'
+            }}>
+                <Typography variant="h3" paddingLeft={2} color="inherit">BLOG</Typography>
+                <div>
                     <IconButton aria-label="login" size="large" color="inherit" onClick={handleLogin}>
-                        <LoginIcon fontSize="inherit" />Login
+                        Login
                     </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
+                    <IconButton aria-label="login" size="large" color="inherit" onClick={handleRegister}>
+                        Register
+                    </IconButton>
+                </div>
+            </Toolbar>
+        </AppBar>
     )
 }
 

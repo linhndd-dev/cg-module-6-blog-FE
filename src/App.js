@@ -42,9 +42,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
-        <Route element={<Layout />}>
+        {/*<Route element={<Layout />}>*/}
           <Route path="/" element={<HomeT />}></Route>
-        </Route>
+        {/*</Route>*/}
         <Route path="/post" element={<Layout />}>
           <Route path="search" element={<ListPost />}></Route>
           <Route path="list" element={<ListPost />}></Route>
