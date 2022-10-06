@@ -17,6 +17,7 @@ import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
+import AdminHome from "./pages/Admin/AdminUser";
 import CreatePost from "./pages/CreatePost";
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path=":id" element={<SinglePost />}></Route>
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
+          <Route path="home" element={<AdminHome />} />
           <Route path="users/search" element={<AdminUser />} />
           <Route path="posts" element={<AdminPost />}></Route>
           <Route path="users" element={<AdminUser />} />
