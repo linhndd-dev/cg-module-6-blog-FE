@@ -2,7 +2,12 @@ import { Box, Button, Fab, Pagination, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { deletePost, getAllMyPost, getDetailPost } from "../redux/apis";
+import {
+  deletePost,
+  getAllMyPost,
+  getDetailPost,
+  searchMyPosts,
+} from "../redux/apis";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -22,22 +27,19 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import Loading from "../components/Loading";
-import { searchMyPosts } from "../redux/apis";
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 export default function ListPost() {
-  const { posts, status } = useSelector(
-    (state) => state.post
-  );
+  const { posts, status } = useSelector((state) => state.post);
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const query = useQuery();
   const dispatch = useDispatch();
   const searchQuery = query.get("searchQuery");
   const location = useLocation();
-  console.log(search);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +54,6 @@ export default function ListPost() {
 
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
-  
 
   const handleDeletePost = async (id) => {
     await dispatch(deletePost(id));
@@ -77,29 +78,28 @@ export default function ListPost() {
   };
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
-      
-        <h2>My Posts</h2>
-        <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Post"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <div style={{ marginTop: "5px", marginLeft: "5px" }}>
-              
-            </div>
-          </form>
+      <h2>My Posts</h2>
+      <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
+        <label>Search post by title</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search Post"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div style={{ marginTop: "5px", marginLeft: "5px" }}></div>
+      </form>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
-            {posts && posts.length > 0 && status === 'loading' && (
+            {posts && posts.length > 0 && status === "loading" && (
               <>
-              <Loading/>
+                <Loading />
               </>
             )}
-            {posts.length > 0 && status === 'successful' &&
+            {posts.length > 0 &&
+              status === "successful" &&
               posts.map((row) => (
                 <TableRow
                   key={row._id}

@@ -6,18 +6,18 @@ import {
   getAllMyPost,
   getDetailPost,
   getPostsByGuest,
-  searchMyPosts
+  searchMyPosts,
 } from "../apis";
-import { getPostsFromAdmin } from "../adminApi";
+import { getPostsFromAdmin, deletePostFromAdmin } from "../adminApi";
 
 const initialState = {
   posts: [],
+  status: "idle",
   post: {
     author: {
       username: "",
     },
   },
-  status: "idle",
 };
 
 const postSlice = createSlice({
@@ -34,6 +34,15 @@ const postSlice = createSlice({
         state.posts = action.payload.posts;
       })
       .addCase(getPostsFromAdmin.rejected, (state, action) => {
+        state.status = "failed";
+      })
+      .addCase(deletePostFromAdmin.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(deletePostFromAdmin.fulfilled, (state, action) => {
+        state.posts = state.posts.filter((item) => item._id !== action.payload);
+      })
+      .addCase(deletePostFromAdmin.rejected, (state, action) => {
         state.status = "failed";
       })
       .addCase(getPostsByGuest.pending, (state, action) => {
@@ -75,14 +84,14 @@ const postSlice = createSlice({
       })
       .addCase(searchMyPosts.pending, (state, action) => {
         state.status = "loading";
-    })
-    .addCase(searchMyPosts.fulfilled, (state, action) => {
+      })
+      .addCase(searchMyPosts.fulfilled, (state, action) => {
         state.status = "successful";
         state.posts = action.payload.posts;
-    })
-    .addCase(searchMyPosts.rejected, (state, action) => {
+      })
+      .addCase(searchMyPosts.rejected, (state, action) => {
         state.status = "failed";
-    });
+      });
   },
 });
 
