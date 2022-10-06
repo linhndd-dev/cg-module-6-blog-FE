@@ -39,7 +39,7 @@ export default function CreatePost() {
           <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <Box display="grid"  gridColumn="span 10" gridTemplateColumns="repeat(12, 1fr)" gap={3} marginBottom={"20px"} >
                 <Box gridColumn="span 6" sx={{display: "flex", justifyContent: "flex-start"}}>
-                    <h2>Create Posts</h2>
+                    <h2>Create Post</h2>
                 </Box>
             </Box>
             <Formik

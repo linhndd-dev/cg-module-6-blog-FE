@@ -13,7 +13,7 @@ import ListPost from "./pages/ListPost";
 import { getAllMyPost } from "./redux/apis";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EditPost from "./pages/EditPost1";
+import EditPost from "./pages/EditPost";
 import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
 import axios from "axios";
