@@ -19,6 +19,10 @@ import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
 import AdminHome from "./pages/Admin/AdminUser";
 import CreatePost from "./pages/CreatePost";
+import { setCurrentUser } from "./redux/slices/authSlice";
+import PrivateRoute from "./utils/PrivateRoute";
+import AdminRoute from "./utils/AdminRoute";
+import ProtectedPostRoute from "./utils/ProtectedPostRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +37,8 @@ function App() {
     const { isLoggedIn } = JSON.parse(localStorage.getItem("login")) || {};
     if (isLoggedIn) {
       dispatch(setAuth({ isLoggedIn }));
+      const login = JSON.parse(localStorage.getItem("login"));
+      dispatch(setCurrentUser(login));
     }
   }, [dispatch, isLoggedIn]);
 
@@ -44,19 +50,21 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
         </Route>
-        <Route path="/post" element={<Layout />}>
-          <Route path="search" element={<ListPost />}></Route>
-          <Route path="list" element={<ListPost />}></Route>
-          <Route path="create" element={<CreatePost />}></Route>
-          <Route path="edit/:id" element={<EditPost />}></Route>
-          <Route path=":id" element={<SinglePost />}></Route>
-        </Route>
+        
+          <Route path="/post" element={<Layout />}>
+            <Route path="search" element={<PrivateRoute><ListPost /></PrivateRoute>}></Route>
+            <Route path="list" element={<PrivateRoute><ListPost /></PrivateRoute>}></Route>
+            <Route path="create" element={<PrivateRoute><CreatePost /></PrivateRoute>}></Route>
+            <Route path="edit/:id" element={<PrivateRoute><EditPost /></PrivateRoute>}></Route>
+            <Route path=":id" element={<SinglePost />}></Route>
+          </Route>
+        
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="home" element={<AdminHome />} />
-          <Route path="users/search" element={<AdminUser />} />
-          <Route path="posts/search" element={<AdminPost />} />
-          <Route path="posts" element={<AdminPost />}></Route>
-          <Route path="users" element={<AdminUser />} />
+          <Route path="home" element={<AdminRoute><AdminHome /></AdminRoute>} />
+          <Route path="users/search" element={<AdminRoute><AdminUser /></AdminRoute>} />
+          <Route path="posts/search" element={<AdminRoute><AdminPost /></AdminRoute>} />
+          <Route path="posts" element={<AdminRoute><AdminPost /></AdminRoute>}></Route>
+          <Route path="users" element={<AdminRoute><AdminUser /></AdminRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

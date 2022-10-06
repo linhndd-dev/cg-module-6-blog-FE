@@ -32,7 +32,7 @@ export default function Header() {
   const { posts, status } = useSelector(
     (state) => state.post
   );
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
@@ -229,6 +229,7 @@ const openNotification = Boolean(anchorElNotification);
           <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
             {isLoggedIn ? (
               <>
+              {user.username}
               <React.Fragment>
               <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
               <Badge badgeContent={17} color="error">

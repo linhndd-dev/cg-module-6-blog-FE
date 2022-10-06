@@ -75,3 +75,20 @@ export const getDetailPost = createAsyncThunk(
     return post.data.posts[0];
   }
 );
+
+export const likePost = async (postId) => {
+  try {
+    const res = await axios.post(`${baseURL}/like/${postId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const unlikePost = async (postId) => {
+  try {
+    const res = await axios.delete(`${baseURL}/like/${postId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+}

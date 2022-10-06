@@ -75,14 +75,18 @@ export const authSlice = createSlice({
     logout: (state, action) => {
       localStorage.clear();
       state.isLoggedIn = false;
+      axios.defaults.headers.common["authorization"] = null;
     },
+    setCurrentUser: (state, action) => {
+      state.user = action.payload;
+    }
   },
   extraReducers: {
     [loginUser.pending]: (state, action) => {
       state.status = "loading";
     },
     [loginUser.fulfilled]: (state, action) => {
-      const { success, message, accessToken, idUser } = action.payload;
+      const { success, message, accessToken, idUser, username } = action.payload;
       localStorage.setItem(
         "login",
         JSON.stringify({
@@ -91,10 +95,13 @@ export const authSlice = createSlice({
           accessToken,
           idUser,
           isLoggedIn: true,
+          username
         })
       );
       state.status = "successful";
       state.isLoggedIn = true;
+      state.user.idUser = idUser;
+      state.user.username = username;
     },
     [loginUser.rejected]: (state, action) => {
       state.status = "failed";
@@ -115,4 +122,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setAuth, logout } = authSlice.actions;
+export const { setAuth, logout, setCurrentUser } = authSlice.actions;
