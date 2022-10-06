@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Home from "./pages/CreatePost";
 import { Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
-import CreatePost from "./pages/CreatePost";
 import Layout from "./pages/Layout";
 import AdminLayout from "./pages/AdminLayout";
 import Login from "./pages/Login/Login";
@@ -20,8 +19,7 @@ import SinglePost from "./pages/SinglePost";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
-import MyPost from "./pages/MyPost";
-import CreatePost1 from "./pages/CreatePost1";
+import CreatePost from "./pages/CreatePost1";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,7 +42,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
-        <Route path="/mypost" element={<MyPost />}></Route>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
         </Route>
@@ -52,7 +49,6 @@ function App() {
           <Route path="search" element={<ListPost/>}></Route>
           <Route path="list" element={<ListPost />}></Route>
           <Route path="create" element={<CreatePost />}></Route>
-          <Route path="create1" element={<CreatePost1 />}></Route>
           <Route path="edit/:id" element={<EditPost />}></Route>
           <Route path=":id" element={<SinglePost />}></Route>
         </Route>

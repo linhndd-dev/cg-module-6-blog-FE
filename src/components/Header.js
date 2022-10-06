@@ -23,71 +23,19 @@ import Button from '@mui/material/Button';
 import { logout } from '../redux/slices/authSlice';
 import { Logout, PersonAdd, Settings } from '@mui/icons-material';
 
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  maxWidth: 400,
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { posts, status } = useSelector(
+    (state) => state.post
+  );
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -96,7 +44,24 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const [anchorElManagePost, setAnchorElManagePost] = React.useState(null);
+  const openManagePost = Boolean(anchorElManagePost);
+  const handleClickManagePost = (event) => {
+    setAnchorElManagePost(event.currentTarget);
+  };
+  const handleCloseManagePost = () => {
+    setAnchorElManagePost(null);
+  };
+
+const [anchorElNotification, setAnchorElNotification] = React.useState(null);
+const openNotification = Boolean(anchorElNotification);
+  const handleClickNotification = (event) => {
+    setAnchorElNotification(event.currentTarget);
+  };
+  const handleCloseNotification = () => {
+    setAnchorElNotification(null);
+  };
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -136,7 +101,10 @@ export default function Header() {
       <MenuItem>
         <Avatar />My Profile
       </MenuItem>
-      <MenuItem onClick={() => navigate("/")}>
+      <MenuItem onClick={() => {
+        navigate("/");
+        dispatch(logout())
+        }}>
         <ListItemIcon>
           <Logout fontSize="small" />
         </ListItemIcon>
@@ -145,7 +113,58 @@ export default function Header() {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderNotification = (
+    <Menu
+      anchorEl={anchorElNotification}
+      id="notification"
+      open={openNotification}
+      onClose={handleCloseNotification}
+      onClick={handleCloseNotification}
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          overflow: 'visible',
+          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+          mt: 1.5,
+          '& .MuiAvatar-root': {
+            width: 32,
+            height: 32,
+            ml: -0.5,
+            mr: 1,
+          },
+          '&:before': {
+            content: '""',
+            display: 'block',
+            position: 'absolute',
+            top: 0,
+            right: 14,
+            width: 10,
+            height: 10,
+            bgcolor: 'background.paper',
+            transform: 'translateY(-30%) rotate(45deg)',
+            zIndex: 0,
+          },
+        },
+      }}
+      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+    >
+      <MenuItem border={"none"} noWrap>
+        <StyledPaper>
+          <Typography border={"none"} noWrap>abcadsfkjshadlfkjhalsdkjfhsaljdkhflkjsadhflkjasdhlfkjasdhflkjashdljkfhsadjklfhlsajkdfhlkjsdahflkjsadhfljksadhlfkjshdalkjfhladjkfhlkjasdhflkjashldfj</Typography>
+        </StyledPaper>
+      </MenuItem>
+      {/* <MenuItem onClick={() => {
+        navigate("/");
+        dispatch(logout())
+        }}>
+        <ListItemIcon>
+          <Logout fontSize="small" />
+        </ListItemIcon>
+        Logout
+      </MenuItem> */}
+    </Menu>
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -157,17 +176,73 @@ export default function Header() {
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
-            onClick={() => navigate("/")}
+            onClick={()=>{
+              navigate("/")
+            }}
             autoComplete
           >
             Blog
           </Typography>
+          {isLoggedIn ? (
+            <Box sx={{paddingLeft: " 20px"}}>
+              <Button
+                id="demo-positioned-button"
+                aria-controls={openManagePost ? 'demo-positioned-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openManagePost ? 'true' : undefined}
+                onClick={handleClickManagePost}
+                sx={{color: "black"}}
+              >
+                Post Management
+              </Button>
+              <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                anchorEl={anchorElManagePost}
+                open={openManagePost}
+                onClose={handleCloseManagePost}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+              >
+                <MenuItem onClick={()=> {
+                  navigate("/post/create");
+                  handleCloseManagePost();
+                }}>
+                  create Post
+                </MenuItem>
+                <MenuItem onClick={()=> {
+                  navigate("/post/list");
+                  handleCloseManagePost();
+                }}>
+                  My Post
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : <></>}
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
             {isLoggedIn ? (
               <>
               <React.Fragment>
               <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+              <Badge badgeContent={17} color="error">
+                <IconButton
+                  onClick={handleClickNotification}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={openNotification ? 'notification' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openNotification ? 'true' : undefined}  
+                >
+                  <NotificationsIcon />
+                </IconButton>
+              </Badge>
                 <Tooltip title="Account settings">
                   <IconButton
                     onClick={handleClick}
@@ -181,6 +256,7 @@ export default function Header() {
                   </IconButton>
                 </Tooltip>
               </Box>
+              {renderNotification}
               {renderMenu}
             </React.Fragment>
 
@@ -194,22 +270,9 @@ export default function Header() {
                 <Button variant="outlined" sx={{color: "black", border: "1px solid #cfd8dc"}}  onClick={() => navigate('/login')}>Login</Button>
                 <Button variant="outlined" sx={{color: "black", border: "1px solid #cfd8dc"}}   onClick={() => navigate('/register')}>Register</Button>
               </Stack>
-              
-
             )}
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
+          
         </Toolbar>
       </AppBar>
     </Box>
