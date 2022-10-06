@@ -27,7 +27,7 @@ function App() {
   if ("login" in localStorage) {
     const login = JSON.parse(localStorage.getItem("login"));
     axios.defaults.headers.common[
-      "Authorization"
+      "authorization"
     ] = `Bearer ${login.accessToken}`;
   }
   useEffect(() => {
