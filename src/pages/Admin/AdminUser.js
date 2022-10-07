@@ -50,10 +50,14 @@ export default function AdminUser() {
     }
   };
 
-  const handleChangeUserStatus = (id, status) => {
-    console.log("handleChangeUserStatus", id, status);
-    dispatch(changeUserStatusFromAdmin(id, status));
-    console.log("back handleChangeUserStatus", id, status);
+  const handleChangeUserStatus = (prop) => {
+    dispatch(
+      changeUserStatusFromAdmin({
+        id: prop.userId,
+        currentStatus: prop.currentStatus,
+      })
+    );
+
     handleClose();
   };
 
@@ -66,6 +70,7 @@ export default function AdminUser() {
     setOpen(false);
   };
   useEffect(() => {
+    console.log("refresh");
     dispatch(getUsersFromAdmin());
   }, []);
 
@@ -155,7 +160,12 @@ export default function AdminUser() {
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>
           <Button
-            onClick={() => handleChangeUserStatus(userId, userStatus)}
+            onClick={() =>
+              handleChangeUserStatus({
+                userId: userId,
+                currentStatus: userStatus,
+              })
+            }
             autoFocus
           >
             Agree

@@ -36,12 +36,11 @@ export const getUsersFromAdmin = createAsyncThunk(
 
 export const changeUserStatusFromAdmin = createAsyncThunk(
   "user/changeUserStatusFromAdmin",
-  async (userId, userStatus) => {
-    console.log(userId, userStatus);
-    await axios.put(`${baseURL}/admin/users/status/${userId}`, {
-      currentStatus: userStatus,
+  async (prop) => {
+    await axios.put(`${baseURL}/admin/users/status/${prop.id}`, {
+      currentStatus: prop.currentStatus,
     });
-    const { data } = await axios.get(`${baseURL}/admin/users/${userId}`);
+    const { data } = await axios.get(`${baseURL}/admin/users/${prop.id}`);
     console.log(data);
     return data;
   }

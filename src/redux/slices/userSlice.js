@@ -34,11 +34,9 @@ const userSlice = createSlice({
       })
       .addCase(changeUserStatusFromAdmin.fulfilled, (state, action) => {
         state.status = "successful";
-        state.users.map((user) => {
-          if (user._id === action.payload._id) {
-            user.status = action.payload.status;
-          }
-        });
+        if (state.user._id === action.payload._id) {
+          state.user.status = action.payload.status;
+        }
       })
       .addCase(changeUserStatusFromAdmin.rejected, (state, action) => {
         state.status = "failed";
