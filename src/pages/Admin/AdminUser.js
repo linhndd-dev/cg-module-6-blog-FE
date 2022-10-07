@@ -2,7 +2,10 @@ import { Box, Button, Fab, Pagination, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getUsersFromAdmin, deleteUserFromAdmin } from "../../redux/adminApi";
+import {
+  getUsersFromAdmin,
+  changeUserStatusFromAdmin,
+} from "../../redux/adminApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,18 +13,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import EditIcon from "@mui/icons-material/Edit";
-import InfoIcon from "@mui/icons-material/Info";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Stack } from "@mui/system";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import SmsIcon from "@mui/icons-material/Sms";
+import LockRoundedIcon from "@mui/icons-material/LockRounded";
+import LockOpenRoundedIcon from "@mui/icons-material/LockOpenRounded";
 import { searchUsersByUsername } from "../../redux/adminApi";
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -32,6 +33,7 @@ export default function AdminUser() {
 
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [userStatus, setUserStatus] = useState("");
   const { users, status } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
   const query = useQuery();
@@ -48,19 +50,27 @@ export default function AdminUser() {
     }
   };
 
-  const handleDeleteUser = async (id) => {
-    await dispatch(deleteUserFromAdmin(id));
+  const handleChangeUserStatus = (prop) => {
+    dispatch(
+      changeUserStatusFromAdmin({
+        id: prop.userId,
+        currentStatus: prop.currentStatus,
+      })
+    );
+
     handleClose();
   };
 
-  const handleClickOpen = (id) => {
-    // setUserId(id);
-    // setOpen(true);
+  const handleClickOpen = (id, userStatus) => {
+    setUserStatus(userStatus);
+    setUserId(id);
+    setOpen(true);
   };
   const handleClose = () => {
-    // setOpen(false);
+    setOpen(false);
   };
   useEffect(() => {
+    console.log("refresh");
     dispatch(getUsersFromAdmin());
   }, []);
 
@@ -121,9 +131,13 @@ export default function AdminUser() {
                     <Fab
                       color="warning"
                       aria-label="delete"
-                      onClick={() => handleClickOpen(row._id)}
+                      onClick={() => handleClickOpen(row._id, row.status)}
                     >
-                      <DeleteIcon />
+                      {row.status === "Inactive" ? (
+                        <LockRoundedIcon fontSize="large" />
+                      ) : (
+                        <LockOpenRoundedIcon fontSize="large" />
+                      )}
                     </Fab>
                   </TableCell>
                 </TableRow>
@@ -138,14 +152,22 @@ export default function AdminUser() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure to delete this user?"}
+          {"You sure you want to change the status of this user?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description"></DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={() => handleDeleteUser(userId)} autoFocus>
+          <Button
+            onClick={() =>
+              handleChangeUserStatus({
+                userId: userId,
+                currentStatus: userStatus,
+              })
+            }
+            autoFocus
+          >
             Agree
           </Button>
         </DialogActions>

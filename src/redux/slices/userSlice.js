@@ -1,8 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUsersFromAdmin, searchUsersByUsername } from "../adminApi";
+import {
+  getUsersFromAdmin,
+  changeUserStatusFromAdmin,
+  searchUsersByUsername,
+} from "../adminApi";
 
 const initialState = {
   users: [],
+  user: {
+    status: "",
+  },
   status: "idle",
 };
 
@@ -20,6 +27,16 @@ const userSlice = createSlice({
         state.users = action.payload.users;
       })
       .addCase(getUsersFromAdmin.rejected, (state, action) => {
+        state.status = "failed";
+      })
+      .addCase(changeUserStatusFromAdmin.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(changeUserStatusFromAdmin.fulfilled, (state, action) => {
+        state.status = "successful";
+        state.users = action.payload.users;
+      })
+      .addCase(changeUserStatusFromAdmin.rejected, (state, action) => {
         state.status = "failed";
       })
       .addCase(searchUsersByUsername.pending, (state, action) => {
