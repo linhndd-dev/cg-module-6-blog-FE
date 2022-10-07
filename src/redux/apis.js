@@ -42,13 +42,13 @@ export const createMyPost = createAsyncThunk(
   "post/createPost",
   async ({ value, navigate }) => {
     try {
-      await axios.post(`${baseURL}`, value);
+      const {data} = await axios.post(`${baseURL}`, value);
       Swal.fire({
         icon: "success",
         title: "Create new post successful!",
       });
       navigate("/post/list");
-      return value;
+      return data;
     } catch (error) {}
   }
 );
