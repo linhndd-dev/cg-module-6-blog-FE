@@ -39,6 +39,9 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ListPost() {
+
+  const pointer = {cursor : 'pointer'}
+
   const { posts, status } = useSelector((state) => state.post);
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
@@ -145,8 +148,12 @@ export default function ListPost() {
                         <TableCell align="left">
                         <Box display="grid"  gridColumn="span 10" gridTemplateColumns="repeat(12, 1fr)" gap={3}>
                           <Box gridColumn="span 12">
-                          <Typography className="title" variant="h5" display="block" gutterBottom sx={{PointerEvent: "cursor"}}
-                            onClick={() => handleShowDetail(row._id)}
+                          <Typography className="title"
+                                      style={pointer}
+                                      variant="h5" display="block"
+                                      gutterBottom
+                                      // sx={{PointerEvent: "cursor"}}
+                                      onClick={() => handleShowDetail(row._id)}
                           >
                           <strong>{row.title}</strong>
                           </Typography>

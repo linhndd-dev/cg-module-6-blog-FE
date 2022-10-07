@@ -40,8 +40,8 @@ function SinglePost() {
                     <Typography paddingLeft={2} paddingRight={2} align="justify"
                                 dangerouslySetInnerHTML={{__html: post.content}}></Typography>
                 </Box>
-            {/*</div>*/}
-            {/*<br/>*/}
+            </div>
+            <br/>
             {/*<div className={'container'}>*/}
             {/*    <TextareaAutosize*/}
             {/*        maxRows={4}*/}
@@ -54,10 +54,11 @@ function SinglePost() {
             {/*        Gửi bình luận*/}
             {/*    </Button>*/}
             {/*</div>*/}
+            {/*<br/>*/}
             {/*<h5>Bình luận</h5>*/}
             {/*<div className={'container'}>*/}
 
-            </div>
+            {/*</div>*/}
         </div>
     )
 }

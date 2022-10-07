@@ -62,7 +62,7 @@ export default function CreatePost() {
                 return errors;
                 }}
                 onSubmit={(values) => {
-                  if(editor == ""){
+                  if(editor === ""){
                     values.content = post.content;
                     console.log(1, values)
                   } else {
