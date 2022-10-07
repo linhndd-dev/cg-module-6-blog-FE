@@ -1,4 +1,4 @@
-import { Box, Container, CssBaseline, ImageList, styled } from "@mui/material";
+import { Box, Container, CssBaseline, Grid, ImageList, styled } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostsByGuest } from "../redux/apis";
@@ -52,51 +52,30 @@ export default function Home() {
                 gridColumn="span 6"
                 sx={{ display: "flex", justifyContent: "flex-start" }}
               >
-                <h2>All Posts</h2>
               </Box>
             </Box>
-            <Box gridColumn="span 6" sx={{ display: "flex", justifyContent: "center" }}>
-            <Stack spacing={2}>
-                  {posts && posts.length > 0 && status === "loading" && (
-                    <>
-                      <Loading />
-                    </>
-                  )}
+            <Box gridColumn="span 6">
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                      {posts && posts.length > 0 && status === "loading" && (
+                        <>
+                          <Loading />
+                        </>
+                      )}
 
-                  {posts.length > 0 &&
-                    status === "successful" &&
-                    posts.map((post, index) => {
-                          
-                      if(index < 2){
-                        return (
-                        <Stack direction="row" spacing={2} sx={{display: "flex"}}>
-                          <Item>  
-                          <Paper
-                            sx={{
-                              p: 2,
-                              margin: 'auto',
-                              maxWidth: 500,
-                              flexGrow: 1,
-                              backgroundColor: (theme) =>
-                                theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                            }}
-                          >
-                            <PostHome key={post._id} post={{item: post, index: index}} />
-                          </Paper>
-                          </Item>
-                        </Stack>
+                      {posts.length > 0 &&
+                        status === "successful" &&
+                        posts.map((post, index) => {
+                            return (
+                              <Grid item xs={4} sm={6} md={6}>
+                                <PostHome key={post._id} post={{item: post, index: index}} />
+                              </Grid>
+                            )
+                        }
                         )
-                      }else if(index >= 2){
-                        return (                        
-                        <Item>
-                          <PostHome1 key={post._id} post={{item: post, index: index}} />
-                        </Item>)
                       }
-                    }
-                    )
-                    }
-            </Stack>
-
+                  </Grid>
+                </Box>
             </Box>
             <Stack spacing={2}>
               {posts.length === 0 && status === "successful" && (

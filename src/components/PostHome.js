@@ -52,7 +52,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 const Img = styled('img')({
   margin: 'auto',
-  display: 'block',
   maxWidth: '100%',
   maxHeight: '100%',
 });
@@ -88,38 +87,44 @@ export default function PostHome({ post }) {
 
   return (
     <>
-          <Grid container spacing={2}>
-            <Grid item>
-              <ButtonBase sx={{ width: 128, height: 128 }}>
-                <Img alt="complex" src="/static/images/grid/complex.jpg" />
-              </ButtonBase>
-            </Grid>
-            <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                  <Typography gutterBottom variant="subtitle1" component="div">
-                    Standard license
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    Full resolution 1920x1080 • JPEG
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    ID: 1030114
-                  </Typography>
-                </Grid>
+            <Paper
+              sx={{
+                p: 2,
+                margin: 'auto',
+                maxWidth: 450,
+                flexGrow: 1,
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+              }}
+            >
+              <Grid container spacing={2}>
                 <Grid item>
-                  <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                    Remove
-                  </Typography>
+                  <ButtonBase sx={{ width: 128, height: 128 }}>
+                    <Img alt="complex" src={`${post.item.avatar}`} />
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      <Typography gutterBottom variant="subtitle1" component="div">
+                        {post.item.title}
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        123
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {post.item._id}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography sx={{ cursor: 'pointer' }} variant="body2">
+                        {post.item.createdAt}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Typography variant="subtitle1" component="div">
-                  $19.00
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
+            </Paper>
       {/* <TableRow
         mb={"8px"}
         key={post._id}
