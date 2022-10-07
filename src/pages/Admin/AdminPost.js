@@ -1,8 +1,8 @@
-import { Box, Button, Fab, Pagination, TextField } from "@mui/material";
+import { Box, Button, Fab, Pagination, TextField, FormControl } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getPostsFromAdmin, deletePostFromAdmin } from "../../redux/adminApi";
+import { getPostsFromAdmin, deletePostFromAdmin, searchPostsByTitle } from "../../redux/adminApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,6 +21,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import SearchIcon from "@mui/icons-material/Search";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -33,7 +34,9 @@ export default function ListPost() {
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
   const { posts, status } = useSelector((state) => state.post);
-
+  useEffect(() => {
+    dispatch(getPostsFromAdmin());
+  }, []);
   const handleDeletePost = async (id) => {
     await dispatch(deletePostFromAdmin(id));
     handleClose();
@@ -48,9 +51,17 @@ export default function ListPost() {
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    dispatch(getPostsFromAdmin());
-  }, []);
+
+  const [search, setSearch] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (search) {
+      dispatch(searchPostsByTitle(search));
+      navigate(`/admin/posts/search?searchQuery=${search}`);
+    } else {
+      dispatch(getPostsFromAdmin());
+    }
+  };
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <Box
