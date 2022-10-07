@@ -92,6 +92,7 @@ export default function Post({ post }) {
   }
   return (
     <>
+    <Container mx="auto">
       <TableRow
         mb={"8px"}
         key={post._id}
@@ -183,6 +184,7 @@ export default function Post({ post }) {
           </TableCell>
         )}
       </TableRow>
+    </Container>
       <Dialog
         open={open}
         onClose={handleClose}

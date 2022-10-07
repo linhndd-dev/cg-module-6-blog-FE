@@ -58,13 +58,12 @@ const Img = styled('img')({
 
 export default function PostHome({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
-  const userId = login?.idUser;
   const navigate = useNavigate();
-  const day = new Date(post.createdAt);
+  const day = new Date(post.item.createdAt);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
-
+  console.log(post.item.author.username);
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
     navigate(`/post/edit/${id}`);
@@ -113,13 +112,13 @@ export default function PostHome({ post }) {
                         123
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {post.item._id}
+                        {post.item.author.username}
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                        {post.item.createdAt}
-                      </Typography>
+                    <Typography variant="outline" display="block" gutterBottom>
+                      {day.toLocaleDateString()}
+                    </Typography>
                     </Grid>
                   </Grid>
                 </Grid>

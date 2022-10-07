@@ -29,7 +29,6 @@ const Img = styled('img')({
 
 export default function Home() {
   const dispatch = useDispatch();
-
   const { posts, status } = useSelector((state) => state.post);
 
   useEffect(() => {
@@ -66,11 +65,13 @@ export default function Home() {
                       {posts.length > 0 &&
                         status === "successful" &&
                         posts.map((post, index) => {
+                          if(index < 2){
                             return (
                               <Grid item xs={4} sm={6} md={6}>
                                 <PostHome key={post._id} post={{item: post, index: index}} />
                               </Grid>
                             )
+                          }
                         }
                         )
                       }
