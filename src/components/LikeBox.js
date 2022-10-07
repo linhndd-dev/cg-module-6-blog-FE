@@ -13,6 +13,7 @@ const LikeBox = (props) => {
     const [liked, setLiked] = useState(props.liked);
     const login = JSON.parse(localStorage.getItem("login"));
     const userId = login?.idUser;
+    console.log(props.liked);
     const navigate = useNavigate();
 
     const handleLike = (e) => {
@@ -27,7 +28,7 @@ const LikeBox = (props) => {
     return (
         <>
             <IconButton sx={{ padding: 0.5 }} onClick={handleLike}>
-                {liked? (
+                {liked ? (
                     <ThumbUpIcon fontSize="small" />
                 ) : (
                     <ThumbUpOutlinedIcon fontSize="small" />

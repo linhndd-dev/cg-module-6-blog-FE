@@ -48,6 +48,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Post({ post }) {
+  // console.log(post.isLiked);
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   const navigate = useNavigate();
@@ -77,8 +78,8 @@ export default function Post({ post }) {
     handleClose();
   };
 
-  const handleLike = async (liked) => {
-    if (liked) {
+  const handleLike = async (isLiked) => {
+    if (isLiked) {
         setLikeCount(likeCount + 1);
         await likePost(post._id);
     } else {
@@ -147,7 +148,7 @@ export default function Post({ post }) {
         <TableCell align="center">
         <LikeBox
               likeCount={likeCount}
-              liked={post.liked}
+              liked={post.isLiked}
               onLike={handleLike}
             />
         </TableCell>
