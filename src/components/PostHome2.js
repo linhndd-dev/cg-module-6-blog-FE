@@ -46,6 +46,17 @@ import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
 import IconButton from '@mui/material/IconButton';
 
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  maxWidth: 250,
+}));
+
+const Img = styled("img")({
+  margin: "auto",
+  display: "block",
+  maxWidth: "100%",
+  maxHeight: "100%",
+});
 
 export default function PostHome1({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
@@ -79,26 +90,40 @@ export default function PostHome1({ post }) {
   console.log(post);
   return (
     <>
-          <ImageListItem key={post._id}>
-          <img
-            src={`${post.avatar}?w=248&fit=crop&auto=format`}
-            srcSet={`${post.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={post.title}
-            loading="lazy"
-          />
-          <ImageListItemBar
-            title={post.title}
-            subtitle={post.author.username}
-            actionIcon={
-              <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${post.title}`}
-              >
-                <InfoIcon />
-              </IconButton>
-            }
-          />
-        </ImageListItem>
+          <Grid container spacing={2}>
+            <Grid item>
+              <ButtonBase sx={{ width: 128, height: 128 }}>
+                <Img alt="complex" src={`${post.avatar}`} />
+              </ButtonBase>
+            </Grid>
+            <Grid item xs={12} sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                <StyledPaper>
+                  <Typography border={"none"} noWrap>
+                    {post.summary}
+                  </Typography>
+                </StyledPaper>
+                  <Typography variant="body2" gutterBottom>
+                    {post.summary}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {post.author.username}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography sx={{ cursor: 'pointer' }} variant="body2">
+                    Remove
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Typography variant="subtitle1" component="div">
+                  $19.00
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
       {/* <TableRow
         mb={"8px"}
         key={post._id}

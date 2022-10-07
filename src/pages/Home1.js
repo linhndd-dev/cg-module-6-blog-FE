@@ -18,6 +18,7 @@ import Loading from "../components/Loading";
 import Post from "../components/Post";
 import PostHome from "../components/PostHome";
 import PostHome1 from "../components/PostHome1";
+import PostHome2 from "../components/PostHome2";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -27,12 +28,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const Img = styled("img")({
-  margin: "auto",
-  display: "block",
-  maxWidth: "100%",
-  maxHeight: "100%",
-});
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -44,7 +39,7 @@ export default function Home() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{paddingTop: "40px"}}>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -60,16 +55,27 @@ export default function Home() {
             posts.map((post, index) => {
               if (index < 2) {
                 return (
-                  <Grid item xs={4} sm={6} md={6}>
+                  <Grid item xs={2} sm={4} md={6}>
                     <PostHome1 key={post._id} post={post} />
                   </Grid>
                 );
               }
-
+              
               if(index >= 2){
                 return (
-                  <Grid item xs={4} sm={6} md={6}>
-                    <PostHome1 key={post._id} post={post} />
+                  <Grid item xs={2} sm={4} md={6} padding="40px">
+                    <Paper
+                      sx={{
+                        p: 2,
+                        margin: 'auto',
+                        maxWidth: 500,
+                        flexGrow: 1,
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                      }}
+                    >
+                    <PostHome2 key={post._id} post={post} />
+                    </Paper>
                   </Grid>
                 )
               }
