@@ -43,7 +43,7 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         {/*<Route element={<Layout />}>*/}
-          <Route path="/" element={<HomeT />}></Route>
+          <Route path="/" element={<Home />}></Route>
         {/*</Route>*/}
         <Route path="/post" element={<Layout />}>
           <Route path="search" element={<ListPost />}></Route>
