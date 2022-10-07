@@ -46,8 +46,11 @@ export const createMyPost = createAsyncThunk(
       Swal.fire({
         icon: "success",
         title: "Create new post successful!",
+      }).then((isConfirm) => {
+        if (isConfirm) {
+          navigate("/post/list");
+        }
       });
-      navigate("/post/list");
       return data;
     } catch (error) {}
   }

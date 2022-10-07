@@ -8,6 +8,7 @@ const initialState = {
   user: {},
   profile: {},
   userStatus: "idle",
+  notifications: [],
 };
 
 const REACT_APP_API_URL = "http://localhost:5000";
@@ -24,12 +25,15 @@ export const loginUser = createAsyncThunk(
       Swal.fire({
         icon: "success",
         title: "Login successful!",
+      }).then((isConfirm) => {
+        if (isConfirm) {
+          if (values.username === "admin") {
+            navigate("/admin/home");
+          } else {
+            navigate("/");
+          }
+        }
       });
-      if (values.username === "admin") {
-        navigate("/admin/home");
-      } else {
-        navigate("/");
-      }
       return data;
     } catch (error) {
       Swal.fire({
@@ -65,6 +69,14 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
+
+export const getMyNotification = createAsyncThunk(
+  "auth/getMyNotification",
+  async () => {
+    const { data } = await axios.get("http://localhost:5000/notifications")
+    return data
+  }
+)
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -79,7 +91,7 @@ export const authSlice = createSlice({
     },
     setCurrentUser: (state, action) => {
       state.user = action.payload;
-    }
+    },
   },
   extraReducers: {
     [loginUser.pending]: (state, action) => {
@@ -113,6 +125,10 @@ export const authSlice = createSlice({
     [registerUser.fulfilled]: (state, action) => {
       state.status = "success";
       state.isLoggedIn = true;
+    },
+    [getMyNotification.fulfilled]: (state, action) => {
+      // state.status = "success";
+      state.notifications = action.payload.notifications;
     },
     [registerUser.rejected]: (state, action) => {
       state.status = "failed";

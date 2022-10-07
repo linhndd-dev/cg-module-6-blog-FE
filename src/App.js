@@ -23,6 +23,7 @@ import { setCurrentUser } from "./redux/slices/authSlice";
 import PrivateRoute from "./utils/PrivateRoute";
 import AdminRoute from "./utils/AdminRoute";
 import ProtectedPostRoute from "./utils/ProtectedPostRoute";
+import { getMyNotification } from "./redux/slices/authSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
       dispatch(setAuth({ isLoggedIn }));
       const login = JSON.parse(localStorage.getItem("login"));
       dispatch(setCurrentUser(login));
+      dispatch(getMyNotification());
     }
   }, [dispatch, isLoggedIn]);
 
