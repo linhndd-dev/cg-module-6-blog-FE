@@ -6,7 +6,7 @@ import { Box } from "@mui/system";
 import Layout from "./pages/Layout";
 import AdminLayout from "./pages/AdminLayout";
 import Login from "./pages/Login/Login";
-import Home from "./pages/Home";
+import Home from "./pages/Home1";
 import Register from "./pages/Register/Register";
 import ListPost from "./pages/ListPost";
 import { useEffect } from "react";
