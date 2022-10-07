@@ -8,6 +8,7 @@ const initialState = {
   user: {},
   profile: {},
   userStatus: "idle",
+  notifications: [],
 };
 
 const REACT_APP_API_URL = "http://localhost:5000";
@@ -24,12 +25,15 @@ export const loginUser = createAsyncThunk(
       Swal.fire({
         icon: "success",
         title: "Login successful!",
+      }).then((isConfirm) => {
+        if (isConfirm) {
+          if (values.username === "admin") {
+            navigate("/admin/home");
+          } else {
+            navigate("/");
+          }
+        }
       });
-      if (values.username === "admin") {
-        navigate("/admin/home");
-      } else {
-        navigate("/");
-      }
       return data;
     } catch (error) {
       Swal.fire({
@@ -65,6 +69,14 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
+
+export const getMyNotification = createAsyncThunk(
+  "auth/getMyNotification",
+  async () => {
+    const { data } = await axios.get("http://localhost:5000/notifications")
+    return data
+  }
+)
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -75,6 +87,10 @@ export const authSlice = createSlice({
     logout: (state, action) => {
       localStorage.clear();
       state.isLoggedIn = false;
+      axios.defaults.headers.common["authorization"] = null;
+    },
+    setCurrentUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: {
@@ -82,7 +98,7 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     [loginUser.fulfilled]: (state, action) => {
-      const { success, message, accessToken, idUser } = action.payload;
+      const { success, message, accessToken, idUser, username } = action.payload;
       localStorage.setItem(
         "login",
         JSON.stringify({
@@ -91,10 +107,13 @@ export const authSlice = createSlice({
           accessToken,
           idUser,
           isLoggedIn: true,
+          username
         })
       );
       state.status = "successful";
       state.isLoggedIn = true;
+      state.user.idUser = idUser;
+      state.user.username = username;
     },
     [loginUser.rejected]: (state, action) => {
       state.status = "failed";
@@ -107,6 +126,10 @@ export const authSlice = createSlice({
       state.status = "success";
       state.isLoggedIn = true;
     },
+    [getMyNotification.fulfilled]: (state, action) => {
+      // state.status = "success";
+      state.notifications = action.payload.notifications;
+    },
     [registerUser.rejected]: (state, action) => {
       state.status = "failed";
       state.isLoggedIn = false;
@@ -115,4 +138,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setAuth, logout } = authSlice.actions;
+export const { setAuth, logout, setCurrentUser } = authSlice.actions;

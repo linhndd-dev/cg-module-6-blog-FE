@@ -21,30 +21,32 @@ export const deletePostFromAdmin = createAsyncThunk(
   "post/deletePostFromAdmin",
   async (postId, ThunkAPI) => {
     await axios.delete(`${baseURL}/admin/posts/${postId}`);
-    // ThunkAPI.dispatch(getPostsFromAdmin());
+    ThunkAPI.dispatch(getPostsFromAdmin());
     return postId;
   }
 );
 
 export const getUsersFromAdmin = createAsyncThunk(
-  "post/getUsersFromAdmin",
+  "user/getUsersFromAdmin",
   async () => {
     let { data } = await axios.get(`${baseURL}/admin/users`);
     return data;
   }
 );
 
-export const deleteUserFromAdmin = createAsyncThunk(
-  "post/deleteUserFromAdmin",
-  async (userId, ThunkAPI) => {
-    await axios.delete(`${baseURL}/admin/users/${userId}`);
-    // ThunkAPI.dispatch(getUsersFromAdmin());
-    return userId;
+export const changeUserStatusFromAdmin = createAsyncThunk(
+  "user/changeUserStatusFromAdmin",
+  async (prop) => {
+    const res = await axios.put(`${baseURL}/admin/users/status/${prop.id}`, {
+      currentStatus: prop.currentStatus,
+    });
+    const { data } = await axios.get(`${baseURL}/admin/users`);
+    return data;
   }
 );
 
 export const searchUsersByUsername = createAsyncThunk(
-  "post/searchUsersByUsername",
+  "user/searchUsersByUsername",
   async (searchQuery, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(

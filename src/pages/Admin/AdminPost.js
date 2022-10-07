@@ -64,9 +64,9 @@ export default function ListPost() {
               <TableCell align="center">
                 <h3>TITLE</h3>
               </TableCell>
-              <TableCell align="center">
-                <h3>DESCRIPTION</h3>
-              </TableCell>
+              {/*<TableCell align="center">*/}
+              {/*  <h3>DESCRIPTION</h3>*/}
+              {/*</TableCell>*/}
               <TableCell align="center">
                 <h3>LIKES</h3>
               </TableCell>
@@ -101,7 +101,7 @@ export default function ListPost() {
                   <TableCell align="left">
                     <h4>{row.title}</h4>
                   </TableCell>
-                  <TableCell align="left">{row.summary}</TableCell>
+                  {/*<TableCell align="left">{row.summary}</TableCell>*/}
                   <TableCell align="center">
                     <ThumbUpIcon fontSize="medium" />
                     <br />

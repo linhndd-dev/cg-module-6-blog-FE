@@ -31,7 +31,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import Loading from "../components/Loading";
 import SearchIcon from "@mui/icons-material/Search";
@@ -40,6 +39,8 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { getDetailPost } from "../redux/apis";
 import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
+import { likePost,unlikePost } from "../redux/apis";
+import LikeBox from "./LikeBox";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -47,6 +48,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Post({ post }) {
+  // console.log(post.isLiked);
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   const navigate = useNavigate();
@@ -54,6 +56,7 @@ export default function Post({ post }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
+  const [likeCount, setLikeCount] = useState(post.like)
 
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
@@ -75,6 +78,18 @@ export default function Post({ post }) {
     handleClose();
   };
 
+  const handleLike = async (isLiked) => {
+    if (isLiked) {
+        setLikeCount(likeCount + 1);
+        await likePost(post._id);
+    } else {
+        setLikeCount(likeCount - 1);
+        await unlikePost(post._id);
+    }
+  }
+  const checkAccessModified = async () => {
+    
+  }
   return (
     <>
       <TableRow
@@ -124,23 +139,25 @@ export default function Post({ post }) {
             </Box>
             <Box gridColumn="span 12">
               <Typography variant="outline" display="block" gutterBottom>
-                {day.toLocaleDateString()}
+                {day.toLocaleDateString()}----{">"} by {post.author.username}
               </Typography>
             </Box>
           </Box>
         </TableCell>
 
         <TableCell align="center">
-          <ThumbUpIcon fontSize="small" />
-          <br />
-          {post.like}
+        <LikeBox
+              likeCount={likeCount}
+              liked={post.isLiked}
+              onLike={handleLike}
+            />
         </TableCell>
         <TableCell align="center">
           <SmsIcon fontSize="small" />
           <br />
           {post.comment}
         </TableCell>
-        {post.author === userId && (
+        {post.author._id === userId && (
           <TableCell align="center">
             <Fab
               color="primary"
@@ -153,7 +170,7 @@ export default function Post({ post }) {
           </TableCell>
         )}
 
-        {post.author === userId && (
+        {post.author._id === userId && (
           <TableCell align="center">
             <Fab
               color="warning"

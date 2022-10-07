@@ -41,7 +41,7 @@ export default function Home() {
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableBody sx={{ borderSpacing: "5em" }}>
-                  {posts && posts.length > 0 && status === "loading" && (
+                  {status === "loading" && (
                     <>
                       <Loading />
                     </>

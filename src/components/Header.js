@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from '@mui/material/Button';
 import { logout } from '../redux/slices/authSlice';
 import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import { getMyNotification } from '../redux/slices/authSlice';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   maxWidth: 400,
@@ -29,12 +30,11 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { posts, status } = useSelector(
-    (state) => state.post
-  );
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, notifications } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log(notifications);
   
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -56,6 +56,7 @@ export default function Header() {
 const [anchorElNotification, setAnchorElNotification] = React.useState(null);
 const openNotification = Boolean(anchorElNotification);
   const handleClickNotification = (event) => {
+    dispatch(getMyNotification())
     setAnchorElNotification(event.currentTarget);
   };
   const handleCloseNotification = () => {
@@ -151,7 +152,10 @@ const openNotification = Boolean(anchorElNotification);
     >
       <MenuItem border={"none"} noWrap>
         <StyledPaper>
-          <Typography border={"none"} noWrap>abcadsfkjshadlfkjhalsdkjfhsaljdkhflkjsadhflkjasdhlfkjasdhflkjashdljkfhsadjklfhlsajkdfhlkjsdahflkjsadhfljksadhlfkjshdalkjfhladjkfhlkjasdhflkjashldfj</Typography>
+          {notifications && notifications.length > 0 && notifications.map((notification) => 
+            <Typography border={"none"} noWrap> {notification.message} </Typography>
+          )}
+          
         </StyledPaper>
       </MenuItem>
       {/* <MenuItem onClick={() => {
@@ -229,9 +233,10 @@ const openNotification = Boolean(anchorElNotification);
           <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
             {isLoggedIn ? (
               <>
+              {user.username}
               <React.Fragment>
               <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={notifications.length} color="error">
                 <IconButton
                   onClick={handleClickNotification}
                   size="small"

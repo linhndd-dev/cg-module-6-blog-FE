@@ -36,9 +36,6 @@ const postSlice = createSlice({
       .addCase(getPostsFromAdmin.rejected, (state, action) => {
         state.status = "failed";
       })
-      .addCase(deletePostFromAdmin.pending, (state, action) => {
-        state.status = "loading";
-      })
       .addCase(deletePostFromAdmin.fulfilled, (state, action) => {
         state.posts = state.posts.filter((item) => item._id !== action.payload);
       })
@@ -66,7 +63,8 @@ const postSlice = createSlice({
         state.status = "failed";
       })
       .addCase(createMyPost.fulfilled, (state, action) => {
-        state.posts.push(action.payload);
+        console.log(action.payload);
+        state.posts.push(action.payload.post);
       })
       .addCase(editPost.fulfilled, (state, action) => {
         state.posts.map((item) => {
