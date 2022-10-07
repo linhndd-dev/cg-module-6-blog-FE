@@ -1,8 +1,8 @@
-import { Box, Button, Fab, Pagination, TextField } from "@mui/material";
+import { Box, Button, Fab, Pagination, TextField, FormControl } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getPostsFromAdmin, deletePostFromAdmin } from "../../redux/adminApi";
+import { getPostsFromAdmin, deletePostFromAdmin, searchPostsByTitle } from "../../redux/adminApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,6 +21,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import SearchIcon from "@mui/icons-material/Search";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -33,7 +34,9 @@ export default function ListPost() {
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
   const { posts, status } = useSelector((state) => state.post);
-
+  useEffect(() => {
+    dispatch(getPostsFromAdmin());
+  }, []);
   const handleDeletePost = async (id) => {
     await dispatch(deletePostFromAdmin(id));
     handleClose();
@@ -48,12 +51,73 @@ export default function ListPost() {
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    dispatch(getPostsFromAdmin());
-  }, []);
+
+  const [search, setSearch] = useState("");
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      if (search) {
+        dispatch(searchPostsByTitle(search));
+        navigate(`/admin/posts/search?searchQuery=${search}`);
+      } else {
+        dispatch(getPostsFromAdmin());
+      }
+    };
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
-      <h2>POST MANAGEMENT</h2>
+      <Box
+        display="grid"
+        gridColumn="span 10"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gap={3}
+        marginBottom={"20px"}
+      >
+        <Box
+          gridColumn="span 6"
+          sx={{ display: "flex", justifyContent: "flex-start" }}
+        >
+          <h2>All Post</h2>
+        </Box>
+        <Box
+          gridColumn="span 6"
+          textAlign={"right"}
+          sx={{
+            display: "flex",
+            paddingTop: "10px",
+            justifyContent: "flex-end",
+            width: "400px",
+            paddingRight: "20px",
+          }}
+        >
+          <Box>
+            <SearchIcon
+              sx={{
+                marginTop: "10px",
+                marginRight: "10px",
+                opacity: "0.3",
+              }}
+              fontSize="large"
+            />
+          </Box>
+          <Box>
+            <FormControl
+              className="d-flex input-group w-auto"
+              sx={{ width: "200px", bgColor: "white" }}
+            >
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  id="outlined-multiline-flexible"
+                  label="Search"
+                  placeholder="Title"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                  style={{ width: "400px", bgColor: "white" }}
+                />
+              </form>
+            </FormControl>
+          </Box>
+        </Box>
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
