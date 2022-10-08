@@ -46,19 +46,8 @@ import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
 import IconButton from '@mui/material/IconButton';
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  maxWidth: 400,
-}));
 
-const Img = styled("img")({
-  margin: "auto",
-  display: "block",
-  maxWidth: "100%",
-  maxHeight: "100%",
-});
-
-export default function PostHome1({ post }) {
+export default function PostHome2({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   const navigate = useNavigate();
@@ -90,129 +79,26 @@ export default function PostHome1({ post }) {
   console.log(post);
   return (
     <>
-          <Grid container spacing={2}>
-            <Grid item>
-              <ButtonBase sx={{ width: 128, height: 128 }}>
-                <Img alt="complex" src={`${post.avatar}`} />
-              </ButtonBase>
-            </Grid>
-            <Grid item xs={12} s  m container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                <StyledPaper>
-                  <Typography border={"none"} noWrap>
-                    {post.summary}
-                  </Typography>
-                </StyledPaper>
-                  <Typography variant="body2" gutterBottom>
-                    {post.summary}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {post.author.username}
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                    Remove
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle1" component="div">
-                  $19.00
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-      {/* <TableRow
-        mb={"8px"}
-        key={post._id}
-        pb={"8px"}
-        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-      >
-        <TableCell component="th" scope="row">
-          <Avatar
-            src={`${post.avatar}`}
-            sx={{
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              padding: "5px",
-              height: "150px",
-              width: "200px",
-            }}
-            variant="rounded"
+          <ImageListItem key={post._id} sx={{width: "176px", minHeight: "150px"}}>
+          <img
+            src={`${post.avatar}?w=248&fit=crop&auto=format`}
+            srcSet={`${post.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
+            alt={post.title}
+            loading="lazy"
           />
-        </TableCell>
-        <TableCell align="left">
-          <Box
-            display="grid"
-            gridColumn="span 10"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gap={3}
-          >
-            <Box gridColumn="span 12">
-              <Typography
-                className="title"
-                variant="h5"
-                display="block"
-                gutterBottom
-                sx={{ PointerEvent: "cursor" }}
-                onClick={() => handleShowDetail(post._id)}
+          <ImageListItemBar
+            title={post.title}
+            subtitle={post.author.username}
+            actionIcon={
+              <IconButton
+                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                aria-label={`info about ${post.title}`}
               >
-                <strong>{post.title}</strong>
-              </Typography>
-            </Box>
-            <Box gridColumn="span 12" sx={{ flexGrow: 1, overflow: "hidden" }}>
-              <StyledPaper>
-                <Typography border={"none"} noWrap>
-                  {post.summary}
-                </Typography>
-              </StyledPaper>
-            </Box>
-            <Box gridColumn="span 12">
-              <Typography variant="outline" display="block" gutterBottom>
-                {day.toLocaleDateString()}
-              </Typography>
-            </Box>
-          </Box>
-        </TableCell>
-
-        <TableCell align="center">
-          <ThumbUpIcon fontSize="small" />
-          <br />
-          {post.like}
-        </TableCell>
-        <TableCell align="center">
-          <SmsIcon fontSize="small" />
-          <br />
-          {post.comment}
-        </TableCell>
-        {post.author === userId && (
-          <TableCell align="center">
-            <Fab
-              color="primary"
-              aria-label="edit"
-              size="small"
-              onClick={() => handleEditPost(post._id)}
-            >
-              <EditIcon />
-            </Fab>
-          </TableCell>
-        )}
-
-        {post.author === userId && (
-          <TableCell align="center">
-            <Fab
-              color="warning"
-              aria-label="delete"
-              size="small"
-              onClick={() => handleClickOpen(post._id)}
-            >
-              <DeleteIcon />
-            </Fab>
-          </TableCell>
-        )}
-      </TableRow> */}
+                <InfoIcon />
+              </IconButton>
+            }
+          />
+        </ImageListItem>
     </>
   );
 }

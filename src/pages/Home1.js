@@ -6,7 +6,7 @@ import {
   ImageList,
   styled,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostsByGuest } from "../redux/apis";
 import Table from "@mui/material/Table";
@@ -19,15 +19,26 @@ import Post from "../components/Post";
 import PostHome from "../components/PostHome";
 import PostHome1 from "../components/PostHome1";
 import PostHome2 from "../components/PostHome2";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade } from "swiper";
+import { Controller } from "swiper";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Virtual } from "swiper";
+import { useSwiper } from "swiper/react";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
+
   color: theme.palette.text.secondary,
 }));
-
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -36,57 +47,113 @@ export default function Home() {
   useEffect(() => {
     dispatch(getPostsByGuest());
   }, []);
+  const [firstSwiper, setFirstSwiper] = useState(null);
+  const [secondSwiper, setSecondSwiper] = useState(null);
+  const slides = Array.from({ length: 1000 }).map(
+    (el, index) => `Slide ${index + 1}`
+  );
+  const [controlledSwiper, setControlledSwiper] = useState(null);
+  const swiper = useSwiper();
+
   return (
     <React.Fragment>
-      <CssBaseline />
-      <Container maxWidth="lg" sx={{paddingTop: "40px"}}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          {status === "loading" && (
-            <>
-              <Loading />
-            </>
-          )}
-          {posts.length > 0 &&
-            status === "successful" &&
-            posts.map((post, index) => {
-              if (index < 2) {
-                return (
-                  <Grid item xs={2} sm={4} md={6}>
-                    <PostHome1 key={post._id} post={post} />
-                  </Grid>
-                );
-              }
-              
-              if(index >= 2){
-                return (
-                  <Grid item xs={2} sm={4} md={6} padding="40px">
-                    <Paper
-                      sx={{
-                        p: 2,
-                        margin: 'auto',
-                        maxWidth: 500,
-                        flexGrow: 1,
-                        backgroundColor: (theme) =>
-                          theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                      }}
-                    >
-                    <PostHome2 key={post._id} post={post} />
-                    </Paper>
-                  </Grid>
-                )
-              }
-            })}
-        </Grid>
+      <Container
+        width="80%"
+      >
         <Stack spacing={2}>
-          {posts.length === 0 && status === "successful" && (
-            <p>You don't have any post yet!</p>
-          )}
+          <Item sx={{ width: "auto" }}>
+            <Container>
+              <Swiper
+                navigation={true}
+                pagination={{
+                  clickable: true,
+                }}
+                slidesPerView={2}
+                modules={[Navigation, Pagination]}
+                className="mySwiper"
+                rewind={true}
+              >
+                {status === "loading" && (
+                  <>
+                    <Loading />
+                  </>
+                )}
+                {posts.length > 0 &&
+                  status === "successful" &&
+                  posts.map((post, index) => {
+                    if (index < 4) {
+                      return (
+                        <SwiperSlide>
+                          <PostHome1 key={post._id} post={post} />
+                        </SwiperSlide>
+                      );
+                    }
+                  })}
+              </Swiper>
+            </Container>
+          </Item>
+          <Item>
+          <Container>
+              <Swiper
+                navigation={true}
+                pagination={{
+                  clickable: true,
+                }}
+                slidesPerView={6}
+                modules={[Navigation, Pagination]}
+                className="mySwiper"
+                rewind={true}
+              >
+                {status === "loading" && (
+                  <>
+                    <Loading />
+                  </>
+                )}
+                {posts.length > 0 &&
+                  status === "successful" &&
+                  posts.map((post, index) => {
+                      return (
+                        <SwiperSlide>
+                          <PostHome2 key={post._id} post={post} />
+                        </SwiperSlide>
+                      );
+                  })}
+              </Swiper>
+            </Container>
+          </Item>
+          <Item>Item 3</Item>
         </Stack>
       </Container>
+
+      {/* <Container maxWidthMd>
+          <Swiper
+            navigation={true}
+            pagination={{
+              dynamicBullets: true,
+            }}
+            modules={[Navigation, Pagination]}
+            className="mySwiper"
+            rewind={true}
+          >
+            {status === "loading" && (
+              <>
+                <Loading />
+              </>
+            )}
+            {posts.length > 0 &&
+            status === "successful" &&
+            posts.map((post, index) => {
+              if (index < 4) {
+                return (
+                  <SwiperSlide>
+                    <PostHome1 key={post._id} post={post} />
+                  </SwiperSlide>
+
+                );
+              }
+            })}
+          </Swiper>
+          </Container> */}
     </React.Fragment>
   );
 }
