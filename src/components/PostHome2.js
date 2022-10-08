@@ -48,7 +48,7 @@ import IconButton from '@mui/material/IconButton';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  maxWidth: 250,
+  maxWidth: 400,
 }));
 
 const Img = styled("img")({
@@ -96,7 +96,7 @@ export default function PostHome1({ post }) {
                 <Img alt="complex" src={`${post.avatar}`} />
               </ButtonBase>
             </Grid>
-            <Grid item xs={12} sm container>
+            <Grid item xs={12} s  m container>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
                 <StyledPaper>
