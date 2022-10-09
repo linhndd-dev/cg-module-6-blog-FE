@@ -48,7 +48,6 @@ import IconButton from "@mui/material/IconButton";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: 'transparent',
-
   maxWidth: 400,
 }));
 
@@ -113,7 +112,7 @@ export default function PostHome1({ post }) {
             </StyledPaper>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="body2" gutterBottom>
+            <Typography variant="body2" gutterBottom opaci>
               <strong>{post.author.username}</strong> {"-"}<i> {day.toLocaleDateString()} </i>
             </Typography>
           </Grid>

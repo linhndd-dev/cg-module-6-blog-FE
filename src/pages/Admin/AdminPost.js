@@ -84,7 +84,7 @@ export default function ListPost() {
             display: "flex",
             paddingTop: "10px",
             justifyContent: "flex-end",
-            width: "400px",
+            width: "350px",
             paddingRight: "20px",
           }}
         >

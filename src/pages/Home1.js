@@ -4,6 +4,7 @@ import {
   CssBaseline,
   Grid,
   ImageList,
+  ImageListItem,
   styled,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -19,6 +20,7 @@ import Post from "../components/Post";
 import PostHome from "../components/PostHome";
 import PostHome1 from "../components/PostHome1";
 import PostHome2 from "../components/PostHome2";
+import PostHome3 from "../components/PostHome3";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade } from "swiper";
 import { Controller } from "swiper";
@@ -30,13 +32,13 @@ import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Virtual } from "swiper";
 import { useSwiper } from "swiper/react";
+import PostHome4 from "../components/PostHome4";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
-
   color: theme.palette.text.secondary,
 }));
 
@@ -57,9 +59,7 @@ export default function Home() {
 
   return (
     <React.Fragment>
-      <Container
-        width="80%"
-      >
+      <Container width="80%">
         <Stack spacing={2}>
           <Item sx={{ width: "auto" }}>
             <Container>
@@ -93,7 +93,7 @@ export default function Home() {
             </Container>
           </Item>
           <Item>
-          <Container>
+            <Container>
               <Swiper
                 navigation={true}
                 pagination={{
@@ -112,16 +112,66 @@ export default function Home() {
                 {posts.length > 0 &&
                   status === "successful" &&
                   posts.map((post, index) => {
-                      return (
-                        <SwiperSlide>
-                          <PostHome2 key={post._id} post={post} />
-                        </SwiperSlide>
-                      );
+                    return (
+                      <SwiperSlide>
+                        <PostHome2 key={post._id} post={post} />
+                      </SwiperSlide>
+                    );
                   })}
               </Swiper>
             </Container>
           </Item>
-          <Item>Item 3</Item>
+          <Item>
+            <Grid container spacing={2}>
+              {status === "loading" && (
+                <>
+                  <Loading />
+                </>
+              )}
+              <Grid item xs={8}>
+                <Grid container spacing={2}>
+                  {status === "loading" && (
+                    <>
+                      <Loading />
+                    </>
+                  )}
+                  <Grid item xs={6}>
+                    {posts.length > 0 &&
+                      status === "successful" &&
+                      posts.map((post, index) => {
+                        if (index == 0 || (index % 2 == 0 && index < 8))
+                          return <PostHome3 key={post._id} post={post} />;
+                      })}
+                  </Grid>
+                  <Grid item xs={6}>
+                    {posts.length > 0 &&
+                      status === "successful" &&
+                      posts.map((post, index) => {
+                        if (index == 1 || (index % 2 != 0 && index < 9))
+                          return <PostHome3 key={post._id} post={post} />;
+                      })}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={4}>
+                <ImageList
+                  sx={{ width: 400, height: 1300 }}
+                  cols={1}
+                  rowHeight={164}
+                >
+                  {posts.length > 0 &&
+                    status === "successful" &&
+                    posts.map((post, index) => {
+                      return (
+                        <ImageListItem>
+                          <PostHome4 key={post._id} post={post} />
+                        </ImageListItem>
+                      );
+                    })}
+                </ImageList>
+              </Grid>
+            </Grid>
+          </Item>
         </Stack>
       </Container>
 
