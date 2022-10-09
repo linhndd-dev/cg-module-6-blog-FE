@@ -2,12 +2,16 @@ import {
   Avatar,
   Box,
   Button,
+  ButtonBase,
   Container,
   CssBaseline,
   Fab,
   FormControl,
   FormHelperText,
   Grid,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
   Input,
   InputLabel,
   Pagination,
@@ -31,33 +35,35 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
-import Loading from "../components/Loading";
+import Loading from "./Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { getDetailPost } from "../redux/apis";
 import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
-import { likePost,unlikePost } from "../redux/apis";
-import LikeBox from "./LikeBox";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   maxWidth: 400,
 }));
 
-export default function Post({ post }) {
-  // console.log(post.isLiked);
+const Img = styled('img')({
+  margin: 'auto',
+  maxWidth: '100%',
+  maxHeight: '100%',
+});
+
+export default function PostHome({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
-  const userId = login?.idUser;
   const navigate = useNavigate();
-  const day = new Date(post.createdAt);
+  const day = new Date(post.item.createdAt);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
-  const [likeCount, setLikeCount] = useState(post.like)
-
+  console.log(post.item.author.username);
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
     navigate(`/post/edit/${id}`);
@@ -78,22 +84,47 @@ export default function Post({ post }) {
     handleClose();
   };
 
-  const handleLike = async (isLiked) => {
-    if (isLiked) {
-        setLikeCount(likeCount + 1);
-        await likePost(post._id);
-    } else {
-        setLikeCount(likeCount - 1);
-        await unlikePost(post._id);
-    }
-  }
-  const checkAccessModified = async () => {
-    
-  }
   return (
     <>
-    <Container mx="auto">
-      <TableRow
+            <Paper
+              sx={{
+                p: 2,
+                margin: 'auto',
+                maxWidth: 450,
+                flexGrow: 1,
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+              }}
+            >
+              <Grid container spacing={2}>
+                <Grid item>
+                  <ButtonBase sx={{ width: 128, height: 128 }}>
+                    <Img alt="complex" src={`${post.item.avatar}`} />
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      <Typography gutterBottom variant="subtitle1" component="div">
+                        {post.item.title}
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        123
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {post.item.author.username}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                    <Typography variant="outline" display="block" gutterBottom>
+                      {day.toLocaleDateString()}
+                    </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+      {/* <TableRow
         mb={"8px"}
         key={post._id}
         pb={"8px"}
@@ -140,25 +171,23 @@ export default function Post({ post }) {
             </Box>
             <Box gridColumn="span 12">
               <Typography variant="outline" display="block" gutterBottom>
-                {day.toLocaleDateString()}----{">"} by {post.author.username}
+                {day.toLocaleDateString()}
               </Typography>
             </Box>
           </Box>
         </TableCell>
 
         <TableCell align="center">
-        <LikeBox
-              likeCount={likeCount}
-              liked={post.isLiked}
-              onLike={handleLike}
-            />
+          <ThumbUpIcon fontSize="small" />
+          <br />
+          {post.like}
         </TableCell>
         <TableCell align="center">
           <SmsIcon fontSize="small" />
           <br />
           {post.comment}
         </TableCell>
-        {post.author._id === userId && (
+        {post.author === userId && (
           <TableCell align="center">
             <Fab
               color="primary"
@@ -171,7 +200,7 @@ export default function Post({ post }) {
           </TableCell>
         )}
 
-        {post.author._id === userId && (
+        {post.author === userId && (
           <TableCell align="center">
             <Fab
               color="warning"
@@ -183,27 +212,7 @@ export default function Post({ post }) {
             </Fab>
           </TableCell>
         )}
-      </TableRow>
-    </Container>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure to delete the post?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description"></DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={() => handleDeletePost(postId)} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
+      </TableRow> */}
     </>
   );
 }

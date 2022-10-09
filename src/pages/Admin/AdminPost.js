@@ -54,14 +54,14 @@ export default function ListPost() {
 
   const [search, setSearch] = useState("");
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (search) {
-      dispatch(searchPostsByTitle(search));
-      navigate(`/admin/posts/search?searchQuery=${search}`);
-    } else {
-      dispatch(getPostsFromAdmin());
-    }
-  };
+      e.preventDefault();
+      if (search) {
+        dispatch(searchPostsByTitle(search));
+        navigate(`/admin/posts/search?searchQuery=${search}`);
+      } else {
+        dispatch(getPostsFromAdmin());
+      }
+    };
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
       <Box
@@ -84,7 +84,7 @@ export default function ListPost() {
             display: "flex",
             paddingTop: "10px",
             justifyContent: "flex-end",
-            width: "400px",
+            width: "350px",
             paddingRight: "20px",
           }}
         >

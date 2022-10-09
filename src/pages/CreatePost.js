@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Box, Container, CssBaseline, FormControl } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -14,15 +14,23 @@ import SearchIcon from '@mui/icons-material/Search';
 
 export default function CreatePost() {
   const [file, setFile] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [percent, setPercent] = useState(0);
   const [editor, setEditor] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const editorRef = useRef(null);
 
-  const handleChangeFileBase = (event) => {
-    setFile(event.target.files[0]);
-  };
+  useEffect(() => {
+      return () => {avatar && URL.revokeObjectURL(avatar.preview)}
+  },[avatar])
+
+  const handleChangeFileBase = async (event) => {
+    await setFile(event.target.files[0]);
+    const avatar = event.target.files[0];
+    avatar.preview = URL.createObjectURL(avatar);
+    setAvatar(avatar)
+  };    
 
   const changeEditor = (e) => {
     setEditor(e);
@@ -98,6 +106,9 @@ export default function CreatePost() {
                     onChange={handleChangeFileBase}
                     accept="/image/*"
                     />
+                    {avatar && (
+                        <img src={avatar.preview} width="80%"/>
+                    )}
                     <br />
                     <br />
                     <Field

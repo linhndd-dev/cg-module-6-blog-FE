@@ -218,7 +218,7 @@ const openNotification = Boolean(anchorElNotification);
                   navigate("/post/create");
                   handleCloseManagePost();
                 }}>
-                  create Post
+                  Create Post
                 </MenuItem>
                 <MenuItem onClick={()=> {
                   navigate("/post/list");
