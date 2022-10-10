@@ -79,6 +79,14 @@ export const getDetailPost = createAsyncThunk(
   }
 );
 
+export const profileUser = createAsyncThunk(
+    'user/profileUser',
+    async () => {
+        let profile = await axios.post(`${baseURL}/auth/profile`)
+        return profile.data.user[0]
+    }
+)
+
 export const likePost = async (postId) => {
   try {
     const res = await axios.post(`${baseURL}/like/${postId}`);

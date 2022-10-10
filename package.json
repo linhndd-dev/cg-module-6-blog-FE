@@ -28,7 +28,8 @@
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.4.35",
     "tss-react": "^4.3.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts --max-http-header-size=1024 start",
