@@ -18,7 +18,7 @@ function SinglePost() {
         dispatch(getDetailPost(id))
     }, [])
     return (
-        <div className={'container'} style={{background:'white'}}>
+        <div  className={'container'} style={{background:'white'}}>
             <div className={'container'} >
                 <Box paddingTop={5} md={5} width={'100%'} height={'100%'}>
                     <Typography variant={'h3'} gutterBottom align={'center'}>
@@ -43,22 +43,22 @@ function SinglePost() {
             </div>
             <br/>
             <div className={'container'}>
-                <TextareaAutosize
-                    maxRows={4}
-                    aria-label="maximum height"
-                    placeholder="Viết bình luận của bạn ở đây"
+               <TextareaAutosize
+            maxRows={4}
+            aria-label="maximum height"
+                placeholder="Viết bình luận của bạn ở đây"
                     style={{ width: '100%', height:'150px' }}
                 />
                 <br/>
                 <Button variant="contained">
-                    Gửi bình luận
+                    Gửi bình luận*/
                 </Button>
             </div>
             <br/>
-            <h3>Bình luận</h3>
+            <h5>Bình luận</h5>
             <div className={'container'}>
 
-            </div>
+            </div> 
         </div>
     )
 }

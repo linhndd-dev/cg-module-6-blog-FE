@@ -74,8 +74,7 @@ export default function ListPost() {
                   display: "flex",
                   paddingTop: "10px",
                   justifyContent: "flex-end",
-                  width: "400px",
-                  paddingRight: "20px",
+                  width: "300px",
                 }}
               >
                 <Box>

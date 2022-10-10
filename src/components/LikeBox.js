@@ -27,14 +27,16 @@ const LikeBox = (props) => {
     }
     return (
         <>
-            <IconButton sx={{ padding: 0.5 }} onClick={handleLike}>
-                {liked ? (
-                    <ThumbUpIcon fontSize="small" />
-                ) : (
-                    <ThumbUpOutlinedIcon fontSize="small" />
-                )}
-            </IconButton>
-            <Typography>{likeCount}</Typography>
+            <span>
+                <IconButton onClick={handleLike}>
+                    {liked ? (
+                        <ThumbUpIcon fontSize="small" />
+                    ) : (
+                        <ThumbUpOutlinedIcon fontSize="small" />
+                    )}
+                </IconButton>
+                {likeCount}
+            </span>
         </>
     )
 }

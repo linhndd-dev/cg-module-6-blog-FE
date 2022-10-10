@@ -63,7 +63,6 @@ const postSlice = createSlice({
         state.status = "failed";
       })
       .addCase(createMyPost.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.posts.push(action.payload.post);
       })
       .addCase(editPost.fulfilled, (state, action) => {

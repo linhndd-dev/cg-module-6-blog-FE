@@ -1,4 +1,4 @@
-import { Box, Button, Fab, Pagination, TextField } from "@mui/material";
+import { Box, Button, Fab, Pagination, TextField, FormControl } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -22,6 +22,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import LockOpenRoundedIcon from "@mui/icons-material/LockOpenRounded";
 import { searchUsersByUsername } from "../../redux/adminApi";
+import SearchIcon from "@mui/icons-material/Search";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -69,6 +70,7 @@ export default function AdminUser() {
   const handleClose = () => {
     setOpen(false);
   };
+
   useEffect(() => {
     console.log("refresh");
     dispatch(getUsersFromAdmin());
@@ -76,18 +78,60 @@ export default function AdminUser() {
 
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
-      <h2>USER MANAGEMENT</h2>
-      <form className="d-flex input-group w-auto" onSubmit={handleSubmit}>
-        <label>Search users by username</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search Users"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <div style={{ marginTop: "5px", marginLeft: "5px" }}></div>
-      </form>
+      <Box
+        display="grid"
+        gridColumn="span 10"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gap={3}
+        marginBottom={"20px"}
+      >
+        <Box
+          gridColumn="span 6"
+          sx={{ display: "flex", justifyContent: "flex-start" }}
+        >
+          <h2>All User</h2>
+        </Box>
+        <Box
+          gridColumn="span 6"
+          textAlign={"right"}
+          sx={{
+            display: "flex",
+            paddingTop: "10px",
+            justifyContent: "flex-end",
+            width: "350px",
+            paddingRight: "20px",
+          }}
+        >
+          <Box>
+            <SearchIcon
+              sx={{
+                marginTop: "10px",
+                marginRight: "10px",
+                opacity: "0.3",
+              }}
+              fontSize="large"
+            />
+          </Box>
+          <Box>
+            <FormControl
+              className="d-flex input-group w-auto"
+              sx={{ width: "200px", bgColor: "white" }}
+            >
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  id="outlined-multiline-flexible"
+                  label="Search"
+                  placeholder="Title"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                  style={{ width: "400px", bgColor: "white" }}
+                />
+              </form>
+            </FormControl>
+          </Box>
+        </Box>
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

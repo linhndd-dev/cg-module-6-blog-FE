@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import EditPost from "./pages/EditPost";
 import { setAuth } from "./redux/slices/authSlice";
 import SinglePost from "./pages/SinglePost";
-import HomeT from "./pages/HomeT";
 import axios from "axios";
 import AdminPost from "./pages/Admin/AdminPost";
 import AdminUser from "./pages/Admin/AdminUser";
@@ -25,8 +24,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 import AdminRoute from "./utils/AdminRoute";
 import ProtectedPostRoute from "./utils/ProtectedPostRoute";
 import { getMyNotification } from "./redux/slices/authSlice";
-import Profile from "./pages/Profile/Profile";
-import UpdateProfile from "./pages/Profile/UpdateProfile";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +44,7 @@ function App() {
       dispatch(getMyNotification());
     }
   }, [dispatch, isLoggedIn]);
-
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -54,24 +52,85 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
-          <Route path='/profile' element={<Profile />}></Route>
-          <Route path='/updateProfile' element={<UpdateProfile />}></Route>
         </Route>
 
-          <Route path="/post" element={<Layout />}>
-            <Route path="search" element={<PrivateRoute><ListPost /></PrivateRoute>}></Route>
-            <Route path="list" element={<PrivateRoute><ListPost /></PrivateRoute>}></Route>
-            <Route path="create" element={<PrivateRoute><CreatePost /></PrivateRoute>}></Route>
-            <Route path="edit/:id" element={<PrivateRoute><EditPost /></PrivateRoute>}></Route>
-            <Route path=":id" element={<SinglePost />}></Route>
-          </Route>
+        <Route path="/post" element={<Layout />}>
+          <Route
+            path="search"
+            element={
+              <PrivateRoute>
+                <ListPost />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="list"
+            element={
+              <PrivateRoute>
+                <ListPost />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="create"
+            element={
+              <PrivateRoute>
+                <CreatePost />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="edit/:id"
+            element={
+              <PrivateRoute>
+                <EditPost />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route path=":id" element={<SinglePost />}></Route>
+        </Route>
 
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="home" element={<AdminRoute><AdminHome /></AdminRoute>} />
-          <Route path="users/search" element={<AdminRoute><AdminUser /></AdminRoute>} />
-          <Route path="posts/search" element={<AdminRoute><AdminPost /></AdminRoute>} />
-          <Route path="posts" element={<AdminRoute><AdminPost /></AdminRoute>}></Route>
-          <Route path="users" element={<AdminRoute><AdminUser /></AdminRoute>} />
+          <Route
+            path="home"
+            element={
+              <AdminRoute>
+                <AdminHome />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="users/search"
+            element={
+              <AdminRoute>
+                <AdminUser />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="posts/search"
+            element={
+              <AdminRoute>
+                <AdminPost />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="posts"
+            element={
+              <AdminRoute>
+                <AdminPost />
+              </AdminRoute>
+            }
+          ></Route>
+          <Route
+            path="users"
+            element={
+              <AdminRoute>
+                <AdminUser />
+              </AdminRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
