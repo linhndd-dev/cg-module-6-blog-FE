@@ -83,8 +83,6 @@ export default function PostHome1({ post }) {
     await dispatch(deletePost(id));
     handleClose();
   };
-
-  console.log(post);
   return (
     <Box>
       <ButtonBase onClick={() => handleShowDetail(post._id)}>
@@ -116,7 +114,7 @@ export default function PostHome1({ post }) {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="body2" gutterBottom opaci>
-                <strong>{post.author.username}</strong> {"-"}
+                <strong>{post.author.fullname}</strong> {"-"}
                 <i> {day.toLocaleDateString()} </i>
               </Typography>
             </Grid>

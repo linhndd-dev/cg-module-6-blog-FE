@@ -34,8 +34,6 @@ export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(notifications);
-  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -155,18 +153,8 @@ const openNotification = Boolean(anchorElNotification);
           {notifications && notifications.length > 0 && notifications.map((notification) => 
             <Typography border={"none"} noWrap> {notification.message} </Typography>
           )}
-          
         </StyledPaper>
       </MenuItem>
-      {/* <MenuItem onClick={() => {
-        navigate("/");
-        dispatch(logout())
-        }}>
-        <ListItemIcon>
-          <Logout fontSize="small" />
-        </ListItemIcon>
-        Logout
-      </MenuItem> */}
     </Menu>
   );
 
@@ -175,18 +163,11 @@ const openNotification = Boolean(anchorElNotification);
       <CssBaseline />
       <AppBar position="fixed" color='inherit' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
-          <Typography
-            variant="h3"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-            onClick={()=>{
-              navigate("/")
-            }}
-            autoComplete
-          >
-            Blog
-          </Typography>
+          <img
+            onClick={() => navigate("/")}
+            width="90px" height="74px"
+            src='https://firebasestorage.googleapis.com/v0/b/image-blog-dbb1d.appspot.com/o/files%2Flogo-blog-13.png?alt=media&token=7da77104-fae0-423e-a670-20482a33b5c6'
+          />
           {isLoggedIn ? (
             <Box sx={{paddingLeft: " 20px"}}>
               <Button
@@ -197,7 +178,7 @@ const openNotification = Boolean(anchorElNotification);
                 onClick={handleClickManagePost}
                 sx={{color: "black"}}
               >
-                Post Management
+                MyPost
               </Button>
               <Menu
                 id="demo-positioned-menu"
@@ -257,7 +238,7 @@ const openNotification = Boolean(anchorElNotification);
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                   >
-                    <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                    <Avatar sx={{ width: 32, height: 32 }} src={`${user.avatar}`}>{!user.avatar ? "": user.fullname}</Avatar>
                   </IconButton>
                 </Tooltip>
               </Box>

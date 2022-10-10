@@ -18,7 +18,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   if ("login" in localStorage) {
-    navigate("/")
+    navigate("/");
   }
   const handleSubmit = (values, { resetForm }) => {
     const registerData = {
@@ -146,14 +146,6 @@ const Register = () => {
               Back to Home
             </button>
           </Link>
-          <GoogleLogin
-            clientId={clientId}
-            buttonText="Sign in with Google"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={"single_host_origin"}
-            isSignedIn={true}
-          />
         </div>
         <div className={styles.right}>
           <h1>Have account ?</h1>
@@ -162,6 +154,15 @@ const Register = () => {
               Sign In
             </button>
           </Link>
+          <br />
+          <GoogleLogin
+            clientId={clientId}
+            buttonText="Sign in with Google"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={"single_host_origin"}
+            isSignedIn={false}
+          />
         </div>
       </div>
     </div>

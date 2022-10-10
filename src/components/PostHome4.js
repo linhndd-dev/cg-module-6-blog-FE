@@ -93,8 +93,6 @@ export default function PostHome4({ post }) {
     await dispatch(deletePost(id));
     handleClose();
   };
-
-  console.log(post);
   return (
     <>
       <Grid container spacing={2}>

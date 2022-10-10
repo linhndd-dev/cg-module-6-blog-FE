@@ -98,7 +98,6 @@ export default function AdminUser() {
             display: "flex",
             paddingTop: "10px",
             justifyContent: "flex-end",
-            width: "350px",
             paddingRight: "20px",
           }}
         >
@@ -121,7 +120,7 @@ export default function AdminUser() {
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Search"
-                  placeholder="Title"
+                  placeholder="User name"
                   onChange={(e) => {
                     setSearch(e.target.value);
                   }}
