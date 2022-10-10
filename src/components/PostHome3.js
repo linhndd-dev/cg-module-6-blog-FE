@@ -118,7 +118,7 @@ export default function PostHome3({ post }) {
     <>
       <Grid container>
         <Grid item xs={12}>
-          <ButtonBase sx={{ width: 350, height: 230 }} >
+          <ButtonBase sx={{ width: 350, height: 230 }} onClick={() => handleShowDetail(post._id)} >
             <Img alt="complex" src={`${post.avatar}`} sx={{marginTop: "0px", marginBottom: "0px"}}/>
           </ButtonBase>
         </Grid>

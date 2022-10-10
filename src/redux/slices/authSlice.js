@@ -16,7 +16,6 @@ const REACT_APP_API_URL = "http://localhost:5000";
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ values, resetForm, navigate }) => {
-    console.log(values.username);
     try {
       const { data } = await axios.post(
         `${REACT_APP_API_URL}/auth/login`,

@@ -6,6 +6,7 @@ import {
   ImageList,
   ImageListItem,
   styled,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +18,6 @@ import Paper from "@mui/material/Paper";
 import { Stack } from "@mui/system";
 import Loading from "../components/Loading";
 import Post from "../components/Post";
-import PostHome from "../components/PostHome";
 import PostHome1 from "../components/PostHome1";
 import PostHome2 from "../components/PostHome2";
 import PostHome3 from "../components/PostHome3";
@@ -154,11 +154,13 @@ export default function Home() {
                 </Grid>
               </Grid>
               <Grid item xs={4}>
+              <Typography position="relative" variant="h5" align="left" display="fixed">Related to</Typography>
                 <ImageList
                   sx={{ width: 400, height: 1300 }}
                   cols={1}
                   rowHeight={164}
                 >
+
                   {posts.length > 0 &&
                     status === "successful" &&
                     posts.map((post, index) => {

@@ -85,6 +85,7 @@ export default function PostHome2({ post }) {
             srcSet={`${post.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt={post.title}
             loading="lazy"
+            onClick={() => handleShowDetail(post._id)}
           />
           <ImageListItemBar
             title={post.title}
@@ -93,6 +94,7 @@ export default function PostHome2({ post }) {
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                 aria-label={`info about ${post.title}`}
+                onClick={() => handleShowDetail(post._id)}
               >
                 <InfoIcon />
               </IconButton>

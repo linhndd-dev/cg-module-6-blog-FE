@@ -99,7 +99,7 @@ export default function PostHome4({ post }) {
     <>
       <Grid container spacing={2}>
         <Grid item>
-          <ButtonBase sx={{ width: 200, height: 150 }}>
+          <ButtonBase sx={{ width: 200, height: 150 }} onClick={() => handleShowDetail(post._id)}>
             <Img alt="complex" src={`${post.avatar}`} />
           </ButtonBase>
         </Grid>
