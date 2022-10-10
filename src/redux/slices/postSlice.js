@@ -7,6 +7,7 @@ import {
   getDetailPost,
   getPostsByGuest,
   searchMyPosts,
+  getComments
 } from "../apis";
 import { getPostsFromAdmin, searchPostsByTitle, deletePostFromAdmin } from "../adminApi";
 
@@ -18,6 +19,8 @@ const initialState = {
       username: "",
     },
   },
+  commentStatus: "idle",
+  comments: []
 };
 
 const postSlice = createSlice({
@@ -100,7 +103,17 @@ const postSlice = createSlice({
       .addCase(searchPostsByTitle.rejected, (state, action) => {
         state.status = "failed";
         
-      });
+      })
+      .addCase(getComments.pending, (state, action) => {
+        state.commentStatus = "loading";
+      })
+      .addCase(getComments.fulfilled, (state, action) => {
+        state.commentStatus = "successful";
+        state.comments = action.payload.comments;
+      })
+      .addCase(getComments.rejected, (state, action) => {
+        state.commentStatus = "failed";
+      })
   },
 });
 
