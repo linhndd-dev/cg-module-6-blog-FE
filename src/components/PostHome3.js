@@ -112,8 +112,6 @@ export default function PostHome3({ post }) {
     await dispatch(deletePost(id));
     handleClose();
   };
-
-  console.log(post);
   return (
     <>
       <Grid container>
@@ -131,7 +129,7 @@ export default function PostHome3({ post }) {
               align="left"
               marginLeft="10px"
             >
-              {post.author.username} {"-"} {day.toLocaleDateString()}
+              {post.author.fullname} {"-"} {day.toLocaleDateString()}
             </Typography>
             <StyledTypographySummary noWrap>
               {post.summary}

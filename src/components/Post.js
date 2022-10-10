@@ -41,12 +41,15 @@ import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
 import { likePost,unlikePost } from "../redux/apis";
 import LikeBox from "./LikeBox";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
+const StyledPaper = styled(Typography)(({ theme }) => ({
   ...theme.typography.body2,
   maxWidth: 400,
 }));
-
 export default function Post({ post }) {
   // console.log(post.isLiked);
   const login = JSON.parse(localStorage.getItem("login"));
@@ -112,7 +115,7 @@ export default function Post({ post }) {
             variant="rounded"
           />
         </TableCell>
-        <TableCell align="left">
+        <TableCell align="left" width="800px">
           <Box
             display="grid"
             gridColumn="span 10"
@@ -121,11 +124,10 @@ export default function Post({ post }) {
           >
             <Box gridColumn="span 12">
               <Typography
-                className="title"
                 variant="h5"
-                display="block"
+                maxWidth="800px"
+                noWrap 
                 gutterBottom
-                sx={{ PointerEvent: "cursor" }}
                 onClick={() => handleShowDetail(post._id)}
               >
                 <strong>{post.title}</strong>
@@ -140,12 +142,11 @@ export default function Post({ post }) {
             </Box>
             <Box gridColumn="span 12">
               <Typography variant="outline" display="block" gutterBottom>
-                {day.toLocaleDateString()}----{">"} by {post.author.username}
+                {day.toLocaleDateString()}----{">"} by {post.author.fullname}
               </Typography>
             </Box>
           </Box>
         </TableCell>
-
         <TableCell align="center">
         <LikeBox
               likeCount={likeCount}

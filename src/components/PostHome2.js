@@ -75,8 +75,6 @@ export default function PostHome2({ post }) {
     await dispatch(deletePost(id));
     handleClose();
   };
-
-  console.log(post);
   return (
     <>
           <ImageListItem key={post._id} sx={{width: "176px", minHeight: "150px"}}>
@@ -89,7 +87,7 @@ export default function PostHome2({ post }) {
           />
           <ImageListItemBar
             title={post.title}
-            subtitle={post.author.username}
+            subtitle={post.author.fullname}
             actionIcon={
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
