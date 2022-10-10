@@ -16,19 +16,34 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 export default function CreatePost() {
-  const [file, setFile] = useState("");
-  const [percent, setPercent] = useState(0);
+  const [file, setSelectedFile] = useState("");
+  const [preview, setPreview] = useState(0);
   const [editor, setEditor] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const editorRef = useRef(null);
   let { id } = useParams();
   let { post } = useSelector((state) => state.post);
-  const handleChangeFileBase = (event) => {
-    setFile(event.target.files[0]);
-  };
   const changeEditor = (e) => {
     setEditor(e);
+  };
+  useEffect(() => {
+    if (!file) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
+  
+  const handleChangeFileBase = async (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
   };
   const handleCreatePostByUser = async (values) => {
     await dispatch(editPost({ values, id }));
@@ -104,6 +119,9 @@ export default function CreatePost() {
                     onChange={handleChangeFileBase}
                     accept="/image/*"
                     />
+                    <Box sx={{width:"200px", height:"120px"}}>
+                    {file && <img width="200px" height="150px" src={preview} />}
+                    </Box>
                     <br />
                     <br />
                     <Field
