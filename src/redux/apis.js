@@ -78,7 +78,6 @@ export const getDetailPost = createAsyncThunk(
     return post.data.posts[0];
   }
 );
-
 export const profileUser = createAsyncThunk(
     'auth/profileUser',
     async (id) => {
