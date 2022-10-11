@@ -39,13 +39,13 @@ function SinglePost() {
     }
   }
   return (
-    <div className={"container"} style={{ background: "white" }}>
-      <div className={"container"}>
+    <Box sx={{bgcolor:"white"}}>
+      <Box className={"container"} sx={{bgcolor:"white"}}>
         <Box paddingTop={5} md={5} width={"100%"} height={"100%"}>
           <Typography variant={"h1"} sx={{color: "black",fontWeight:"bold" ,fontSize:"28px"}} gutterBottom align={"left"}>
             {post.title}
           </Typography>
-              <Typography variant={"body1"} align="left"ol={2}>
+              <Typography variant={"body1"} align="left">
                 {day.toLocaleDateString()}
               </Typography>
           <hr />
@@ -56,7 +56,7 @@ function SinglePost() {
             dangerouslySetInnerHTML={{ __html: post.content }}
           ></Typography>
         </Box>
-      </div>
+      </Box>
       <br />
       <div className={"container"}>
         <TextareaAutosize
@@ -86,7 +86,7 @@ function SinglePost() {
                   ))}
         </Box>
       </div>
-    </div>
+    </Box>
   );
 }
 
