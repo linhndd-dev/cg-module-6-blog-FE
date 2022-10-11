@@ -42,7 +42,7 @@ export const createMyPost = createAsyncThunk(
   "post/createPost",
   async ({ value, navigate }) => {
     try {
-      const {data} = await axios.post(`${baseURL}`, value);
+      const { data } = await axios.post(`${baseURL}`, value);
       Swal.fire({
         icon: "success",
         title: "Create new post successful!",
@@ -86,7 +86,7 @@ export const likePost = async (postId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const unlikePost = async (postId) => {
   try {
     const res = await axios.delete(`${baseURL}/like/${postId}`);
@@ -94,4 +94,4 @@ export const unlikePost = async (postId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
