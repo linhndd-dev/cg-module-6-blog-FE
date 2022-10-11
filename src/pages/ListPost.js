@@ -36,7 +36,7 @@ export default function ListPost() {
     e.preventDefault();
     if (search) {
       dispatch(searchMyPosts(search));
-      navigate(`/post/search?searchQuery=${search}`);
+      navigate(`/user/post/search?searchQuery=${search}`);
       // setSearch("");
     } else {
       dispatch(getAllMyPost());
@@ -48,8 +48,8 @@ export default function ListPost() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="auto" sx={{ margin: "0 120px" }}>
-        <Box sx={{ bgcolor: "#f2f2f2", height: "auto" }}>
+      <Container>
+        <Box sx={{  height: "auto" }}>
           <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <Box
               display="grid"

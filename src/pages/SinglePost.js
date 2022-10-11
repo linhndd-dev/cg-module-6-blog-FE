@@ -26,11 +26,11 @@ function SinglePost() {
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   let { post, comments, commentStatus } = useSelector((state) => state.post);
+  const day = new Date(post.createdAt);
   useEffect(() => {
     dispatch(getDetailPost(id));
     dispatch(getComments(id))
-  }, []);
-  console.log(comments);
+  }, [id]);
   const handleAddComment = async () => {
     const response = await addComment({postId:id ,userId:userId, text: commentText},id)
     if (response) {
@@ -42,26 +42,12 @@ function SinglePost() {
     <div className={"container"} style={{ background: "white" }}>
       <div className={"container"}>
         <Box paddingTop={5} md={5} width={"100%"} height={"100%"}>
-          <Typography variant={"h3"} gutterBottom align={"center"}>
+          <Typography variant={"h1"} sx={{color: "black",fontWeight:"bold" ,fontSize:"28px"}} gutterBottom align={"left"}>
             {post.title}
           </Typography>
-          <Grid container>
-            <Grid item xs={4}>
-              <Typography variant={"body1"} paddingLeft={2} col={2}>
-                {post.author.username}
+              <Typography variant={"body1"} align="left"ol={2}>
+                {day.toLocaleDateString()}
               </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography
-                variant={"body1"}
-                color={"text.secondary"}
-                align={"right"}
-                paddingRight={2}
-              >
-                {post.createdAt}
-              </Typography>
-            </Grid>
-          </Grid>
           <hr />
           <Typography
             paddingLeft={2}

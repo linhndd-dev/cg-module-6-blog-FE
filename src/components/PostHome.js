@@ -41,13 +41,29 @@ import Loading from "./Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getDetailPost } from "../redux/apis";
+import { getDetailPost, likePost, unlikePost } from "../redux/apis";
 import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
-import IconButton from '@mui/material/IconButton';
+import IconButton from "@mui/material/IconButton";
+import LikeBox from "./LikeBox";
 
+const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
+  backgroundColor: "transparent",
+  maxWidth: "100%",
+  gutterBottom: "true",
+  variant: "h6",
+  fontWeight: "bold",
+  color: "black",
+  marginLeft: "10px",
+}));
 
-export default function PostHome2({ post }) {
+const Img = styled("img")({
+  margin: "auto",
+  display: "block",
+  maxWidth: "100%",
+  maxHeight: "100%",
+});
+export default function PostHome3({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   const navigate = useNavigate();
@@ -55,7 +71,17 @@ export default function PostHome2({ post }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
+  const [likeCount, setLikeCount] = useState(post.like);
 
+  const handleLike = async (isLiked) => {
+    if (isLiked) {
+      setLikeCount(likeCount + 1);
+      await likePost(post._id);
+    } else {
+      setLikeCount(likeCount - 1);
+      await unlikePost(post._id);
+    }
+  };
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
     navigate(`/post/edit/${id}`);
@@ -77,28 +103,46 @@ export default function PostHome2({ post }) {
   };
   return (
     <>
-          <ImageListItem key={post._id} sx={{width: "176px", minHeight: "150px"}}>
-          <img
-            src={`${post.avatar}?w=248&fit=crop&auto=format`}
-            srcSet={`${post.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={post.title}
-            loading="lazy"
-            onClick={() => handleShowDetail(post._id)}
-          />
-          <ImageListItemBar
-            title={post.title}
-            subtitle={post.author.fullname}
-            actionIcon={
-              <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${post.title}`}
-                onClick={() => handleShowDetail(post._id)}
-              >
-                <InfoIcon />
-              </IconButton>
-            }
-          />
-        </ImageListItem>
+      <Grid container spacing={2} marginBottom="30px">
+        <Grid item xs={6}>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
+            <Img alt="complex" src={`${post.avatar}`} />
+          </ButtonBase>
+        </Grid>
+        <Grid item xs={6} sx={{ position: "relative" }}>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              color="black"
+              align="justify"
+            >
+              {post.title}
+            </Typography>
+          </ButtonBase>
+          <Typography align="left" sx={{ opacity: "0.3" }}>
+            {post.author.fullname} {"-"} {day.toLocaleDateString()}
+          </Typography>
+          <Typography align="justify" fontSize="14px">
+            {post.summary.length > 100
+              ? `${post.summary.substring(0, 100)}...`
+              : post.summary}
+          </Typography>
+          <Typography
+            sx={{ position: "absolute", top: "220px", right: "20px" }}
+          >
+            <LikeBox
+              likeCount={likeCount}
+              liked={post.isLiked}
+              onLike={handleLike}
+            />
+            <IconButton sx={{ marginLeft: "10px" }}>
+              <SmsIcon fontSize="small" />
+            </IconButton>
+            {post.comment}
+          </Typography>
+        </Grid>
+      </Grid>
     </>
   );
 }

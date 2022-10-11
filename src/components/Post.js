@@ -63,7 +63,7 @@ export default function Post({ post }) {
 
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
-    navigate(`/post/edit/${id}`);
+    navigate(`/user/post/edit/${id}`);
   };
 
   const handleShowDetail = async (postId) => {
@@ -142,7 +142,7 @@ export default function Post({ post }) {
             </Box>
             <Box gridColumn="span 12">
               <Typography variant="outline" display="block" gutterBottom>
-                {day.toLocaleDateString()}----{">"} by {post.author.fullname}
+                {day.toLocaleDateString()}
               </Typography>
             </Box>
           </Box>

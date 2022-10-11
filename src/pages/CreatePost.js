@@ -49,8 +49,8 @@ export default function CreatePost() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="auto" sx={{ margin: "0 120px" }}>
-        <Box sx={{ bgcolor: "#f2f2f2", height: "auto" }}>
+      <Container sx={{width: "1000px"}}>
+        <Box sx={{ height: "auto" }}>
           <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <Box
               display="grid"
@@ -145,7 +145,6 @@ export default function CreatePost() {
                     as="select"
                     className="inputTextSelect"
                   >
-                    <option>--Access Modified--</option>
                     <option value="Public">Public</option>
                     <option value="Private">Private</option>
                   </Field>
