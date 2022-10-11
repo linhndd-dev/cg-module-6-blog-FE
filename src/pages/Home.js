@@ -32,7 +32,10 @@ import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Virtual } from "swiper";
 import { useSwiper } from "swiper/react";
-import PostHome4 from "../components/PostHome4";
+import FavoritePosts from "../components/FavoritePosts";
+import Members from "../components/Members";
+import { purple, red, teal } from "@mui/material/colors";
+const primary = teal[100];
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -41,7 +44,20 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-
+const styles = (theme) => ({
+  "@global": {
+    "*::-webkit-scrollbar": {
+      width: "0.4em",
+    },
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    },
+    "*::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(0,0,0,.1)",
+      outline: "1px solid slategrey",
+    },
+  },
+});
 export default function Home() {
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.post);
@@ -61,81 +77,21 @@ export default function Home() {
     <React.Fragment>
       <Container width="80%">
         <Stack spacing={2}>
-          <Item sx={{ width: "auto" }}>
-            <Container>
-              <Swiper
-                navigation={true}
-                pagination={{
-                  clickable: true,
-                }}
-                slidesPerView={2}
-                modules={[Navigation, Pagination]}
-                className="mySwiper"
-                rewind={true}
-              >
-                {status === "loading" && (
-                  <>
-                    <Loading />
-                  </>
-                )}
-                {posts.length > 0 &&
-                  status === "successful" &&
-                  posts.map((post, index) => {
-                    if (index < 4) {
-                      return (
-                        <SwiperSlide>
-                          <PostHome1 key={post._id} post={post} />
-                        </SwiperSlide>
-                      );
-                    }
-                  })}
-              </Swiper>
-            </Container>
-          </Item>
-          <Item>
-            <Container>
-              <Swiper
-                navigation={true}
-                pagination={{
-                  clickable: true,
-                }}
-                slidesPerView={6}
-                modules={[Navigation, Pagination]}
-                className="mySwiper"
-                rewind={true}
-              >
-                {status === "loading" && (
-                  <>
-                    <Loading />
-                  </>
-                )}
-                {posts.length > 0 &&
-                  status === "successful" &&
-                  posts.map((post, index) => {
-                    return (
-                      <SwiperSlide>
-                        <PostHome2 key={post._id} post={post} />
-                      </SwiperSlide>
-                    );
-                  })}
-              </Swiper>
-            </Container>
-          </Item>
-          <Item>
+          <Item sx={{ padding: "20px", marginTop: "40px"}}>
             <Grid container spacing={2}>
               {status === "loading" && (
                 <>
                   <Loading />
                 </>
               )}
-              <Grid item xs={8}>
+              <Grid item xs={8} sx={{paddingRight:"20px"}}>
                 <Grid container spacing={2}>
                   {status === "loading" && (
                     <>
                       <Loading />
                     </>
                   )}
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     {posts.length > 0 &&
                       status === "successful" &&
                       posts.map((post, index) => {
@@ -143,69 +99,62 @@ export default function Home() {
                           return <PostHome3 key={post._id} post={post} />;
                       })}
                   </Grid>
-                  <Grid item xs={6}>
-                    {posts.length > 0 &&
-                      status === "successful" &&
-                      posts.map((post, index) => {
-                        if (index == 1 || (index % 2 != 0 && index < 9))
-                          return <PostHome3 key={post._id} post={post} />;
-                      })}
-                  </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={4}>
-              <Typography position="relative" variant="h5" align="left" display="fixed">Related to</Typography>
-                <ImageList
-                  sx={{ width: 400, height: 1300 }}
-                  cols={1}
-                  rowHeight={164}
-                >
-
+                <Box sx={{paddingBottom:"40px", lineHeight:"1.6"}}>
+                  <Typography
+                    fontWeight="bold"
+                    color="black"
+                    variant="h5"
+                    align="left"
+                  >
+                    Favorite Posts
+                  </Typography>
+                  <hr />
                   {posts.length > 0 &&
                     status === "successful" &&
                     posts.map((post, index) => {
-                      return (
-                        <ImageListItem>
-                          <PostHome4 key={post._id} post={post} />
-                        </ImageListItem>
-                      );
+                      if (index < 3)
+                        return (
+                          <ImageListItem>
+                            <FavoritePosts key={post._id} post={post} />
+                          </ImageListItem>
+                        );
                     })}
-                </ImageList>
+                </Box>
+                <Box sx={{ bgcolor: primary, borderRadius:"10px", marginBottom:"40px" }}>
+                  <Members/>
+                  <Members/>
+                  <Members/>
+                  <Members/>
+                </Box>
+                <Box sx={{paddingBottom:"40px"}}>
+                  <Typography
+                    fontWeight="bold"
+                    color="black"
+                    variant="h5"
+                    align="left"
+                  >
+                    Favorite Posts
+                  </Typography>
+                  <hr />
+                  {posts.length > 0 &&
+                    status === "successful" &&
+                    posts.map((post, index) => {
+                      if (index < 3)
+                        return (
+                          <ImageListItem>
+                            <FavoritePosts key={post._id} post={post} />
+                          </ImageListItem>
+                        );
+                    })}
+                </Box>
               </Grid>
             </Grid>
           </Item>
         </Stack>
       </Container>
-
-      {/* <Container maxWidthMd>
-          <Swiper
-            navigation={true}
-            pagination={{
-              dynamicBullets: true,
-            }}
-            modules={[Navigation, Pagination]}
-            className="mySwiper"
-            rewind={true}
-          >
-            {status === "loading" && (
-              <>
-                <Loading />
-              </>
-            )}
-            {posts.length > 0 &&
-            status === "successful" &&
-            posts.map((post, index) => {
-              if (index < 4) {
-                return (
-                  <SwiperSlide>
-                    <PostHome1 key={post._id} post={post} />
-                  </SwiperSlide>
-
-                );
-              }
-            })}
-          </Swiper>
-          </Container> */}
     </React.Fragment>
   );
 }
