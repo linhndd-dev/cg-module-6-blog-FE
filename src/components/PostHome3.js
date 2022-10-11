@@ -113,7 +113,7 @@ export default function PostHome3({ post }) {
     handleClose();
   };
 
-  console.log(post);
+  // console.log(post);
   return (
     <>
       <Grid container>

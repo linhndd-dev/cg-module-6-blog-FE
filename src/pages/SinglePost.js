@@ -1,11 +1,21 @@
-import {Box, Button, Fab, Grid, Pagination} from "@mui/material";
+import {Avatar, Box, Button, Fab, Grid, Pagination} from "@mui/material";
 import {useNavigate, useParams} from 'react-router-dom';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import {styled} from '@mui/material/styles';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import Typography from '@mui/material/Typography';
 import {getDetailPost} from '../redux/apis';
+
+const StyledPaper = styled(Paper)(({theme}) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(2),
+    maxWidth: 400,
+    color: theme.palette.text.primary,
+}));
 
 function SinglePost() {
     const navigate = useNavigate();
@@ -13,13 +23,13 @@ function SinglePost() {
     let {id} = useParams();
 
     let {post} = useSelector(state => state.post)
-    console.log(post);
+    // console.log(post);
     useEffect(() => {
         dispatch(getDetailPost(id))
     }, [])
     return (
-        <div  className={'container'} style={{background:'white'}}>
-            <div className={'container'} >
+        <div className={'container'} style={{background: 'white'}}>
+            <div className={'container'}>
                 <Box paddingTop={5} md={5} width={'100%'} height={'100%'}>
                     <Typography variant={'h3'} gutterBottom align={'center'}>
                         {post.title}
@@ -43,22 +53,74 @@ function SinglePost() {
             </div>
             <br/>
             <div className={'container'}>
-               <TextareaAutosize
-            maxRows={4}
-            aria-label="maximum height"
-                placeholder="Viết bình luận của bạn ở đây"
-                    style={{ width: '100%', height:'150px' }}
+                <TextareaAutosize
+                    maxRows={4}
+                    aria-label="maximum height"
+                    placeholder="Viết bình luận của bạn ở đây"
+                    style={{width: '100%', height: '150px'}}
                 />
                 <br/>
                 <Button variant="contained">
-                    Gửi bình luận*/
+                    Gửi bình luận
                 </Button>
             </div>
             <br/>
-            <h5>Bình luận</h5>
+            <h2>Bình luận</h2>
             <div className={'container'}>
-
-            </div> 
+                <Box sx={{ flexGrow: 1 , overflow: 'hidden', px: 3}} >
+                    <StyledPaper
+                        sx={{
+                            my: 1,
+                            mx: 'auto',
+                            p: 2,
+                        }}
+                        style={{marginLeft: '0px'}}
+                    >
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography>{'co qq'}</Typography>
+                            </Grid>
+                        </Grid>
+                    </StyledPaper>
+                    <StyledPaper
+                        sx={{
+                            my: 1,
+                            mx: 'auto',
+                            p: 2,
+                        }}
+                        style={{marginLeft: '0px'}}
+                    >
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography>{'dep'}</Typography>
+                            </Grid>
+                        </Grid>
+                    </StyledPaper>
+                    <StyledPaper
+                        sx={{
+                            my: 1,
+                            mx: 'auto',
+                            p: 2,
+                        }}
+                        style={{marginLeft: '0px'}}
+                    >
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography>{'10 diem'}</Typography>
+                            </Grid>
+                        </Grid>
+                    </StyledPaper>
+                </Box>
+            </div>
         </div>
     )
 }

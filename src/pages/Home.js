@@ -147,7 +147,7 @@ export default function Home() {
                     {posts.length > 0 &&
                       status === "successful" &&
                       posts.map((post, index) => {
-                        if (index == 1 || (index % 2 != 0 && index < 9))
+                        if (index === 1 || (index % 2 !== 0 && index < 9))
                           return <PostHome3 key={post._id} post={post} />;
                       })}
                   </Grid>

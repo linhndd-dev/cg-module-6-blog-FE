@@ -76,7 +76,7 @@ export default function PostHome2({ post }) {
     handleClose();
   };
 
-  console.log(post);
+  // console.log(post);
   return (
     <>
           <ImageListItem key={post._id} sx={{width: "176px", minHeight: "150px"}}>

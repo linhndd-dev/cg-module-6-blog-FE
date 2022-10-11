@@ -84,7 +84,7 @@ export default function PostHome1({ post }) {
     handleClose();
   };
 
-  console.log(post);
+  // console.log(post);
   return (
     <Box>
       <ButtonBase onClick={() => handleShowDetail(post._id)}>

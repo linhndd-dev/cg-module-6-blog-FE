@@ -80,10 +80,20 @@ export const getDetailPost = createAsyncThunk(
 );
 
 export const profileUser = createAsyncThunk(
-    'user/profileUser',
-    async () => {
-        let profile = await axios.post(`${baseURL}/auth/profile`)
-        return profile.data.user[0]
+    'auth/profileUser',
+    async (id) => {
+        let {data} = await axios.get(`http://localhost:5000/auth/profile/${id}`)
+        return data
+    }
+)
+
+export const updateProfile = createAsyncThunk(
+    'auth/updateProfile',
+    async (id,prop) => {
+        console.log('sss',prop)
+        console.log(id)
+        let {data} =  await axios.put(`http://localhost:5000/auth/profile/${id}`, prop)
+        return data
     }
 )
 

@@ -31,6 +31,7 @@ export const loginUser = createAsyncThunk(
           } else {
             navigate("/");
           }
+
         }
       });
       return data;

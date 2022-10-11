@@ -94,7 +94,7 @@ export default function PostHome4({ post }) {
     handleClose();
   };
 
-  console.log(post);
+  // console.log(post);
   return (
     <>
       <Grid container spacing={2}>
