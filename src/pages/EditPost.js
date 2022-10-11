@@ -162,12 +162,6 @@ export default function CreatePost() {
                     <option value="Private">Private</option>
                   </Field>
                   <br />
-                  <Field name="tag" as="select" className="inputTextSelect">
-                    <option>--Choose or add tag--</option>
-                    {tags.map((tag) => {
-                      return <option value={tag.title}>{tag.title}</option>;
-                    })}
-                  </Field>
                   <br />
                   Content
                   <Field
