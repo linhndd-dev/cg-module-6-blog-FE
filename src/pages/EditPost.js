@@ -4,16 +4,20 @@ import { Box, Container, CssBaseline, FormControl } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import {} from "@mui/icons-material";
 import "./create-post.css";
-import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { storage } from "./firebase";
 import { async } from "@firebase/util";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createMyPost, editPost } from "../redux/apis";
 import { getDetailPost } from "../redux/apis";
-import SearchIcon from '@mui/icons-material/Search';
-
-
+import SearchIcon from "@mui/icons-material/Search";
+import { getAllTags } from "../redux/tagApi";
 
 export default function CreatePost() {
   const [file, setFile] = useState("");
@@ -24,6 +28,7 @@ export default function CreatePost() {
   const editorRef = useRef(null);
   let { id } = useParams();
   let { post } = useSelector((state) => state.post);
+  const { tags } = useSelector((state) => state.tag);
   const handleChangeFileBase = (event) => {
     setFile(event.target.files[0]);
   };
@@ -35,95 +40,126 @@ export default function CreatePost() {
     navigate("/post/list");
   };
 
+  useEffect(() => {
+    dispatch(getAllTags());
+  }, []);
+
   return (
     <React.Fragment>
-    <CssBaseline />
-      <Container maxWidth="auto" sx={{margin:"0 120px"}}>
-        <Box sx={{ bgcolor: '#f2f2f2', height: "auto" }} >
+      <CssBaseline />
+      <Container maxWidth="auto" sx={{ margin: "0 120px" }}>
+        <Box sx={{ bgcolor: "#f2f2f2", height: "auto" }}>
           <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
-            <Box display="grid"  gridColumn="span 10" gridTemplateColumns="repeat(12, 1fr)" gap={3} marginBottom={"20px"} >
-                <Box gridColumn="span 6" sx={{display: "flex", justifyContent: "flex-start"}}>
-                    <h2>Edit Post</h2>
-                </Box>
+            <Box
+              display="grid"
+              gridColumn="span 10"
+              gridTemplateColumns="repeat(12, 1fr)"
+              gap={3}
+              marginBottom={"20px"}
+            >
+              <Box
+                gridColumn="span 6"
+                sx={{ display: "flex", justifyContent: "flex-start" }}
+              >
+                <h2>Edit Post</h2>
+              </Box>
             </Box>
             <Formik
-                initialValues={{
-                  title: post.title,
-                  summary: post.summary,
-                  content: { editor },
-                  avatar: "",
-                  accessModified: post.accessModified,
-                }}
-                validate={(values) => {
+              initialValues={{
+                title: post.title,
+                summary: post.summary,
+                content: { editor },
+                avatar: "",
+                accessModified: post.accessModified,
+              }}
+              validate={(values) => {
                 const errors = {};
                 if (!values.title) {
-                    errors.title = "Require";
+                  errors.title = "Require";
                 }
                 return errors;
-                }}
-                onSubmit={(values) => {
-                  if(editor == ""){
-                    values.content = post.content;
-                    console.log(1, values)
-                  } else {
-                    values.content = editor;
-                    console.log(2, values)
-                  }
-                  if(!file){
-                    values.avatar = post.avatar;
+              }}
+              onSubmit={(values) => {
+                if (editor == "") {
+                  values.content = post.content;
+                  console.log(1, values);
+                } else {
+                  values.content = editor;
+                  console.log(2, values);
+                }
+                if (!file) {
+                  values.avatar = post.avatar;
+                  handleCreatePostByUser(values);
+                } else {
+                  const storageRef = ref(storage, `/files/${file.name}`);
+                  uploadBytes(storageRef, file).then(async (snapshot) => {
+                    await getDownloadURL(snapshot.ref).then((url) => {
+                      values.avatar = url;
                       handleCreatePostByUser(values);
-                  } else {
-                    const storageRef = ref(storage, `/files/${file.name}`);
-                     uploadBytes(storageRef, file)
-                    .then(async (snapshot) => {
-                      await getDownloadURL(snapshot.ref)
-                    .then((url) => {
-                        values.avatar = url
-                      handleCreatePostByUser(values);
-                      })
-                    })
-                    }
-                }}
+                    });
+                  });
+                }
+              }}
             >
-                {({ isSubmitting }) => (
+              {({ isSubmitting }) => (
                 <Form className="container">
-                    Title
-                    <Field name="title" className="inputText" />
-                    <ErrorMessage className="error" name="title" component="div" />
-                    <br />
-                    Summary
-                    <br/>
-                    <Field name="summary" className="inputTextarea" style={{rows:"4", cols: "50"}} component="textarea"/>
-                    <ErrorMessage className="error" name="summary" component="div" />
-                    <br />
-                    Avatar
-                    <br />
-                    <Field
+                  Title
+                  <Field name="title" className="inputText" />
+                  <ErrorMessage
+                    className="error"
+                    name="title"
+                    component="div"
+                  />
+                  <br />
+                  Summary
+                  <br />
+                  <Field
+                    name="summary"
+                    className="inputTextarea"
+                    style={{ rows: "4", cols: "50" }}
+                    component="textarea"
+                  />
+                  <ErrorMessage
+                    className="error"
+                    name="summary"
+                    component="div"
+                  />
+                  <br />
+                  Avatar
+                  <br />
+                  <Field
                     type="file"
                     name="avatar"
                     onChange={handleChangeFileBase}
                     accept="/image/*"
-                    />
-                    <br />
-                    <br />
-                    <Field
+                  />
+                  <br />
+                  <br />
+                  <Field
                     name="accessModified"
                     as="select"
                     className="inputTextSelect"
-                    >
+                  >
                     <option>--Access Modified--</option>
                     <option value="Public">Public</option>
                     <option value="Private">Private</option>
-                    </Field>
-                    <br />
-                    Content
-                    <Field
+                  </Field>
+                  <br />
+                  <Field name="tag" as="select" className="inputTextSelect">
+                    <option>--Choose or add tag--</option>
+                    {tags.map((tag) => {
+                      return <option value={tag.title}>{tag.title}</option>;
+                    })}
+                  </Field>
+                  <br />
+                  Content
+                  <Field
                     name="content"
                     onChange={(e) => changeEditor(e)}
                     className="inputText"
-                    >
+                  >
                     {({ field, meta }) => (
-                        <div>
+                      <div>
                         <Editor
                           onInit={(evt, editor) => (editorRef.current = editor)}
                           initialValue={post.content}
@@ -148,7 +184,11 @@ export default function CreatePost() {
                                     window.tinymce.activeEditor.editorUpload
                                       .blobCache;
                                   var base64 = reader.result.split(",")[1];
-                                  var blobInfo = blobCache.create(id, file, base64);
+                                  var blobInfo = blobCache.create(
+                                    id,
+                                    file,
+                                    base64
+                                  );
                                   blobCache.add(blobInfo);
                                   cb(blobInfo.blobUri(), { title: file.name });
                                 };
@@ -163,24 +203,23 @@ export default function CreatePost() {
                             changeEditor(e);
                           }}
                         />
-                        </div>
+                      </div>
                     )}
-                    </Field>
-                    <br />
-                    <button
+                  </Field>
+                  <br />
+                  <button
                     type="submit"
                     className="inputSubmit"
                     disabled={isSubmitting}
-                    >
+                  >
                     Save
-                    </button>
+                  </button>
                 </Form>
-                )}
+              )}
             </Formik>
-        </Box>
+          </Box>
         </Box>
       </Container>
-      </React.Fragment>
-    
+    </React.Fragment>
   );
 }
