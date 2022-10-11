@@ -133,6 +133,7 @@ export default function CreatePost() {
                     type="file"
                     name="avatar"
                     onChange={handleChangeFileBase}
+                    style={{color: "transparent"}}
                   />
                   <Box sx={{width:"200px", height:"120px"}}>
                   {file && <img width="200px" height="150px" src={preview} />}

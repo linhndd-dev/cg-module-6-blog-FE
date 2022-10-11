@@ -18,9 +18,6 @@ const Login = () => {
   const handleSubmit = (values, { resetForm }) => {
     dispatch(loginUser({ values, resetForm, navigate }));
   };
-  if ("login" in localStorage) {
-    navigate("/");
-  }
   const clientId =
     "29737193528-hno6anlc8b7vfqhu6rj60rru828o3m8r.apps.googleusercontent.com";
   useEffect(() => {

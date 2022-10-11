@@ -29,7 +29,7 @@ export default function CreatePost() {
   };
   useEffect(() => {
     if (!file) {
-      setPreview(undefined);
+      setPreview(post.avatar);
       return;
     }
 
@@ -117,7 +117,7 @@ export default function CreatePost() {
                     type="file"
                     name="avatar"
                     onChange={handleChangeFileBase}
-                    accept="/image/*"
+                    style={{color: "transparent"}}
                     />
                     <Box sx={{width:"200px", height:"120px"}}>
                     {file && <img width="200px" height="150px" src={preview} />}
