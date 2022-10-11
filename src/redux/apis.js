@@ -42,7 +42,7 @@ export const createMyPost = createAsyncThunk(
   "post/createPost",
   async ({ value, navigate }) => {
     try {
-      const {data} = await axios.post(`${baseURL}`, value);
+      const { data } = await axios.post(`${baseURL}`, value);
       Swal.fire({
         icon: "success",
         title: "Create new post successful!",
@@ -86,7 +86,7 @@ export const likePost = async (postId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const unlikePost = async (postId) => {
   try {
     const res = await axios.delete(`${baseURL}/like/${postId}`);
@@ -94,38 +94,38 @@ export const unlikePost = async (postId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const getComments = createAsyncThunk("post/getComments", async (id) => {
   const { data } = await axios.get(`http://localhost:5000/comments/` + id);
   return data;
 });
 export const deleteComment = async (id) => {
   try {
-    const { data } = await axios.delete(`http://localhost:5000/comments/`+id);
+    const { data } = await axios.delete(`http://localhost:5000/comments/` + id);
     return data;
   } catch (error) {
-    console.log('Delete', error);
+    console.log("Delete", error);
   }
 };
-export const addComment = async (commentData,id) => {
+export const addComment = async (commentData, id) => {
   try {
     const { data } = await axios.post(
-      `http://localhost:5000/comments/` +id,
+      `http://localhost:5000/comments/` + id,
       commentData
     );
     return data;
   } catch (error) {
-    console.log('addComment', error);
+    console.log("addComment", error);
   }
 };
-export const editComment = async (commentData ,id) => {
+export const editComment = async (commentData, id) => {
   try {
     const { data } = await axios.put(
-      `http://localhost:5000/comments/`+id,
+      `http://localhost:5000/comments/` + id,
       commentData
     );
     return data;
   } catch (error) {
-    console.log('editComment', error);
+    console.log("editComment", error);
   }
 };

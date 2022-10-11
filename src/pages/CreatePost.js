@@ -215,7 +215,7 @@ export default function CreatePost() {
                 </Form>
               )}
             </Formik>
-          </Box>
+            </Box>
         </Box>
       </Container>
     </React.Fragment>
