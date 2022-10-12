@@ -20,7 +20,12 @@ export default function CreatePost() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const editorRef = useRef(null);
+
+  const [tags, setTags] = useState("");
+
   useEffect(() => {
+    dispatch(showAllTags);
+
     if (!file) {
       setPreview(undefined);
       return;
@@ -30,7 +35,9 @@ export default function CreatePost() {
     setPreview(objectUrl);
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
-  
+
+  const showAllTags = async () => {};
+
   const handleChangeFileBase = async (e) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
@@ -133,10 +140,10 @@ export default function CreatePost() {
                     type="file"
                     name="avatar"
                     onChange={handleChangeFileBase}
-                    style={{color: "transparent"}}
+                    style={{ color: "transparent" }}
                   />
-                  <Box sx={{width:"200px", height:"120px"}}>
-                  {file && <img width="200px" height="150px" src={preview} />}
+                  <Box sx={{ width: "200px", height: "120px" }}>
+                    {file && <img width="200px" height="150px" src={preview} />}
                   </Box>
                   <br />
                   <br />
@@ -215,7 +222,7 @@ export default function CreatePost() {
                 </Form>
               )}
             </Formik>
-            </Box>
+          </Box>
         </Box>
       </Container>
     </React.Fragment>

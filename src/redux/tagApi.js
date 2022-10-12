@@ -17,25 +17,3 @@ export const getAllTags = createAsyncThunk("tag/getAllTags", async () => {
   console.log(data);
   return data;
 });
-
-export const getPostsByGuest = createAsyncThunk(
-  "post/getPostsByGuest",
-  async () => {
-    const { data } = await axios.get(`${baseURL}/guest`);
-    return data;
-  }
-);
-
-export const searchMyPosts = createAsyncThunk(
-  "post/searchMyPosts",
-  async (searchQuery, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(
-        `${baseURL}/search?searchQuery=${searchQuery}`
-      );
-      return data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
