@@ -11,6 +11,7 @@ import {
   getRelatedPosts
 } from "../apis";
 import { getPostsFromAdmin, searchPostsByTitle, deletePostFromAdmin } from "../adminApi";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   posts: [],
