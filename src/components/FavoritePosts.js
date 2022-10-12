@@ -103,7 +103,7 @@ export default function FavoritePosts({ post }) {
             sx={{ width: 100, height: 50, marginTop: "8px", marginLeft: "8px" }}
             onClick={() => handleShowDetail(post._id)}
           >
-            <Img alt="complex" src={`${post.avatar}`} />
+            <Img alt="complex" src={`${post.avatar}`} style={{ borderRadius: 5 }} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>

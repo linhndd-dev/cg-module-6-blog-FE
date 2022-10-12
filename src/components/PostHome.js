@@ -106,7 +106,7 @@ export default function PostHome3({ post }) {
       <Grid container spacing={2} marginBottom="30px">
         <Grid item xs={6}>
           <ButtonBase onClick={() => handleShowDetail(post._id)}>
-            <Img alt="complex" src={`${post.avatar}`} />
+            <Img alt="complex" src={`${post.avatar}`} style={{ borderRadius: 10 }} />
           </ButtonBase>
         </Grid>
         <Grid item xs={6} sx={{ position: "relative" }}>
@@ -120,7 +120,7 @@ export default function PostHome3({ post }) {
               {post.title}
             </Typography>
           </ButtonBase>
-          <Typography align="left" sx={{ opacity: "0.3" }}>
+          <Typography align="left" sx={{ opacity: "0.5" }}>
             {post.author.fullname} {"-"} {day.toLocaleDateString()}
           </Typography>
           <Typography align="justify" fontSize="14px">

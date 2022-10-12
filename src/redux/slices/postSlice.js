@@ -7,12 +7,14 @@ import {
   getDetailPost,
   getPostsByGuest,
   searchMyPosts,
-  getComments
+  getComments,
+  getRelatedPosts
 } from "../apis";
 import { getPostsFromAdmin, searchPostsByTitle, deletePostFromAdmin } from "../adminApi";
 
 const initialState = {
   posts: [],
+  relatedPosts: [],
   status: "idle",
   post: {
     author: {
@@ -55,6 +57,9 @@ const postSlice = createSlice({
       .addCase(getPostsByGuest.rejected, (state, action) => {
         state.status = "failed";
       })
+      .addCase(getRelatedPosts.fulfilled, (state, action) => {
+        state.relatedPosts = action.payload.posts;
+      })
       .addCase(getAllMyPost.pending, (state, action) => {
         state.status = "loading";
       })
@@ -65,8 +70,15 @@ const postSlice = createSlice({
       .addCase(getAllMyPost.rejected, (state, action) => {
         state.status = "failed";
       })
+      .addCase(createMyPost.pending, (state, action) => {
+        state.status = "loading"
+      })
       .addCase(createMyPost.fulfilled, (state, action) => {
+        state.status = "successful"
         state.posts.push(action.payload.post);
+      })
+      .addCase(createMyPost.rejected, (state, action) => {
+        state.status = "failed"
       })
       .addCase(editPost.fulfilled, (state, action) => {
         state.posts.map((item) => {

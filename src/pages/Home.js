@@ -7,6 +7,7 @@ import {
   ImageListItem,
   styled,
   Typography,
+  Pagination,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +24,17 @@ import PostHome from "../components/PostHome";
 export default function Home() {
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.post);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(4);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost,indexOfLastPost)
+  const totalPages = Math.ceil(posts.length/postsPerPage)
+
+  const handleChangePage = (e,page) => {
+    setCurrentPage(page)
+  }
 
   useEffect(() => {
     dispatch(getPostsByGuest());
@@ -39,12 +51,14 @@ export default function Home() {
         <Grid item xs={12}>
           {posts.length > 0 &&
             status === "successful" &&
-            posts.map((post, index) => {
-              if (index == 0 || (index % 2 == 0 && index < 8))
+            currentPosts.map((post, index) => {
                 return <PostHome key={post._id} post={post} />;
             })}
         </Grid>
       </Grid>
+      <Stack alignItems="center">
+      <Pagination count={totalPages} color="primary" onChange={handleChangePage} size="large" variant="outlined" shape="rounded" />
+      </Stack>
     </React.Fragment>
   );
 }

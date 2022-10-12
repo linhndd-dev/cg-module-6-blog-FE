@@ -7,10 +7,11 @@ import "./create-post.css";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "./firebase";
 import { async } from "@firebase/util";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createMyPost } from "../redux/apis";
 import SearchIcon from "@mui/icons-material/Search";
+import Loading from "../components/Loading";
 
 export default function CreatePost() {
   const [file, setSelectedFile] = useState("");
@@ -45,7 +46,6 @@ export default function CreatePost() {
   const handleCreatePostByUser = (value) => {
     dispatch(createMyPost({ value, navigate }));
   };
-
   return (
     <React.Fragment>
       <CssBaseline />

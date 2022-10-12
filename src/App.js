@@ -25,6 +25,7 @@ import AdminRoute from "./utils/AdminRoute";
 import ProtectedPostRoute from "./utils/ProtectedPostRoute";
 import { getMyNotification } from "./redux/slices/authSlice";
 import LayoutUser from "./pages/LayoutUser";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -51,9 +52,13 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
           <Route path="/post/:id" element={<SinglePost />}></Route>
+        </Route>
+        <Route element={<LayoutUser />}>
+        <Route path="/user/profile" element={<Profile />}></Route>
         </Route>
 
         <Route path="/user/post" element={<LayoutUser />}>
