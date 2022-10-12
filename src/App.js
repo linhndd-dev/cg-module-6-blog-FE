@@ -54,8 +54,11 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
         </Route>
+          <Route element={<Layout/>}>
           <Route path="/profile" element={<Profile />}></Route>
-          <Route path='/profile/update' element={<UpdateProfile />}></Route>
+          {/*<Route path='profile/changepassword' element={<ChangePassword />}></Route>*/}
+          <Route path='/profile/changeinfo' element={<UpdateProfile />}></Route>
+          </Route>
           <Route path="/post" element={<Layout />}>
           <Route
             path="search"

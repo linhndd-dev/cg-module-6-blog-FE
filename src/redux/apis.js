@@ -88,10 +88,18 @@ export const profileUser = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
     'auth/updateProfile',
-    async (id,prop) => {
-        console.log('sss',prop)
-        console.log(id)
-        let {data} =  await axios.put(`http://localhost:5000/auth/profile/${id}`, prop)
+    async (prop) => {
+        console.log(prop)
+        console.log('sss',prop.userId)
+        console.log(prop.value)
+        let {data} =  await axios.put(`http://localhost:5000/auth/profile/${prop.userId}`, prop.value)
+        return data
+    }
+)
+export const updatePassword = createAsyncThunk(
+    'auth/updatePassword',
+    async (prop) => {
+        let {data} = await axios.put(`http://localhost:5000/auth/changepassword/${prop.userId}`, prop.value)
         return data
     }
 )

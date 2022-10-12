@@ -72,21 +72,6 @@ export default function Header() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const [openP, setOpenP] = React.useState(false);
-    const [update, setUpdate] = React.useState(false);
-    const handleOpenP = () => {
-        setOpenP(true);
-    };
-    const handleCloseP = () => {
-        setOpenP(false);
-    };
-    const handleUpdate = () => {
-        setUpdate(true)
-    }
-    const handleUpdateClose = () => {
-        setUpdate(false)
-    }
-
     const [anchorElManagePost, setAnchorElManagePost] = React.useState(null);
     const openManagePost = Boolean(anchorElManagePost);
     const handleClickManagePost = (event) => {
@@ -143,41 +128,9 @@ export default function Header() {
             anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
         >
             <MenuItem onClick={() => {
+                navigate('/profile')
             }}>
-                <Button onClick={handleOpenP}>My Profile</Button>
-                <React.Fragment>
-                    <Modal
-                        hideBackdrop
-                        open={openP}
-                        // onClose={handleCloseP}
-                        aria-labelledby="parent-modal-title"
-                        aria-describedby="parent-modal-description"
-                    >
-                        <Box sx={{...style, width: 500}}>
-                            <h2 id={'parent-modal-title'}>Thông Tin Cá Nhân</h2>
-                            <p id="parent-modal-description">
-                                <strong>Name</strong>: {''}{user.username}
-                            </p>
-                            <p id="parent-modal-description">
-                                <strong>FullName</strong>:{user.fullname}
-                            </p>
-                            <p id="parent-modal-description">
-                                <strong>Address</strong>:{user.address}
-                            </p>
-                            <p id="parent-modal-description">
-                                <strong>PhoneNumber</strong>:{user.phoneNumber}
-                            </p>
-                            <p id="parent-modal-description">
-                                <strong>Email</strong>:{user.email}
-                            </p>
-                            {/*<UpdateUserModal/>*/}
-                            <Button onClick={() =>{
-                                navigate('/profile/update')
-                            }}>Update</Button>
-                            <Button onClick={handleClose}>BACK</Button>
-                        </Box>
-                    </Modal>
-                </React.Fragment>
+             <Avatar/>Profile
             </MenuItem>
             <MenuItem onClick={() => {
                 navigate("/");

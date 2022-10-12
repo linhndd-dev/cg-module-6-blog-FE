@@ -51,13 +51,13 @@ const userSlice = createSlice({
                 state.status = "failed";
             })
             .addCase(profileUser.fulfilled, (state, action) => {
+                const user = action.payload.data;
                 state.user = action.payload.data;
-            })
-            .addCase(updateProfile.fulfilled, (state, action) => {
-                state.user = action.payload.data;
+                console.log(user)
                 localStorage.removeItem("login");
-                localStorage.setItem("login", JSON.stringify(action.payload.data))
-            });
+                localStorage.setItem("login", JSON.stringify(user))
+            })
+            // .addCase()
     },
 });
 
