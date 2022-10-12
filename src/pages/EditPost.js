@@ -50,8 +50,7 @@ export default function CreatePost() {
     setSelectedFile(e.target.files[0]);
   };
   const handleCreatePostByUser = async (values) => {
-    await dispatch(editPost({ values, id }));
-    navigate("/post/list");
+    await dispatch(editPost({ values, id, navigate }));
   };
 
   useEffect(() => {
@@ -61,8 +60,8 @@ export default function CreatePost() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="auto" sx={{ margin: "0 120px" }}>
-        <Box sx={{ bgcolor: "#f2f2f2", height: "auto" }}>
+      <Container sx={{width: "1000px"}}>
+        <Box >
           <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <Box
               display="grid"

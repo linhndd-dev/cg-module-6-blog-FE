@@ -97,7 +97,9 @@ const openNotification = Boolean(anchorElNotification);
       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
     >
-      <MenuItem>
+      <MenuItem onClick={() => {
+        navigate("/user/profile");
+        }}>
         <Avatar />My Profile
       </MenuItem>
       <MenuItem onClick={() => {
@@ -172,52 +174,22 @@ const openNotification = Boolean(anchorElNotification);
             <Box sx={{paddingLeft: " 20px"}}>
               <Button
                 id="demo-positioned-button"
-                aria-controls={openManagePost ? 'demo-positioned-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openManagePost ? 'true' : undefined}
-                onClick={handleClickManagePost}
+                  onClick={() => navigate("/user/post/list")}
                 sx={{color: "black"}}
               >
                 MyPost
               </Button>
-              <Menu
-                id="demo-positioned-menu"
-                aria-labelledby="demo-positioned-button"
-                anchorEl={anchorElManagePost}
-                open={openManagePost}
-                onClose={handleCloseManagePost}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-              >
-                <MenuItem onClick={()=> {
-                  navigate("/post/create");
-                  handleCloseManagePost();
-                }}>
-                  Create Post
-                </MenuItem>
-                <MenuItem onClick={()=> {
-                  navigate("/post/list");
-                  handleCloseManagePost();
-                }}>
-                  My Post
-                </MenuItem>
-              </Menu>
+
             </Box>
           ) : <></>}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
             {isLoggedIn ? (
               <>
-              {user.username}
+              
               <React.Fragment>
               <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-              <Badge badgeContent={notifications.length} color="error">
+              <Badge badgeContent={notifications.length} color="error" >
                 <IconButton
                   onClick={handleClickNotification}
                   size="small"
@@ -226,6 +198,7 @@ const openNotification = Boolean(anchorElNotification);
                   aria-haspopup="true"
                   aria-expanded={openNotification ? 'true' : undefined}  
                 >
+                  
                   <NotificationsIcon />
                 </IconButton>
               </Badge>
@@ -238,7 +211,7 @@ const openNotification = Boolean(anchorElNotification);
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                   >
-                    <Avatar sx={{ width: 32, height: 32 }} src={`${user.avatar}`}>{!user.avatar ? "": user.fullname}</Avatar>
+                    <Avatar sx={{ width: 50, height: 50 }} src={`${user.avatar}`}>{!user.avatar ? "": user.fullname} </Avatar>
                   </IconButton>
                 </Tooltip>
               </Box>

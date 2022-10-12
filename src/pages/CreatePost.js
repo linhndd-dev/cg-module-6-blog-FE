@@ -7,10 +7,11 @@ import "./create-post.css";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "./firebase";
 import { async } from "@firebase/util";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createMyPost } from "../redux/apis";
 import SearchIcon from "@mui/icons-material/Search";
+import Loading from "../components/Loading";
 
 export default function CreatePost() {
   const [file, setSelectedFile] = useState("");
@@ -52,12 +53,11 @@ export default function CreatePost() {
   const handleCreatePostByUser = (value) => {
     dispatch(createMyPost({ value, navigate }));
   };
-
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="auto" sx={{ margin: "0 120px" }}>
-        <Box sx={{ bgcolor: "#f2f2f2", height: "auto" }}>
+      <Container sx={{width: "1000px"}}>
+        <Box sx={{ height: "auto" }}>
           <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <Box
               display="grid"
@@ -152,7 +152,6 @@ export default function CreatePost() {
                     as="select"
                     className="inputTextSelect"
                   >
-                    <option>--Access Modified--</option>
                     <option value="Public">Public</option>
                     <option value="Private">Private</option>
                   </Field>

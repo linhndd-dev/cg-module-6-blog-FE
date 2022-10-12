@@ -4,6 +4,7 @@ import {
   CssBaseline,
   FormControl,
   TextField,
+  Pagination,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,7 @@ import { Stack } from "@mui/system";
 import Loading from "../components/Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import Post from "../components/Post";
+import TableRow from "@mui/material/TableRow";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -26,17 +28,24 @@ export default function ListPost() {
   const { posts, status } = useSelector((state) => state.post);
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const query = useQuery();
   const dispatch = useDispatch();
-  const searchQuery = query.get("searchQuery");
-  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(4);
 
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+
+  const handleChangePage = (e, page) => {
+    setCurrentPage(page);
+  };
   const handleSubmit = (e) => {
     console.log(e);
     e.preventDefault();
     if (search) {
       dispatch(searchMyPosts(search));
-      navigate(`/post/search?searchQuery=${search}`);
+      navigate(`/user/post/search?searchQuery=${search}`);
       // setSearch("");
     } else {
       dispatch(getAllMyPost());
@@ -48,8 +57,8 @@ export default function ListPost() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="auto" sx={{ margin: "0 120px" }}>
-        <Box sx={{ bgcolor: "#f2f2f2", height: "auto" }}>
+      <Container>
+        <Box sx={{ height: "auto" }}>
           <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
             <Box
               display="grid"
@@ -113,7 +122,21 @@ export default function ListPost() {
                   )}
                   {posts.length > 0 &&
                     status === "successful" &&
-                    posts.map((post) => <Post key={post._id} post={post} />)}
+                    currentPosts.map((post) => (
+                      <Post key={post._id} post={post} />
+                    ))}
+                  {posts.length > 0 && status === "successful" && (
+                    <Stack alignItems="center">
+                      <Pagination
+                        count={totalPages}
+                        color="primary"
+                        onChange={handleChangePage}
+                        size="large"
+                        variant="outlined"
+                        shape="rounded"
+                      />
+                    </Stack>
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

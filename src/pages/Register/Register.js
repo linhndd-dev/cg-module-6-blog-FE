@@ -79,6 +79,11 @@ const Register = () => {
             }
           >
             <Form className={styles.form_container}>
+            <img
+            onClick={() => navigate("/")}
+            width="180px" height="148px"
+            src='https://firebasestorage.googleapis.com/v0/b/image-blog-dbb1d.appspot.com/o/files%2Flogo-blog-13.png?alt=media&token=7da77104-fae0-423e-a670-20482a33b5c6'
+          />
               <h1>Register a new account</h1>
               <Field
                 type="text"

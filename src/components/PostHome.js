@@ -41,31 +41,29 @@ import Loading from "./Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getDetailPost } from "../redux/apis";
+import { getDetailPost, likePost, unlikePost } from "../redux/apis";
 import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
 import IconButton from "@mui/material/IconButton";
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import LikeBox from "./LikeBox";
+
+const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
+  backgroundColor: "transparent",
+  maxWidth: "100%",
+  gutterBottom: "true",
+  variant: "h6",
+  fontWeight: "bold",
+  color: "black",
+  marginLeft: "10px",
+}));
+
 const Img = styled("img")({
   margin: "auto",
   display: "block",
   maxWidth: "100%",
   maxHeight: "100%",
 });
-
-const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
-  backgroundColor: "transparent",
-  maxWidth: 150,
-  gutterBottom: "true",
-  variant: "subtitle1",
-  align: "left",
-  marginLeft: "10px",
-}));
-
-export default function PostHome4({ post }) {
+export default function PostHome3({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   const navigate = useNavigate();
@@ -73,7 +71,17 @@ export default function PostHome4({ post }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
+  const [likeCount, setLikeCount] = useState(post.like);
 
+  const handleLike = async (isLiked) => {
+    if (isLiked) {
+      setLikeCount(likeCount + 1);
+      await likePost(post._id);
+    } else {
+      setLikeCount(likeCount - 1);
+      await unlikePost(post._id);
+    }
+  };
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
     navigate(`/post/edit/${id}`);
@@ -95,16 +103,44 @@ export default function PostHome4({ post }) {
   };
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item>
-          <ButtonBase sx={{ width: 200, height: 150 }} onClick={() => handleShowDetail(post._id)}>
-            <Img alt="complex" src={`${post.avatar}`} />
+      <Grid container spacing={2} marginBottom="30px">
+        <Grid item xs={6}>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
+            <Img alt="complex" src={`${post.avatar}`} style={{ borderRadius: 10 }} />
           </ButtonBase>
         </Grid>
-        <Grid item xs={12} sm container>
-          <StyledTypographyTitle align="justify" paddingRight="10px">
-            {post.title}
-          </StyledTypographyTitle>
+        <Grid item xs={6} sx={{ position: "relative" }}>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              color="black"
+              align="justify"
+            >
+              {post.title}
+            </Typography>
+          </ButtonBase>
+          <Typography align="left" sx={{ opacity: "0.5" }}>
+            {post.author.fullname} {"-"} {day.toLocaleDateString()}
+          </Typography>
+          <Typography align="justify" fontSize="14px">
+            {post.summary.length > 100
+              ? `${post.summary.substring(0, 100)}...`
+              : post.summary}
+          </Typography>
+          <Typography
+            sx={{ position: "absolute", top: "220px", right: "20px" }}
+          >
+            <LikeBox
+              likeCount={likeCount}
+              liked={post.isLiked}
+              onLike={handleLike}
+            />
+            <IconButton sx={{ marginLeft: "10px" }}>
+              <SmsIcon fontSize="small" />
+            </IconButton>
+            {post.comment}
+          </Typography>
         </Grid>
       </Grid>
     </>

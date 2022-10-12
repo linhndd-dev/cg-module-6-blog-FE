@@ -4,10 +4,6 @@ import { IconButton,Typography } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 
-
-
-
-
 const LikeBox = (props) => {
     const {likeCount,onLike} = props;
     const [liked, setLiked] = useState(props.liked);
@@ -36,6 +32,7 @@ const LikeBox = (props) => {
                 </IconButton>
                 {likeCount}
             </span>
+            {"      "}
         </>
     )
 }

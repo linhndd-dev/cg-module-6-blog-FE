@@ -44,10 +44,30 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { getDetailPost } from "../redux/apis";
 import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
-import IconButton from '@mui/material/IconButton';
+import IconButton from "@mui/material/IconButton";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+const Img = styled("img")({
+  margin: "auto",
+  display: "block",
+  maxWidth: "100%",
+  maxHeight: "100%",
+});
 
+const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
+  backgroundColor: "transparent",
+  maxWidth: 300,
+  gutterBottom: "true",
+  variant: "subtitle1",
+  align: "left",
+  fontSize: "14",
+  color: "black",
+  fontWeight: "bold",
+}));
 
-export default function PostHome2({ post }) {
+export default function FavoritePosts({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   const navigate = useNavigate();
@@ -77,28 +97,23 @@ export default function PostHome2({ post }) {
   };
   return (
     <>
-          <ImageListItem key={post._id} sx={{width: "176px", minHeight: "150px"}}>
-          <img
-            src={`${post.avatar}?w=248&fit=crop&auto=format`}
-            srcSet={`${post.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={post.title}
-            loading="lazy"
+      <Grid container spacing={2} sx={{ marginBottom: "25px" }}>
+        <Grid item>
+          <ButtonBase
+            sx={{ width: 100, height: 50, marginTop: "8px", marginLeft: "8px" }}
             onClick={() => handleShowDetail(post._id)}
-          />
-          <ImageListItemBar
-            title={post.title}
-            subtitle={post.author.fullname}
-            actionIcon={
-              <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${post.title}`}
-                onClick={() => handleShowDetail(post._id)}
-              >
-                <InfoIcon />
-              </IconButton>
-            }
-          />
-        </ImageListItem>
+          >
+            <Img alt="complex" src={`${post.avatar}`} style={{ borderRadius: 5 }} />
+          </ButtonBase>
+        </Grid>
+        <Grid item xs={12} sm container>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
+            <StyledTypographyTitle align="justify" paddingRight="10px">
+              {post.title}
+            </StyledTypographyTitle>
+          </ButtonBase>
+        </Grid>
+      </Grid>
     </>
   );
 }

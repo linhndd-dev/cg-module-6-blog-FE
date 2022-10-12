@@ -56,7 +56,7 @@ export default function Navbar() {
             {isLoggedIn && (
               <>
                 <ListItem>
-                  <ListItemButton onClick={() => navigate("/post/create")}>
+                  <ListItemButton onClick={() => navigate("/user/post/create")}>
                     <ListItemIcon>
                       <AddIcon />
                     </ListItemIcon>
@@ -66,13 +66,25 @@ export default function Navbar() {
                 <ListItem>
                   <ListItemButton
                     onClick={() => {
-                      navigate(`/post/list`);
+                      navigate(``);
                     }}
                   >
                     <ListItemIcon>
                       <ListIcon />
                     </ListItemIcon>
-                    <ListItemText primary="My Posts" />
+                    <ListItemText primary="Likes" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      navigate(``);
+                    }}
+                  >
+                    <ListItemIcon>
+                      <ListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Comments" />
                   </ListItemButton>
                 </ListItem>
               </>
