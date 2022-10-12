@@ -13,9 +13,13 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
+import { useNavigate } from "react-router-dom";
 
 const PaginationSwiper = ({posts}) => {
-  console.log(posts);
+  const navigate = useNavigate();
+  const handleShowDetail = (postId) => {
+    navigate(`/post/${postId}`)
+  }
   return (
     <Swiper
       pagination={{
@@ -26,7 +30,7 @@ const PaginationSwiper = ({posts}) => {
     >
       {posts.map((item) => (
         <SwiperSlide>
-          <ImageListItem key={item._id}>
+          <ImageListItem key={item._id} onClick={()=>handleShowDetail(item._id)}>
             <img
               src={`${item.avatar}?w=248&fit=crop&auto=format`}
               srcSet={`${item.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
