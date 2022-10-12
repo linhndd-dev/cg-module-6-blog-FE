@@ -14,6 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade } from "swiper";
@@ -30,7 +31,7 @@ import FavoritePosts from "../components/FavoritePosts";
 import Members from "../components/Members";
 import { purple, red, teal } from "@mui/material/colors";
 import Loading from "../components/Loading";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getRelatedPosts } from "../redux/apis";
 const primary = teal[100];
 
@@ -45,9 +46,9 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Layout() {
   const { relatedPosts, status, posts } = useSelector((state) => state.post);
   const currentRandomPosts = posts
-      .map((a) => ({sort: Math.random(), value: a}))
-      .sort((a, b) => a.sort - b.sort)
-      .map((a) => a.value)
+    .map((a) => ({ sort: Math.random(), value: a }))
+    .sort((a, b) => a.sort - b.sort)
+    .map((a) => a.value);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getRelatedPosts());
@@ -128,6 +129,9 @@ export default function Layout() {
             </Item>
           </Stack>
         </Container>
+        <Box sx={{ display: "fixed" }}>
+          <Footer />
+        </Box>
       </Box>
     </React.Fragment>
   );

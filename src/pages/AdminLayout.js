@@ -2,6 +2,7 @@ import { Box, Toolbar } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import AdminNavbar from "../components/AdminNavbar";
+import Footer from "../components/Footer";
 
 export default function Layout() {
   return (
@@ -13,6 +14,9 @@ export default function Layout() {
       <Box sx={{ display: "flex" }}>
         <AdminNavbar />
         <Outlet></Outlet>
+      </Box>
+      <Box sx={{ display: "fixed" }}>
+        <Footer />
       </Box>
     </Box>
   );
