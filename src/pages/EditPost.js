@@ -95,10 +95,8 @@ export default function CreatePost() {
               onSubmit={(values) => {
                 if (editor == "") {
                   values.content = post.content;
-                  console.log(1, values);
                 } else {
                   values.content = editor;
-                  console.log(2, values);
                 }
                 if (!file) {
                   values.avatar = post.avatar;
@@ -147,7 +145,7 @@ export default function CreatePost() {
                     style={{color: "transparent"}}
                     />
                     <Box sx={{width:"200px", height:"120px"}}>
-                    {file && <img width="200px" height="150px" src={preview} />}
+                    {file && !preview ? (<img width="200px" height="150px" src={`${post.avatar}`} />) : (<img width="200px" height="150px" src={`${preview}`} />) }
                     </Box>
                     <br />
                     <br />
@@ -156,7 +154,6 @@ export default function CreatePost() {
                     as="select"
                     className="inputTextSelect"
                   >
-                    <option>--Access Modified--</option>
                     <option value="Public">Public</option>
                     <option value="Private">Private</option>
                   </Field>

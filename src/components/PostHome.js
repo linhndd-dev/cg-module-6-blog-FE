@@ -60,8 +60,9 @@ const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
 const Img = styled("img")({
   margin: "auto",
   display: "block",
-  maxWidth: "100%",
-  maxHeight: "100%",
+  maxWidth: "350px",
+  maxHeight: "300px",
+  borderRadius: "10px"
 });
 export default function PostHome3({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
@@ -106,7 +107,7 @@ export default function PostHome3({ post }) {
       <Grid container spacing={2} marginBottom="30px">
         <Grid item xs={6}>
           <ButtonBase onClick={() => handleShowDetail(post._id)}>
-            <Img alt="complex" src={`${post.avatar}`} style={{ borderRadius: 10 }} />
+            <Img alt="complex" src={`${post.avatar}`}/>
           </ButtonBase>
         </Grid>
         <Grid item xs={6} sx={{ position: "relative" }}>
