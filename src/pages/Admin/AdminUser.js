@@ -30,6 +30,7 @@ import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import LockOpenRoundedIcon from "@mui/icons-material/LockOpenRounded";
 import { searchUsersByUsername } from "../../redux/adminApi";
 import SearchIcon from "@mui/icons-material/Search";
+import Swal from "sweetalert2";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -38,8 +39,6 @@ function useQuery() {
 export default function AdminUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState(0);
   const [userStatus, setUserStatus] = useState("");
   const { users, status } = useSelector((state) => state.user);
@@ -52,30 +51,32 @@ export default function AdminUser() {
     if (search) {
       dispatch(searchUsersByUsername(search));
       navigate(`/admin/users/search?searchQuery=${search}`);
-      // setSearch("");
     } else {
       dispatch(getUsersFromAdmin());
     }
   };
 
   const handleChangeUserStatus = (prop) => {
-    dispatch(
-      changeUserStatusFromAdmin({
-        id: prop.userId,
-        currentStatus: prop.currentStatus,
-      })
-    );
-
-    handleClose();
-  };
-
-  const handleClickOpen = (id, userStatus) => {
-    setUserStatus(userStatus);
-    setUserId(id);
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await setUserStatus(userStatus);
+        await setUserId(prop.userId);
+        await dispatch(
+          changeUserStatusFromAdmin({
+            id: prop.userId,
+            currentStatus: prop.currentStatus,
+          })
+        );
+      }
+    });
   };
 
   useEffect(() => {
@@ -163,64 +164,46 @@ export default function AdminUser() {
             {users.length > 0 &&
               status === "successful" &&
               users.map((row) => {
-                const date = new Date(row.createdAt)
-                return <TableRow
-                  key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="center">{row.username}</TableCell>
-                  <TableCell align="center">{date.toLocaleString()}</TableCell>
-                  <TableCell component="th" scope="row" align="center">
-                    0
-                  </TableCell>
-                  <TableCell align="center">{row.fullname}</TableCell>
-                  <TableCell align="center">{row.status}</TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="warning"
-                      aria-label="delete"
-                      size="small"
-                      onClick={() => handleClickOpen(row._id, row.status)}
-                    >
-                      {row.status === "Inactive" ? (
-                        <LockRoundedIcon fontSize="small" />
-                      ) : (
-                        <LockOpenRoundedIcon fontSize="small" />
-                      )}
-                    </Fab>
-                  </TableCell>
-                </TableRow>;
+                const date = new Date(row.createdAt);
+                return (
+                  <TableRow
+                    key={row._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center">{row.username}</TableCell>
+                    <TableCell align="center">
+                      {date.toLocaleString()}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.totalPosts}
+                    </TableCell>
+                    <TableCell align="center">{row.fullname}</TableCell>
+                    <TableCell align="center">{row.status}</TableCell>
+                    <TableCell align="center">
+                      <Fab
+                        color="warning"
+                        aria-label="delete"
+                        size="small"
+                        onClick={() =>
+                          handleChangeUserStatus({
+                            userId: row._id,
+                            currentStatus: row.status,
+                          })
+                        }
+                      >
+                        {row.status === "Inactive" ? (
+                          <LockRoundedIcon fontSize="small" />
+                        ) : (
+                          <LockOpenRoundedIcon fontSize="small" />
+                        )}
+                      </Fab>
+                    </TableCell>
+                  </TableRow>
+                );
               })}
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"You sure you want to change the status of this user?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description"></DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button
-            onClick={() =>
-              handleChangeUserStatus({
-                userId: userId,
-                currentStatus: userStatus,
-              })
-            }
-            autoFocus
-          >
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
       <Stack spacing={2}>
         {users.length === 0 && status === "successful" && (
           <p>There is no user!</p>

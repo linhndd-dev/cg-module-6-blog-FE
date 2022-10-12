@@ -46,7 +46,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(2),
-  maxWidth: 400,
+  maxWidth: 300,
   color: theme.palette.text.primary,
 }));
 export default function Header() {
@@ -163,7 +163,7 @@ export default function Header() {
           },
           "&:before": {
             content: '""',
-            display: "block",
+            // display: "block",
             position: "absolute",
             top: 0,
             right: 14,
@@ -183,7 +183,7 @@ export default function Header() {
           {notifications &&
             notifications.length > 0 &&
             notifications.map((notification) => (
-              <MenuItem onClick={handleClose} noWrap>
+              <MenuItem sx={{whiteSpace: 'normal'}} onClick={handleClose}>
                 <StyledPaper
                   sx={{
                     my: 1,
@@ -191,14 +191,9 @@ export default function Header() {
                     p: 2,
                   }}
                 >
-                  <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                      <Avatar>W</Avatar>
-                    </Grid>
                     <Grid item xs>
-                      <Typography>{" "}{notification.message}{" "}</Typography>
+                      <Typography>{notification.message}</Typography>
                     </Grid>
-                  </Grid>
                 </StyledPaper>
               </MenuItem>
             ))}

@@ -119,7 +119,7 @@ export default function Layout() {
             </Item>
           </Stack>
         </Container>
-        <Box sx={{ display: "fixed" }}>
+        <Box>
           <Footer />
         </Box>
       </Box>

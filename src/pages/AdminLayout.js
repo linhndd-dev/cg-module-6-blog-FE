@@ -15,9 +15,6 @@ export default function Layout() {
         <AdminNavbar />
         <Outlet></Outlet>
       </Box>
-      <Box sx={{ display: "fixed" }}>
-        <Footer />
-      </Box>
     </Box>
   );
 }
