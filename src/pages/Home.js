@@ -20,6 +20,10 @@ import { Stack } from "@mui/system";
 import Loading from "../components/Loading";
 import Post from "../components/Post";
 import PostHome from "../components/PostHome";
+import { EffectFade } from "swiper";
+import { Controller } from "swiper";
+import PaginationSwiper from "../components/PaginationSwiper";
+// Import Swiper styles
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -48,6 +52,9 @@ export default function Home() {
             <Loading />
           </>
         )}
+        <Grid item xs={12}>
+          <PaginationSwiper posts={posts}></PaginationSwiper>
+        </Grid>
         <Grid item xs={12}>
           {posts.length > 0 &&
             status === "successful" &&

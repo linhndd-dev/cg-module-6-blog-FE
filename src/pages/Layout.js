@@ -15,17 +15,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade } from "swiper";
-import { Controller } from "swiper";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-import { Virtual } from "swiper";
-import { useSwiper } from "swiper/react";
+
 import FavoritePosts from "../components/FavoritePosts";
 import Members from "../components/Members";
 import { purple, red, teal } from "@mui/material/colors";
@@ -69,6 +59,7 @@ export default function Layout() {
                   </>
                 )}
                 <Grid item xs={8} sx={{ paddingRight: "20px" }}>
+
                   <Outlet></Outlet>
                 </Grid>
                 <Grid item xs={4}>
