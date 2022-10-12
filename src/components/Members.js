@@ -76,12 +76,48 @@ export default function Members({ post }) {
       <Grid container spacing={2} sx={{paddingBottom:"16px"}} >
         <Grid item>
           <ButtonBase sx={{ width: 100, height: 50, margin:"8px 8 0"}} >
-            <Img alt="complex" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
+            <Img alt="complex" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" style={{ borderRadius: 10 }} />
+          </ButtonBase>
+        </Grid>
+        <Grid item xs={12} sm container>
+          <StyledTypographyTitle align="justify" fontSize="16px" paddingRight="10px">
+            Lê Tiến Dũng
+          </StyledTypographyTitle>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} sx={{paddingBottom:"16px"}} >
+        <Grid item>
+          <ButtonBase sx={{ width: 100, height: 50, margin:"8px 8 0"}} >
+            <Img alt="complex" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" style={{ borderRadius: 10 }} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
           <StyledTypographyTitle align="justify" fontSize="16px" paddingRight="10px">
             Nghiêm Văn Đông
+          </StyledTypographyTitle>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} sx={{paddingBottom:"16px"}} >
+        <Grid item>
+          <ButtonBase sx={{ width: 100, height: 50, margin:"8px 8 0"}} >
+            <Img alt="complex" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" style={{ borderRadius: 10 }}/>
+          </ButtonBase>
+        </Grid>
+        <Grid item xs={12} sm container>
+          <StyledTypographyTitle align="justify" fontSize="16px" paddingRight="10px">
+            Nguyễn Doãn Duy Linh
+          </StyledTypographyTitle>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} sx={{paddingBottom:"16px"}} >
+        <Grid item>
+          <ButtonBase sx={{ width: 100, height: 50, margin:"8px 8 0"}} >
+            <Img alt="complex" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" style={{ borderRadius: 10 }}/>
+          </ButtonBase>
+        </Grid>
+        <Grid item xs={12} sm container>
+          <StyledTypographyTitle align="justify" fontSize="16px" paddingRight="10px">
+            Nguyễn Tài
           </StyledTypographyTitle>
         </Grid>
       </Grid>

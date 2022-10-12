@@ -50,8 +50,7 @@ export default function CreatePost() {
     setSelectedFile(e.target.files[0]);
   };
   const handleCreatePostByUser = async (values) => {
-    await dispatch(editPost({ values, id }));
-    navigate("/post/list");
+    await dispatch(editPost({ values, id, navigate }));
   };
 
   useEffect(() => {
