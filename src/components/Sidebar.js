@@ -33,14 +33,6 @@ export function Sidebar() {
               );
           })}
       </Box>
-      <Box
-        sx={{ bgcolor: primary, borderRadius: "10px", marginBottom: "40px" }}
-      >
-        <Members />
-        <Members />
-        <Members />
-        <Members />
-      </Box>
       <Box sx={{ paddingBottom: "40px" }}>
         <Typography fontWeight="bold" color="black" variant="h5" align="left">
           Favorite Posts
