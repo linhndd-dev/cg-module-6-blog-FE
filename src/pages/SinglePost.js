@@ -1,4 +1,4 @@
-import { Box, Button, Fab, Grid, Pagination, Avatar } from "@mui/material";
+import { Box, Button, Fab, Grid, Pagination, Avatar, ButtonBase, IconButton  } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,7 +9,8 @@ import Typography from "@mui/material/Typography";
 import { addComment, getDetailPost } from "../redux/apis";
 import { getComments } from "../redux/apis";
 import Comment from "../components/Comment";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -39,7 +40,13 @@ function SinglePost() {
     }
   }
   return (
-    <Box sx={{bgcolor:"white"}}>
+    <Box sx={{bgcolor:"white", position: "relative"}}>
+      <IconButton onClick={()=> navigate(-1)} sx={{position: "absolute", left:"0"}}>
+        <ArrowBackIcon/>
+      </IconButton>
+      <IconButton onClick={()=> navigate(+1)} sx={{position: "absolute", right:"0"}}>
+        <ArrowForwardIcon/>
+      </IconButton>
       <Box className={"container"} sx={{bgcolor:"white"}}>
         <Box paddingTop={5} md={5} width={"100%"} height={"100%"}>
           <Typography variant={"h1"} sx={{color: "black",fontWeight:"bold" ,fontSize:"28px"}} gutterBottom align={"left"}>
