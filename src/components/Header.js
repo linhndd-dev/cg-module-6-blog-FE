@@ -35,22 +35,20 @@ import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { getMyNotification } from "../redux/slices/authSlice";
 
 const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
-  textAlign: "center",
+  padding: theme.spacing(1),
+  textAlign: 'center',
   color: theme.palette.text.secondary,
-  height: 60,
-  lineHeight: "60px",
 }));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(2),
   maxWidth: 400,
-  maxHeight: "auto",
   color: theme.palette.text.primary,
 }));
-
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { isLoggedIn, user, notifications } = useSelector(
@@ -180,27 +178,29 @@ export default function Header() {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem border={"none"} noWrap>
-        <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3 }}>
+      <MenuItem>
+        <Box>
           {notifications &&
             notifications.length > 0 &&
             notifications.map((notification) => (
-              <StyledPaper
-                sx={{
-                  my: 1,
-                  mx: "auto",
-                  p: 2,
-                }}
-              >
-                <Grid container wrap="nowrap" spacing={2}>
-                  <Grid item xs>
-                    <Typography>
-                      {" "}
-                      {notification.message}{" "}
-                    </Typography>
+              <MenuItem onClick={handleClose} noWrap>
+                <StyledPaper
+                  sx={{
+                    my: 1,
+                    mx: 'auto',
+                    p: 2,
+                  }}
+                >
+                  <Grid container wrap="nowrap" spacing={2}>
+                    <Grid item>
+                      <Avatar>W</Avatar>
+                    </Grid>
+                    <Grid item xs>
+                      <Typography>{" "}{notification.message}{" "}</Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </StyledPaper>
+                </StyledPaper>
+              </MenuItem>
             ))}
         </Box>
       </MenuItem>
