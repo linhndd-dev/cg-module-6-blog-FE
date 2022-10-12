@@ -62,9 +62,8 @@ const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
   gutterBottom: "true",
   variant: "subtitle1",
   align: "left",
-  fontSize: "14",
+  fontSize: "11",
   color: "black",
-  fontWeight: "bold",
 }));
 
 export default function FavoritePosts({ post }) {
@@ -97,16 +96,16 @@ export default function FavoritePosts({ post }) {
   };
   return (
     <>
-      <Grid container spacing={2} sx={{ marginBottom: "25px" }}>
-        <Grid item>
+      <Grid container spacing={2} sx={{ marginBottom: "8px"}}>
+        <Grid item >
           <ButtonBase
             sx={{ width: 100, height: 50, marginTop: "8px", marginLeft: "8px" }}
             onClick={() => handleShowDetail(post._id)}
           >
-            <Img alt="complex" src={`${post.avatar}`} style={{ borderRadius: 5 }} />
+            <Img alt="complex" src={`${post.avatar}`} />
           </ButtonBase>
         </Grid>
-        <Grid item xs={12} sm container>
+        <Grid item xs={12} sm container sx={{marginLeft: -2 }}>
           <ButtonBase onClick={() => handleShowDetail(post._id)}>
             <StyledTypographyTitle align="justify" paddingRight="10px">
               {post.title}

@@ -2,6 +2,7 @@ import { async } from "@firebase/util";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { profileUser, updateProfile } from "../apis";
 
 const initialState = {
   status: "idle",
@@ -19,7 +20,7 @@ export const loginGoogle = createAsyncThunk(
   async (props) => {
     try {
       console.log(props);
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `${REACT_APP_API_URL}/auth/loginGoogle`,
         props.values
       );
@@ -28,11 +29,11 @@ export const loginGoogle = createAsyncThunk(
         title: "Login successful!",
       }).then((isConfirm) => {
         if (isConfirm) {
-            props.navigate("/");
+          props.navigate("/");
         }
       });
       return data;
-    } catch (error){
+    } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -40,7 +41,7 @@ export const loginGoogle = createAsyncThunk(
       });
     }
   }
-)
+);
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
@@ -60,7 +61,6 @@ export const loginUser = createAsyncThunk(
           } else {
             navigate("/");
           }
-
         }
       });
       return data;
@@ -102,10 +102,10 @@ export const registerUser = createAsyncThunk(
 export const getMyNotification = createAsyncThunk(
   "auth/getMyNotification",
   async () => {
-    const { data } = await axios.get("http://localhost:5000/notifications")
-    return data
+    const { data } = await axios.get("http://localhost:5000/notifications");
+    return data;
   }
-)
+);
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -127,7 +127,15 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     [loginUser.fulfilled]: (state, action) => {
-      const { success, message, accessToken, idUser, username, avatar, fullname } = action.payload;
+      const {
+        success,
+        message,
+        accessToken,
+        idUser,
+        username,
+        avatar,
+        fullname,
+      } = action.payload;
       localStorage.setItem(
         "login",
         JSON.stringify({
@@ -138,7 +146,7 @@ export const authSlice = createSlice({
           isLoggedIn: true,
           username,
           avatar,
-          fullname
+          fullname,
         })
       );
       state.status = "successful";
@@ -154,7 +162,15 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     [loginGoogle.fulfilled]: (state, action) => {
-      const { success, message, accessToken, idUser, username, avatar, fullname } = action.payload;
+      const {
+        success,
+        message,
+        accessToken,
+        idUser,
+        username,
+        avatar,
+        fullname,
+      } = action.payload;
       localStorage.setItem(
         "login",
         JSON.stringify({
@@ -165,7 +181,7 @@ export const authSlice = createSlice({
           isLoggedIn: true,
           username,
           avatar,
-          fullname
+          fullname,
         })
       );
       state.status = "successful";
@@ -191,6 +207,9 @@ export const authSlice = createSlice({
     [registerUser.rejected]: (state, action) => {
       state.status = "failed";
       state.isLoggedIn = false;
+    },
+    [profileUser.fulfilled]: (state, action) => {
+      state.user = action.payload.data;
     },
   },
 });

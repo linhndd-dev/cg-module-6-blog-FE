@@ -50,13 +50,6 @@ const userSlice = createSlice({
             .addCase(searchUsersByUsername.rejected, (state, action) => {
                 state.status = "failed";
             })
-            .addCase(profileUser.fulfilled, (state, action) => {
-                const user = action.payload.data;
-                state.user = action.payload.data;
-                console.log(user)
-                localStorage.removeItem("login");
-                localStorage.setItem("login", JSON.stringify(user))
-            })
             // .addCase()
     },
 });

@@ -92,7 +92,6 @@ export default function Layout() {
                       marginBottom: "40px",
                     }}
                   >
-                    <Members />
                   </Box>
                   <Box sx={{ paddingBottom: "40px" }}>
                     <Typography

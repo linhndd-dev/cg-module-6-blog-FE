@@ -11,10 +11,9 @@ import Button from "@mui/material/Button";
 export default function Profile() {
     // const [percent, setPercent] = useState(0);
     // const [file, setFile] = useState("");
-    const {user} = useSelector((state) => state.user);
+    const {user} = useSelector((state) => state.auth);
     const login = JSON.parse(localStorage.getItem("login"));
     const userId = login?.idUser;
-    console.log(userId)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     console.log(user)
@@ -25,51 +24,51 @@ export default function Profile() {
         <div className={'container'} style={{background: 'white'}}>
             <div className={'container'}>
                 <h1>Thông Tin Cá Nhân</h1>
-                <hr/>
                 <Box>
                     <Grid sx={{flexGrow: 1}} container spacing={8}>
                         <Grid item xs={12}>
                             <Grid container spacing={8}>
-                                <Grid item>
+                                <Grid item >
                                     <Avatar
                                         sx={{
-                                            height: 400,
-                                            width: 400,
+                                            height: 300,
+                                            width: 300,
+                                            margin: 2,
                                             backgroundColor: (theme) =>
                                                 theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                                         }}
                                         src={user.avatar}
                                     />
                                 </Grid>
-                                <Grid item align="left">
-                                    <Typography variant={'h4'} gutterBottom>
-                                        <strong>UserName :</strong> {user.username}
+                                <Grid item align="left" sx={{marginTop: 10}}>
+                                    <Typography variant={'p'} sx={{fontSize: '1rem'}} gutterBottom>
+                                        <strong>Username:</strong> {user.username}
                                     </Typography>
                                     <br/>
-                                    <Typography variant={'h4'} gutterBottom>
-                                        <strong>FullName :</strong> {user.fullname}
+                                     <Typography variant={'p'} sx={{fontSize: '1rem'}} gutterBottom>
+                                        <strong>Fullname:</strong> {user.fullname}
                                     </Typography>
                                     <br/>
-                                    <Typography variant={'h4'} gutterBottom>
-                                        <strong>{'Email'} :</strong> {user.email}
+                                     <Typography variant={'p'} sx={{fontSize: '1rem'}} gutterBottom>
+                                        <strong>{'Email'}:</strong> {user.email}
                                     </Typography>
                                     <br/>
-                                    <Typography variant={'h4'} gutterBottom>
-                                        <strong>{'PhoneNumber'} :</strong> {user.phoneNumber}
+                                     <Typography variant={'p'} sx={{fontSize: '1rem'}} gutterBottom>
+                                        <strong>{'Phonenumber'}:</strong> {user.phoneNumber}
                                     </Typography>
                                     <br/>
-                                    <Typography variant={'h4'} gutterBottom>
-                                        <strong>{'Address'} :</strong> {user.address}
+                                     <Typography variant={'p'} sx={{fontSize: '1rem'}} gutterBottom>
+                                        <strong>{'Address'}:</strong> {user.address}
                                     </Typography>
                                     <br/>
-                                    <Button onClick={() => {
+                                    <Button  variant="contained" color="primary" sx={{marginRight: 2, marginTop:2}} onClick={() => {
                                         navigate('/user/profile/changeinfo')
                                     }}>Cập Nhật Thông Tin
                                     </Button>
-                                    <Button onClick={() => {
+                                    <Button  variant="contained" color="primary" sx={{marginRight: 2, marginTop:2}} onClick={() => {
                                         navigate('/profile/password')
                                     }}>Đổi Mật Khẩu</Button>
-                                    <Button onClick={() => {
+                                    <Button  variant="contained" color="primary"  sx={{marginRight: 2, marginTop:2}} onClick={() => {
                                         navigate('/')
                                     }}>Quay Lại
                                     </Button>

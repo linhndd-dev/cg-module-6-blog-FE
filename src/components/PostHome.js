@@ -61,8 +61,7 @@ const Img = styled("img")({
   margin: "auto",
   display: "block",
   maxWidth: "350px",
-  maxHeight: "300px",
-  borderRadius: "10px"
+  maxHeight: "250px"
 });
 export default function PostHome3({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));

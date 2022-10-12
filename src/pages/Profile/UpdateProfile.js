@@ -17,7 +17,7 @@ export default function UpdateProfile() {
     const [file, setFile] = useState("");
     const [avatar, setAvatar] = useState("");
     const dispatch = useDispatch();
-    let {user} = useSelector((state) => state.user);
+    let {user} = useSelector((state) => state.auth);
     const login = JSON.parse(localStorage.getItem("login"));
     const userId = login?._id;
     console.log(user)
@@ -32,6 +32,7 @@ export default function UpdateProfile() {
         const avatar = event.target.files[0];
         avatar.preview = URL.createObjectURL(avatar);
         setAvatar(avatar)
+        console.log(avatar);
     };
     const handleSubmit = async (value) => {
         console.log('value', value)
@@ -97,6 +98,7 @@ export default function UpdateProfile() {
                                                         theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                                                 }}
                                                 alt="Remy Sharp"
+                                                // src={user.avatar}
                                                 src={avatar?.preview}
                                             />
                                             <div
@@ -184,10 +186,10 @@ export default function UpdateProfile() {
                                             <div
                                                 style={{display: "flex", alignItems: "left", margin: " 20px 7px"}}
                                             >
-                                                <Button variant="contained" color="primary" type="submit">
+                                                <Button variant="contained" color="primary"  sx={{marginRight: 2, marginTop:2}} type="submit">
                                                     Cập Nhật
                                                 </Button>
-                                                <Button variant="contained" color="primary" onClick={() => {
+                                                <Button variant="contained" color="primary"  sx={{marginRight: 2, marginTop:2}} onClick={() => {
                                                     navigate('/user/profile')
                                                 }}>Quay Lại</Button>
                                             </div>
