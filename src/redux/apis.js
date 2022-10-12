@@ -23,6 +23,13 @@ export const getPostsByGuest = createAsyncThunk(
     return data;
   }
 );
+export const getRelatedPosts = createAsyncThunk(
+  "post/getRelatedPosts",
+  async () => {
+    const { data } = await axios.get(`${baseURL}/guest/relatedPosts`);
+    return data;
+  }
+);
 
 export const searchMyPosts = createAsyncThunk(
   "post/searchMyPosts",
@@ -42,13 +49,13 @@ export const createMyPost = createAsyncThunk(
   "post/createPost",
   async ({ value, navigate }) => {
     try {
-      const {data} = await axios.post(`${baseURL}`, value);
+      const { data } = await axios.post(`${baseURL}`, value);
       Swal.fire({
         icon: "success",
         title: "Create new post successful!",
       }).then((isConfirm) => {
         if (isConfirm) {
-          navigate("/post/list");
+          navigate("/user/post/list");
         }
       });
       return data;
@@ -57,25 +64,55 @@ export const createMyPost = createAsyncThunk(
 );
 
 export const editPost = createAsyncThunk("post/editPost", async (prop) => {
-  await axios.put(`${baseURL}/${prop.id}`, prop.values);
-
+  try {
+    await axios.put(`${baseURL}/${prop.id}`, prop.values);
+    Swal.fire({
+      icon: "success",
+      title: "Edit post successful!",
+    }).then((isConfirm) => {
+      if (isConfirm) {
+        prop.navigate("/user/post/list");
+      }
+    });
   return prop;
+  } catch (error) {
+    
+  }
+  
 });
 
 export const deletePost = createAsyncThunk(
   "post/deletePost",
-  async (postId, ThunkAPI) => {
-    await axios.delete(`${baseURL}/${postId}`);
-    // ThunkAPI.dispatch(getAllMyPost());
-    return postId;
+  async (postId) => {
+    try {
+      await axios.delete(`${baseURL}/${postId}`);
+      Swal.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+      return postId;
+    } catch (error) {
+      
+    }
+    
   }
 );
 
 export const getDetailPost = createAsyncThunk(
   "post/getDetailPost",
   async (prop) => {
-    let post = await axios.get(`${baseURL}/${prop}`);
-    return post.data.posts[0];
+    try {
+      let post = await axios.get(`${baseURL}/${prop}`);
+      return post.data.posts[0];
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
+    }
+    
   }
 );
 export const profileUser = createAsyncThunk(
@@ -111,7 +148,7 @@ export const likePost = async (postId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const unlikePost = async (postId) => {
   try {
     const res = await axios.delete(`${baseURL}/like/${postId}`);
@@ -119,4 +156,38 @@ export const unlikePost = async (postId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+export const getComments = createAsyncThunk("post/getComments", async (id) => {
+  const { data } = await axios.get(`http://localhost:5000/comments/` + id);
+  return data;
+});
+export const deleteComment = async (id) => {
+  try {
+    const { data } = await axios.delete(`http://localhost:5000/comments/` + id);
+    return data;
+  } catch (error) {
+    console.log("Delete", error);
+  }
+};
+export const addComment = async (commentData, id) => {
+  try {
+    const { data } = await axios.post(
+      `http://localhost:5000/comments/` + id,
+      commentData
+    );
+    return data;
+  } catch (error) {
+    console.log("addComment", error);
+  }
+};
+export const editComment = async (commentData, id) => {
+  try {
+    const { data } = await axios.put(
+      `http://localhost:5000/comments/` + id,
+      commentData
+    );
+    return data;
+  } catch (error) {
+    console.log("editComment", error);
+  }
+};

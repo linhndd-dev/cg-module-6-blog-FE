@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -12,6 +13,34 @@ const initialState = {
 };
 
 const REACT_APP_API_URL = "http://localhost:5000";
+
+export const loginGoogle = createAsyncThunk(
+  "auth/loginGoogle",
+  async (props) => {
+    try {
+      console.log(props);
+      const {data} = await axios.post(
+        `${REACT_APP_API_URL}/auth/loginGoogle`,
+        props.values
+      );
+      Swal.fire({
+        icon: "success",
+        title: "Login successful!",
+      }).then((isConfirm) => {
+        if (isConfirm) {
+            props.navigate("/");
+        }
+      });
+      return data;
+    } catch (error){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
+    }
+  }
+)
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
@@ -98,7 +127,7 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     [loginUser.fulfilled]: (state, action) => {
-      const { success, message, accessToken, idUser, username } = action.payload;
+      const { success, message, accessToken, idUser, username, avatar, fullname } = action.payload;
       localStorage.setItem(
         "login",
         JSON.stringify({
@@ -107,7 +136,9 @@ export const authSlice = createSlice({
           accessToken,
           idUser,
           isLoggedIn: true,
-          username
+          username,
+          avatar,
+          fullname
         })
       );
       state.status = "successful";
@@ -116,6 +147,33 @@ export const authSlice = createSlice({
       state.user.username = username;
     },
     [loginUser.rejected]: (state, action) => {
+      state.status = "failed";
+      state.isLoggedIn = false;
+    },
+    [loginGoogle.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [loginGoogle.fulfilled]: (state, action) => {
+      const { success, message, accessToken, idUser, username, avatar, fullname } = action.payload;
+      localStorage.setItem(
+        "login",
+        JSON.stringify({
+          success,
+          message,
+          accessToken,
+          idUser,
+          isLoggedIn: true,
+          username,
+          avatar,
+          fullname
+        })
+      );
+      state.status = "successful";
+      state.isLoggedIn = true;
+      state.user.idUser = idUser;
+      state.user.username = username;
+    },
+    [loginGoogle.rejected]: (state, action) => {
       state.status = "failed";
       state.isLoggedIn = false;
     },

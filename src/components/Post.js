@@ -41,8 +41,14 @@ import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
 import { likePost,unlikePost } from "../redux/apis";
 import LikeBox from "./LikeBox";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import Swal from "sweetalert2";
+import IconButton from "@mui/material/IconButton";
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
+const StyledPaper = styled(Typography)(({ theme }) => ({
   ...theme.typography.body2,
   maxWidth: 400,
 }));
@@ -60,7 +66,7 @@ export default function Post({ post }) {
 
   const handleEditPost = async (id) => {
     await dispatch(getDetailPost(id));
-    navigate(`/post/edit/${id}`);
+    navigate(`/user/post/edit/${id}`);
   };
 
   const handleShowDetail = async (postId) => {
@@ -74,8 +80,20 @@ export default function Post({ post }) {
     setOpen(false);
   };
   const handleDeletePost = async (id) => {
-    await dispatch(deletePost(id));
-    handleClose();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deletePost(id));
+      }
+    })
+    
   };
 
   const handleLike = async (isLiked) => {
@@ -86,9 +104,6 @@ export default function Post({ post }) {
         setLikeCount(likeCount - 1);
         await unlikePost(post._id);
     }
-  }
-  const checkAccessModified = async () => {
-    
   }
   return (
     <>
@@ -103,16 +118,15 @@ export default function Post({ post }) {
           <Avatar
             src={`${post.avatar}`}
             sx={{
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              padding: "5px",
+              borderRadius: "10",
               height: "150px",
               width: "200px",
             }}
             variant="rounded"
+            style={{ borderRadius: 10 }}
           />
         </TableCell>
-        <TableCell align="left">
+        <TableCell align="left" width="800px">
           <Box
             display="grid"
             gridColumn="span 10"
@@ -121,11 +135,10 @@ export default function Post({ post }) {
           >
             <Box gridColumn="span 12">
               <Typography
-                className="title"
                 variant="h5"
-                display="block"
+                maxWidth="800px"
+                noWrap 
                 gutterBottom
-                sx={{ PointerEvent: "cursor" }}
                 onClick={() => handleShowDetail(post._id)}
               >
                 <strong>{post.title}</strong>
@@ -140,12 +153,11 @@ export default function Post({ post }) {
             </Box>
             <Box gridColumn="span 12">
               <Typography variant="outline" display="block" gutterBottom>
-                {day.toLocaleDateString()}----{">"} by {post.author.username}
+                {day.toLocaleDateString()}
               </Typography>
             </Box>
           </Box>
         </TableCell>
-
         <TableCell align="center">
         <LikeBox
               likeCount={likeCount}
@@ -154,8 +166,9 @@ export default function Post({ post }) {
             />
         </TableCell>
         <TableCell align="center">
-          <SmsIcon fontSize="small" />
-          <br />
+          <IconButton >
+              <SmsIcon fontSize="small" />
+            </IconButton>
           {post.comment}
         </TableCell>
         {post.author._id === userId && (
@@ -177,7 +190,7 @@ export default function Post({ post }) {
               color="warning"
               aria-label="delete"
               size="small"
-              onClick={() => handleClickOpen(post._id)}
+              onClick={() => handleDeletePost(post._id)}
             >
               <DeleteIcon />
             </Fab>
@@ -185,25 +198,6 @@ export default function Post({ post }) {
         )}
       </TableRow>
     </Container>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure to delete the post?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description"></DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={() => handleDeletePost(postId)} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

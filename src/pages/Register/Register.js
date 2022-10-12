@@ -18,7 +18,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   if ("login" in localStorage) {
-    navigate("/")
+    navigate("/");
   }
   const handleSubmit = (values, { resetForm }) => {
     const registerData = {
@@ -79,6 +79,11 @@ const Register = () => {
             }
           >
             <Form className={styles.form_container}>
+            <img
+            onClick={() => navigate("/")}
+            width="180px" height="148px"
+            src='https://firebasestorage.googleapis.com/v0/b/image-blog-dbb1d.appspot.com/o/files%2Flogo-blog-13.png?alt=media&token=7da77104-fae0-423e-a670-20482a33b5c6'
+          />
               <h1>Register a new account</h1>
               <Field
                 type="text"
@@ -146,14 +151,6 @@ const Register = () => {
               Back to Home
             </button>
           </Link>
-          <GoogleLogin
-            clientId={clientId}
-            buttonText="Sign in with Google"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={"single_host_origin"}
-            isSignedIn={true}
-          />
         </div>
         <div className={styles.right}>
           <h1>Have account ?</h1>
@@ -162,6 +159,15 @@ const Register = () => {
               Sign In
             </button>
           </Link>
+          <br />
+          <GoogleLogin
+            clientId={clientId}
+            buttonText="Sign in with Google"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={"single_host_origin"}
+            isSignedIn={false}
+          />
         </div>
       </div>
     </div>

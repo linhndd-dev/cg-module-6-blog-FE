@@ -45,10 +45,10 @@ import { getDetailPost } from "../redux/apis";
 import React, { useEffect, useState } from "react";
 import { deletePost } from "../redux/apis";
 import IconButton from "@mui/material/IconButton";
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -58,14 +58,16 @@ const Img = styled("img")({
 
 const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
   backgroundColor: "transparent",
-  maxWidth: 150,
+  maxWidth: 300,
   gutterBottom: "true",
   variant: "subtitle1",
   align: "left",
-  marginLeft: "10px",
+  fontSize: "14",
+  color: "black",
+  fontWeight: "bold",
 }));
 
-export default function PostHome4({ post }) {
+export default function FavoritePosts({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
   const userId = login?.idUser;
   const navigate = useNavigate();
@@ -93,20 +95,23 @@ export default function PostHome4({ post }) {
     await dispatch(deletePost(id));
     handleClose();
   };
-
-  // console.log(post);
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ marginBottom: "25px" }}>
         <Grid item>
-          <ButtonBase sx={{ width: 200, height: 150 }} onClick={() => handleShowDetail(post._id)}>
-            <Img alt="complex" src={`${post.avatar}`} />
+          <ButtonBase
+            sx={{ width: 100, height: 50, marginTop: "8px", marginLeft: "8px" }}
+            onClick={() => handleShowDetail(post._id)}
+          >
+            <Img alt="complex" src={`${post.avatar}`} style={{ borderRadius: 5 }} />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
-          <StyledTypographyTitle align="justify" paddingRight="10px">
-            {post.title}
-          </StyledTypographyTitle>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
+            <StyledTypographyTitle align="justify" paddingRight="10px">
+              {post.title}
+            </StyledTypographyTitle>
+          </ButtonBase>
         </Grid>
       </Grid>
     </>

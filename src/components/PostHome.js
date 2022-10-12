@@ -49,30 +49,20 @@ import LikeBox from "./LikeBox";
 
 const StyledTypographyTitle = styled(Typography)(({ theme }) => ({
   backgroundColor: "transparent",
-  maxWidth: 310,
+  maxWidth: "100%",
   gutterBottom: "true",
   variant: "h6",
   fontWeight: "bold",
   color: "black",
-  align: "left",
   marginLeft: "10px",
-}));
-
-const StyledTypographySummary = styled(Typography)(({ theme }) => ({
-  backgroundColor: "transparent",
-  maxWidth: 210,
-  gutterBottom: "true",
-  variant:"caption",
-  align: "left",
-  marginLeft: "10px",
-  paddingBottom: "40px",
 }));
 
 const Img = styled("img")({
   margin: "auto",
   display: "block",
-  maxWidth: "100%",
-  maxHeight: "100%",
+  maxWidth: "350px",
+  maxHeight: "300px",
+  borderRadius: "10px"
 });
 export default function PostHome3({ post }) {
   const login = JSON.parse(localStorage.getItem("login"));
@@ -112,42 +102,46 @@ export default function PostHome3({ post }) {
     await dispatch(deletePost(id));
     handleClose();
   };
-
-  // console.log(post);
   return (
     <>
-      <Grid container>
-        <Grid item xs={12}>
-          <ButtonBase sx={{ width: 350, height: 230 }} onClick={() => handleShowDetail(post._id)} >
-            <Img alt="complex" src={`${post.avatar}`} sx={{marginTop: "0px", marginBottom: "0px"}}/>
+      <Grid container spacing={2} marginBottom="30px">
+        <Grid item xs={6}>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
+            <Img alt="complex" src={`${post.avatar}`}/>
           </ButtonBase>
         </Grid>
-        <Grid item xs={12} container>
-          <Grid item xs sx={{ position: "relative" }}>
-            <StyledTypographyTitle noWrap>{post.title}</StyledTypographyTitle>
+        <Grid item xs={6} sx={{ position: "relative" }}>
+          <ButtonBase onClick={() => handleShowDetail(post._id)}>
             <Typography
-              variant="body2"
-              color="text.secondary"
-              align="left"
-              marginLeft="10px"
+              variant="h5"
+              fontWeight="bold"
+              color="black"
+              align="justify"
             >
-              {post.author.username} {"-"} {day.toLocaleDateString()}
+              {post.title}
             </Typography>
-            <StyledTypographySummary noWrap>
-              {post.summary}
-            </StyledTypographySummary>
-            <Typography
-              sx={{ position: "absolute", top: "35px", right: "10px" }}
-            >
-              <LikeBox
-                likeCount={likeCount}
-                liked={post.isLiked}
-                onLike={handleLike}
-              />
+          </ButtonBase>
+          <Typography align="left" sx={{ opacity: "0.5" }}>
+            {post.author.fullname} {"-"} {day.toLocaleDateString()}
+          </Typography>
+          <Typography align="justify" fontSize="14px">
+            {post.summary.length > 100
+              ? `${post.summary.substring(0, 100)}...`
+              : post.summary}
+          </Typography>
+          <Typography
+            sx={{ position: "absolute", top: "220px", right: "20px" }}
+          >
+            <LikeBox
+              likeCount={likeCount}
+              liked={post.isLiked}
+              onLike={handleLike}
+            />
+            <IconButton sx={{ marginLeft: "10px" }}>
               <SmsIcon fontSize="small" />
-              {post.comment}
-            </Typography>
-          </Grid>
+            </IconButton>
+            {post.comment}
+          </Typography>
         </Grid>
       </Grid>
     </>
