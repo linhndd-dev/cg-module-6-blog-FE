@@ -31,6 +31,7 @@ const PaginationSwiper = ({posts}) => {
           disableOnInteraction: false
          }}
       pagination={{clickable: true}}
+      navigation={true}
       modules={[Pagination,EffectFade, Navigation, Autoplay]}
       className="mySwiper"
       effect={"fade"}

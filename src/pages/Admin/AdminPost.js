@@ -23,10 +23,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import SearchIcon from "@mui/icons-material/Search";
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
-
 export default function ListPost() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -82,9 +78,8 @@ export default function ListPost() {
           textAlign={"right"}
           sx={{
             display: "flex",
-            paddingTop: "10px",
             justifyContent: "flex-end",
-            paddingRight: "20px",
+            paddingTop:"10px"
           }}
         >
           <Box>
@@ -100,7 +95,7 @@ export default function ListPost() {
           <Box>
             <FormControl
               className="d-flex input-group w-auto"
-              sx={{ width: "200px", bgColor: "white" }}
+              sx={{ bgColor: "white" }}
             >
               <form onSubmit={handleSubmit}>
                 <TextField
@@ -122,39 +117,37 @@ export default function ListPost() {
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                <h3>AVATAR</h3>
+                <h3>Avatar</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>TITLE</h3>
-              </TableCell>
-              {/*<TableCell align="center">*/}
-              {/*  <h3>DESCRIPTION</h3>*/}
-              {/*</TableCell>*/}
-              <TableCell align="center">
-                <h3>LIKES</h3>
+                <h3>Title</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>COMMENTS</h3>
+                <h3>Likes</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>STATUS</h3>
+                <h3>Comments</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>USERNAME</h3>
+                <h3>Status</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>CREATED AT</h3>
+                <h3>Author</h3>
+              </TableCell>
+              <TableCell align="center">
+                <h3>Create At</h3>
               </TableCell>
               <TableCell align="center" colSpan={2}>
-                <h3>ACTIONS</h3>
+                
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {posts.length > 0 &&
               status === "successful" &&
-              posts.map((row) => (
-                <TableRow
+              posts.map((row) => {
+                const date = new Date(row.createdAt)
+                return <TableRow
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
@@ -164,27 +157,25 @@ export default function ListPost() {
                   <TableCell align="left">
                     <h4>{row.title}</h4>
                   </TableCell>
-                  {/*<TableCell align="left">{row.summary}</TableCell>*/}
                   <TableCell align="center">
-                    <ThumbUpIcon fontSize="medium" />
                     <br />
                     {row.like}
                   </TableCell>
                   <TableCell align="center">
-                    <SmsIcon fontSize="medium" />
                     <br />
                     {row.comment}
                   </TableCell>
                   <TableCell align="left">{row.accessModified}</TableCell>
                   <TableCell align="left">{row.author.username}</TableCell>
-                  <TableCell align="left">{row.createdAt}</TableCell>
+                  <TableCell align="left">{date.toLocaleString()}</TableCell>
                   <TableCell align="center">
                     <Fab
                       color="secondary"
                       aria-label="showdetail"
                       onClick={() => handleShowDetail(row._id)}
+                      size="small"
                     >
-                      <InfoIcon />
+                      <InfoIcon fontSize="small" />
                     </Fab>
                   </TableCell>
                   <TableCell align="center">
@@ -192,12 +183,13 @@ export default function ListPost() {
                       color="warning"
                       aria-label="delete"
                       onClick={() => handleClickOpen(row._id)}
+                      size="small"
                     >
-                      <DeleteIcon />
+                      <DeleteIcon fontSize="small" />
                     </Fab>
                   </TableCell>
                 </TableRow>
-              ))}
+              })}
           </TableBody>
         </Table>
       </TableContainer>

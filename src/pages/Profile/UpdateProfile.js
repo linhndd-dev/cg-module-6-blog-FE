@@ -3,7 +3,7 @@ import * as React from "react";
 // import TextField from "@mui/material/TextField";
 import {useEffect, useState} from "react";
 import {Formik, Form, Field} from "formik";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import {storage} from "../firebase";
 import {ref, getDownloadURL, uploadBytes, uploadBytesResumable} from "firebase/storage";
 import {useDispatch, useSelector} from "react-redux";
@@ -50,18 +50,18 @@ export default function UpdateProfile() {
                         phoneNumber: user.phoneNumber,
                         address: user.address,
                     }}
-                    validationSchema={Yup.object({
-                        fullName: Yup.string()
-                            .min(2, "Must be more than  2 characters")
-                            .max(15, "Must be 15 characters or less")
-                            .required("Name is valid required!"),
-                        email: Yup.string()
-                            .email("Invalid email address")
-                            .required("Email is valid required!"),
-                        phoneNumber: Yup.number()
-                            .required("PhoneNumber is valid required!"),
-                        address: Yup.string().required("Email is valid required!")
-                    })}
+                    // validationSchema={Yup.object({
+                    //     fullName: Yup.string()
+                    //         .min(2, "Must be more than  2 characters")
+                    //         .max(15, "Must be 15 characters or less")
+                    //         .required("Name is valid required!"),
+                    //     email: Yup.string()
+                    //         .email("Invalid email address")
+                    //         .required("Email is valid required!"),
+                    //     phoneNumber: Yup.number()
+                    //         .required("PhoneNumber is valid required!"),
+                    //     address: Yup.string().required("Email is valid required!")
+                    // })}
                     onSubmit={(values) => {
                         const storageRef = ref(storage, `/files/${file.name}`);
                         const uploadTask = uploadBytesResumable(storageRef, file);

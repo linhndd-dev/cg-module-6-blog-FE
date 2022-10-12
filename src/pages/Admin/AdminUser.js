@@ -1,4 +1,11 @@
-import { Box, Button, Fab, Pagination, TextField, FormControl } from "@mui/material";
+import {
+  Box,
+  Button,
+  Fab,
+  Pagination,
+  TextField,
+  FormControl,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -98,7 +105,6 @@ export default function AdminUser() {
             display: "flex",
             paddingTop: "10px",
             justifyContent: "flex-end",
-            paddingRight: "20px",
           }}
         >
           <Box>
@@ -114,7 +120,7 @@ export default function AdminUser() {
           <Box>
             <FormControl
               className="d-flex input-group w-auto"
-              sx={{ width: "200px", bgColor: "white" }}
+              sx={{ bgColor: "white" }}
             >
               <form onSubmit={handleSubmit}>
                 <TextField
@@ -136,35 +142,34 @@ export default function AdminUser() {
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                <h3>USERNAME</h3>
+                <h3>User Name</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>CREATED AT</h3>
+                <h3>Create At</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>AVATAR</h3>
+                <h3>Avatar</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>FULLNAME</h3>
+                <h3>Full Name</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>STATUS</h3>
+                <h3>Status</h3>
               </TableCell>
-              <TableCell align="center">
-                <h3>ACTIONS</h3>
-              </TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.length > 0 &&
               status === "successful" &&
-              users.map((row) => (
-                <TableRow
+              users.map((row) => {
+                const date = new Date(row.createdAt)
+                return <TableRow
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center">{row.username}</TableCell>
-                  <TableCell align="center">{row.createdAt}</TableCell>
+                  <TableCell align="center">{date.toLocaleString()}</TableCell>
                   <TableCell component="th" scope="row" align="center">
                     <img style={{ width: "100px" }} src={`${row.avatar}`} />
                   </TableCell>
@@ -174,17 +179,18 @@ export default function AdminUser() {
                     <Fab
                       color="warning"
                       aria-label="delete"
+                      size="small"
                       onClick={() => handleClickOpen(row._id, row.status)}
                     >
                       {row.status === "Inactive" ? (
-                        <LockRoundedIcon fontSize="large" />
+                        <LockRoundedIcon fontSize="small" />
                       ) : (
-                        <LockOpenRoundedIcon fontSize="large" />
+                        <LockOpenRoundedIcon fontSize="small" />
                       )}
                     </Fab>
                   </TableCell>
-                </TableRow>
-              ))}
+                </TableRow>;
+              })}
           </TableBody>
         </Table>
       </TableContainer>
