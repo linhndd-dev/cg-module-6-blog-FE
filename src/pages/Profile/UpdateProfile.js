@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, Box, Typography} from "@mui/material";
+import { Avatar, Button, Grid, Box, Typography } from "@mui/material";
 import * as React from "react";
 // import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
@@ -14,7 +14,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../redux/apis";
 import { useNavigate } from "react-router-dom";
-
 
 export default function UpdateProfile() {
   const [percent, setPercent] = useState(0);
@@ -205,7 +204,6 @@ export default function UpdateProfile() {
           </Form>
         </Formik>
       </div>
-      
     </div>
   );
 }
