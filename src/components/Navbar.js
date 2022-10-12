@@ -41,21 +41,9 @@ export default function Navbar() {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            <ListItem>
-              <ListItemButton
-                onClick={() => {
-                  navigate("/")
-                }}
-              >
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItemButton>
-            </ListItem>
             {isLoggedIn && (
               <>
-                <ListItem>
+                <ListItem sx={{borderBottom:"1px solid #000"}}>
                   <ListItemButton onClick={() => navigate("/user/post/create")}>
                     <ListItemIcon>
                       <AddIcon />

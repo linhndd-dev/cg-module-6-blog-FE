@@ -209,8 +209,12 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
     },
     [profileUser.fulfilled]: (state, action) => {
-      state.user = action.payload.data;
+      const user = action.payload.data;
+      state.user = user
     },
+    [updateProfile.fulfilled]: (state, action) => {
+      state.user = action.payload;
+    }
   },
 });
 

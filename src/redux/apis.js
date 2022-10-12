@@ -126,18 +126,26 @@ export const profileUser = createAsyncThunk(
 export const updateProfile = createAsyncThunk(
     'auth/updateProfile',
     async (prop) => {
-        console.log(prop)
-        console.log('sss',prop.userId)
-        console.log(prop.value)
-        let {data} =  await axios.put(`http://localhost:5000/auth/profile/${prop.userId}`, prop.value)
+        let {data} =  await axios.put(`http://localhost:5000/auth/profile/${prop.userId}`, prop.values)
         return data
     }
 )
-export const updatePassword = createAsyncThunk(
-    'auth/updatePassword',
-    async (prop) => {
-        let {data} = await axios.put(`http://localhost:5000/auth/changepassword/${prop.userId}`, prop.value)
-        return data
+export const resetPassword = createAsyncThunk(
+    'auth/resetPassword',
+    async ({userId, password}) => {
+      try {
+        await axios.put(`http://localhost:5000/auth/profile/resetPassword/${userId}`, {password: password})
+        Swal.fire({
+          icon: "success",
+          title: "Reset password successful!",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      }
     }
 )
 
