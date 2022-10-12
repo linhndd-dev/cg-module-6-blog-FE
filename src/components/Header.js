@@ -153,7 +153,7 @@ const openNotification = Boolean(anchorElNotification);
       <MenuItem border={"none"} noWrap>
         <StyledPaper>
           {notifications && notifications.length > 0 && notifications.map((notification) => 
-            <Typography border={"none"} noWrap> {notification.message} </Typography>
+            <Typography> {notification.message} </Typography>
           )}
         </StyledPaper>
       </MenuItem>

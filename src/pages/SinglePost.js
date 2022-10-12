@@ -111,7 +111,7 @@ function SinglePost() {
         </Box>
       </div>
       <br />
-      <h5 style={{ textAlign: "left" }}>Comment(s)</h5>
+      <h4 style={{ textAlign: "left" }}>Comment(s)</h4>
       <div className={"container"}>
         <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3 }}>
           {comments &&

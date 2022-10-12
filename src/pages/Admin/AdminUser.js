@@ -148,7 +148,7 @@ export default function AdminUser() {
                 <h3>Create At</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>Avatar</h3>
+                <h3>Posts</h3>
               </TableCell>
               <TableCell align="center">
                 <h3>Full Name</h3>
@@ -171,7 +171,7 @@ export default function AdminUser() {
                   <TableCell align="center">{row.username}</TableCell>
                   <TableCell align="center">{date.toLocaleString()}</TableCell>
                   <TableCell component="th" scope="row" align="center">
-                    <img style={{ width: "100px" }} src={`${row.avatar}`} />
+                    0
                   </TableCell>
                   <TableCell align="center">{row.fullname}</TableCell>
                   <TableCell align="center">{row.status}</TableCell>

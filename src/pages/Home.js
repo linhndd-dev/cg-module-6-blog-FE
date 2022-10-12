@@ -29,7 +29,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.post);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5);
+  const [postsPerPage] = useState(4);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
