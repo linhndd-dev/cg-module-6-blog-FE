@@ -14,7 +14,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
-
+import "./styles.css"
 const PaginationSwiper = ({posts}) => {
   const navigate = useNavigate();
   const handleShowDetail = (postId) => {
@@ -25,13 +25,16 @@ const PaginationSwiper = ({posts}) => {
       pagination={{
         dynamicBullets: true,
       }}
-      modules={[Pagination]}
+      navigation={true}
+      modules={[Pagination, Navigation]}
       className="mySwiper"
+      effect={"fade"}
     >
       {posts.map((item) => (
         <SwiperSlide>
           <ImageListItem key={item._id} onClick={()=>handleShowDetail(item._id)}>
             <img
+              cursor="pointer"
               src={`${item.avatar}?w=248&fit=crop&auto=format`}
               srcSet={`${item.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
               alt={item.title}
