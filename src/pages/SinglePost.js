@@ -1,4 +1,13 @@
-import { Box, Button, Fab, Grid, Pagination, Avatar, ButtonBase, IconButton  } from "@mui/material";
+import {
+  Box,
+  Button,
+  Fab,
+  Grid,
+  Pagination,
+  Avatar,
+  ButtonBase,
+  IconButton,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,8 +18,8 @@ import Typography from "@mui/material/Typography";
 import { addComment, getDetailPost } from "../redux/apis";
 import { getComments } from "../redux/apis";
 import Comment from "../components/Comment";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -30,31 +39,45 @@ function SinglePost() {
   const day = new Date(post.createdAt);
   useEffect(() => {
     dispatch(getDetailPost(id));
-    dispatch(getComments(id))
+    dispatch(getComments(id));
   }, [id]);
   const handleAddComment = async () => {
-    const response = await addComment({postId:id ,userId:userId, text: commentText},id)
+    const response = await addComment(
+      { postId: id, userId: userId, text: commentText },
+      id
+    );
     if (response) {
       dispatch(getComments(id));
       setCommentText("");
     }
-  }
+  };
   return (
-    <Box sx={{bgcolor:"white", position: "relative"}}>
-      <IconButton onClick={()=> navigate(-1)} sx={{position: "absolute", left:"0"}}>
-        <ArrowBackIcon/>
+    <Box sx={{ bgcolor: "white", position: "relative" }}>
+      <IconButton
+        onClick={() => navigate(-1)}
+        sx={{ position: "absolute", left: "0" }}
+      >
+        <ArrowBackIcon />
       </IconButton>
-      <IconButton onClick={()=> navigate(+1)} sx={{position: "absolute", right:"0"}}>
-        <ArrowForwardIcon/>
+      <IconButton
+        onClick={() => navigate(+1)}
+        sx={{ position: "absolute", right: "0" }}
+      >
+        <ArrowForwardIcon />
       </IconButton>
-      <Box className={"container"} sx={{bgcolor:"white"}}>
+      <Box className={"container"} sx={{ bgcolor: "white" }}>
         <Box paddingTop={5} md={5} width={"100%"} height={"100%"}>
-          <Typography variant={"h1"} sx={{color: "black",fontWeight:"bold" ,fontSize:"28px"}} gutterBottom align={"left"}>
+          <Typography
+            variant={"h1"}
+            sx={{ color: "black", fontWeight: "bold", fontSize: "28px" }}
+            gutterBottom
+            align={"left"}
+          >
             {post.title}
           </Typography>
-              <Typography variant={"body1"} align="left">
-                {day.toLocaleDateString()}
-              </Typography>
+          <Typography variant={"body1"} align="left">
+            {day.toLocaleDateString()}
+          </Typography>
           <hr />
           <Typography
             paddingLeft={2}
@@ -65,32 +88,35 @@ function SinglePost() {
         </Box>
       </Box>
       <br />
-      <div className={"container"}>
-        <TextareaAutosize
-          maxRows={4}
-          aria-label="maximum height"
-          placeholder="Write your comment here..."
-          style={{ width: "100%", height: "150px" }}
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-        />
-        <br />
-        <Button 
-          variant="contained"
-          disabled={commentText.length === 0}
-          onClick={handleAddComment}
-        >
-          Send Comment
-        </Button>
+      <div className={"container"} style={{ textAlign: "left" }}>
+        <Box>
+          <TextareaAutosize
+            maxRows={4}
+            aria-label="maximum height"
+            placeholder="Write your comment here..."
+            style={{ width: "100%", height: "150px" }}
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Button
+            variant="contained"
+            disabled={commentText.length === 0}
+            onClick={handleAddComment}
+          >
+            Send Comment
+          </Button>
+        </Box>
       </div>
       <br />
-      <h5>Comment(s)</h5>
+      <h5 style={{ textAlign: "left" }}>Comment(s)</h5>
       <div className={"container"}>
         <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3 }}>
-        {comments && 
-                  comments.map((comment) => (
-                    <Comment key={comment._id} comment={comment} />
-                  ))}
+          {comments &&
+            comments.map((comment) => (
+              <Comment key={comment._id} comment={comment} />
+            ))}
         </Box>
       </div>
     </Box>
