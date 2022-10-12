@@ -11,8 +11,6 @@ import {updateProfile} from "../../redux/apis";
 import {useNavigate} from "react-router-dom";
 import {Box} from "@mui/system";
 import Typography from "@mui/material/Typography";
-//         //validate
-
 
 export default function UpdateProfile() {
     const [percent, setPercent] = useState(0);
@@ -38,7 +36,7 @@ export default function UpdateProfile() {
     const handleSubmit = async (value) => {
         console.log('value', value)
         await dispatch(updateProfile({value, userId}))
-        navigate('/profile')
+        navigate('/user/profile')
     }
     return (
         <div className={'container'} style={{background: 'white'}}>
@@ -190,7 +188,7 @@ export default function UpdateProfile() {
                                                     Cập Nhật
                                                 </Button>
                                                 <Button variant="contained" color="primary" onClick={() => {
-                                                    navigate('/profile')
+                                                    navigate('/user/profile')
                                                 }}>Quay Lại</Button>
                                             </div>
                                             <Grid item align="left">

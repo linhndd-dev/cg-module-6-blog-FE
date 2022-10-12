@@ -1,27 +1,25 @@
 import {profileUser} from "../../redux/apis";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import React, {useEffect} from "react";
 import Typography from "@mui/material/Typography";
-import {Avatar, Container, CssBaseline, Grid, Paper} from "@mui/material";
+import {Avatar, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import './style.module.css'
 import Button from "@mui/material/Button";
-import {styled} from '@mui/material/styles';
-
 
 export default function Profile() {
-    const [percent, setPercent] = useState(0);
-    const [file, setFile] = useState("");
+    // const [percent, setPercent] = useState(0);
+    // const [file, setFile] = useState("");
     const {user} = useSelector((state) => state.user);
     const login = JSON.parse(localStorage.getItem("login"));
     const userId = login?._id;
+    console.log(userId)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     console.log(user)
     useEffect(() => {
         dispatch(profileUser(userId))
-        console.log(userId)
     }, [])
     return (
         <div className={'container'} style={{background: 'white'}}>
@@ -65,7 +63,7 @@ export default function Profile() {
                                     </Typography>
                                     <br/>
                                     <Button onClick={() => {
-                                        navigate('/profile/update')
+                                        navigate('/user/profile/changeinfo')
                                     }}>Cập Nhật Thông Tin
                                     </Button>
                                     <Button onClick={() => {
