@@ -13,7 +13,7 @@ export default function Profile() {
     // const [file, setFile] = useState("");
     const {user} = useSelector((state) => state.user);
     const login = JSON.parse(localStorage.getItem("login"));
-    const userId = login?._id;
+    const userId = login?.idUser;
     console.log(userId)
     const dispatch = useDispatch();
     const navigate = useNavigate();

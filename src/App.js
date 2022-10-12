@@ -26,8 +26,6 @@ import { getMyNotification } from "./redux/slices/authSlice";
 import LayoutUser from "./pages/LayoutUser";
 import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/Profile/UpdateProfile";
-import LayoutUser from "./pages/LayoutUser";
-import Profile from "./pages/Profile";
 
 
 function App() {
