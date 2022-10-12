@@ -2,7 +2,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { Navigation, Scrollbar, A11y } from "swiper";
+import "swiper/css/effect-fade";
+import { Navigation, Scrollbar, A11y, EffectFade, Autoplay } from "swiper";
 import { Virtual } from "swiper";
 import { useSwiper } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,7 +15,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
-
+import "./styles.css"
 const PaginationSwiper = ({posts}) => {
   const navigate = useNavigate();
   const handleShowDetail = (postId) => {
@@ -22,21 +23,29 @@ const PaginationSwiper = ({posts}) => {
   }
   return (
     <Swiper
-      pagination={{
-        dynamicBullets: true,
-      }}
-      modules={[Pagination]}
+      slidesPerView={1}
+      loop={true}
+      autoplay={{
+          delay: 2000,
+          pauseOnMouseEnter: true,
+          disableOnInteraction: false
+         }}
+      pagination={{clickable: true}}
+      modules={[Pagination,EffectFade, Navigation, Autoplay]}
       className="mySwiper"
+      effect={"fade"}
     >
       {posts.map((item) => (
         <SwiperSlide>
-          <ImageListItem key={item._id} onClick={()=>handleShowDetail(item._id)}>
+          <ImageListItem key={item._id} >
             <img
+              cursor="pointer"
               src={`${item.avatar}?w=248&fit=crop&auto=format`}
               srcSet={`${item.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
               alt={item.title}
               loading="lazy"
               style={{maxHeight:"400px", maxWidth:"800px"}}
+              onClick={()=>handleShowDetail(item._id)}
             />
             <ImageListItemBar
               title={item.title}

@@ -84,6 +84,7 @@ function SinglePost() {
             paddingRight={2}
             align="justify"
             dangerouslySetInnerHTML={{ __html: post.content }}
+            sx={{overflow:"hidden"}}
           ></Typography>
         </Box>
       </Box>

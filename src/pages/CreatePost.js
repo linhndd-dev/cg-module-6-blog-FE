@@ -72,7 +72,7 @@ export default function CreatePost() {
                 summary: "",
                 content: { editor },
                 avatar: "",
-                accessModified: "",
+                accessModified: "Public",
               }}
               validate={(values) => {
                 const errors = {};
