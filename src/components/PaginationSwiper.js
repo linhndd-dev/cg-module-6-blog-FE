@@ -2,7 +2,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { Navigation, Scrollbar, A11y } from "swiper";
+import "swiper/css/effect-fade";
+import { Navigation, Scrollbar, A11y, EffectFade, Autoplay } from "swiper";
 import { Virtual } from "swiper";
 import { useSwiper } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -22,21 +23,27 @@ const PaginationSwiper = ({posts}) => {
   }
   return (
     <Swiper
-      pagination={{
-        dynamicBullets: true,
-      }}
-      modules={[Pagination]}
+      slidesPerView={1}
+      loop={true}
+      autoplay={{
+          delay: 2000,
+          pauseOnMouseEnter: true,
+          disableOnInteraction: false
+         }}
+      pagination={{clickable: true}}
+      modules={[Pagination,EffectFade, Navigation, Autoplay]}
       className="mySwiper"
     >
       {posts.map((item) => (
         <SwiperSlide>
-          <ImageListItem key={item._id} onClick={()=>handleShowDetail(item._id)}>
+          <ImageListItem key={item._id} >
             <img
               src={`${item.avatar}?w=248&fit=crop&auto=format`}
               srcSet={`${item.avatar}?w=248&fit=crop&auto=format&dpr=2 2x`}
               alt={item.title}
               loading="lazy"
               style={{maxHeight:"400px", maxWidth:"800px"}}
+              onClick={()=>handleShowDetail(item._id)}
             />
             <ImageListItemBar
               title={item.title}
