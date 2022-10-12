@@ -104,13 +104,13 @@ export default function PostHome3({ post }) {
   };
   return (
     <>
-      <Grid container spacing={2} marginBottom="30px">
+      <Grid container spacing={2} marginBottom="30px" sx={{ position: "relative" }}>
         <Grid item xs={6}>
           <ButtonBase onClick={() => handleShowDetail(post._id)}>
             <Img alt="complex" src={`${post.avatar}`}/>
           </ButtonBase>
         </Grid>
-        <Grid item xs={6} sx={{ position: "relative" }}>
+        <Grid item xs={6} >
           <ButtonBase onClick={() => handleShowDetail(post._id)}>
             <Typography
               variant="h5"
@@ -129,8 +129,9 @@ export default function PostHome3({ post }) {
               ? `${post.summary.substring(0, 100)}...`
               : post.summary}
           </Typography>
+        </Grid>
           <Typography
-            sx={{ position: "absolute", top: "220px", right: "20px" }}
+            sx={{ position: "absolute", bottom: "-8px", right: "20px" }}
           >
             <LikeBox
               likeCount={likeCount}
@@ -142,7 +143,6 @@ export default function PostHome3({ post }) {
             </IconButton>
             {post.comment}
           </Typography>
-        </Grid>
       </Grid>
     </>
   );
