@@ -7,3 +7,4 @@
     box-sizing: border-box; /* Make sure that padding and width stays in place */
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
   }
+  

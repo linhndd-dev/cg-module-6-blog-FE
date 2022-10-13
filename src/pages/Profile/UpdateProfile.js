@@ -59,7 +59,7 @@ export default function UpdateProfile() {
                 gridColumn="span 6"
                 sx={{ display: "flex", justifyContent: "flex-start" }}
               >
-                <h1>Cập Nhật Thông Tin</h1>
+                <h1>Personal Information</h1>
               </Box>
             </Box>
             <Formik
@@ -125,17 +125,17 @@ export default function UpdateProfile() {
                                 variant="contained"
                                 component="span"
                               >
-                                Chỉnh Sửa
+                                Choose photo
                               </Button>{" "}
                             </label>
                           </div>
                         </Grid>
-                        <Grid item align="left">
+                        <Grid item align="left" width="300px">
                           <div
                           // style={{display: "flex", alignItems: "left", margin: " 20px 7px"}}
                           >
                             <Typography variant={"h6"} marginBottom="6px" gutterBottom>
-                              <strong>Họ Và Tên</strong>
+                              <strong>Full Name</strong>
                             </Typography>
                             <Field
                               className="inputText"
@@ -165,7 +165,7 @@ export default function UpdateProfile() {
                           // style={{display: "flex", alignItems: "left", margin: " 20px 7px"}}
                           >
                             <Typography variant={"h6"} marginBottom="6px" gutterBottom>
-                              <strong>Số Điện Thoại</strong>
+                              <strong>Phone Number</strong>
                             </Typography>
                             <Field
                               className="inputText"
@@ -180,7 +180,7 @@ export default function UpdateProfile() {
                           // style={{display: "flex", alignItems: "left", margin: " 20px 7px"}}
                           >
                             <Typography variant={"h6"} marginBottom="6px" gutterBottom>
-                              <strong>Địa Chỉ</strong>
+                              <strong>Address</strong>
                             </Typography>
                             <Field
                               className="inputText"
@@ -192,9 +192,9 @@ export default function UpdateProfile() {
                           </div>
                           <div
                             style={{
-                              display: "flex",
-                              alignItems: "left",
+                              textAlign: "center",
                               margin: " 24px 7px",
+                              paddingLeft:"28px"
                             }}
                           >
                             <Button
@@ -203,7 +203,7 @@ export default function UpdateProfile() {
                               sx={{ marginRight: 2, marginTop: 2 }}
                               type="submit"
                             >
-                              Cập Nhật
+                              Save
                             </Button>
                             <Button
                               variant="contained"
@@ -213,7 +213,7 @@ export default function UpdateProfile() {
                                 navigate("/user/profile");
                               }}
                             >
-                              Quay Lại
+                              Back
                             </Button>
                           </div>
                           <Grid item align="left"></Grid>
