@@ -6,5 +6,4 @@ const AdminRoute = ({ children }) => {
     const { isLoggedIn, user } = useSelector((state) => state.auth);
   return isLoggedIn && user.username === 'admin' ? children : <Navigate to="/login" />;
 };
-
 export default AdminRoute;
