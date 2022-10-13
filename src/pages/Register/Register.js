@@ -160,14 +160,6 @@ const Register = () => {
             </button>
           </Link>
           <br />
-          <GoogleLogin
-            clientId={clientId}
-            buttonText="Sign in with Google"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={"single_host_origin"}
-            isSignedIn={false}
-          />
         </div>
       </div>
     </div>
