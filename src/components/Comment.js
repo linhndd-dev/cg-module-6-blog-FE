@@ -62,7 +62,7 @@ export default function Comment({ comment }) {
           dispatch(getComments(id));
         }
       }
-    })
+    });
   };
   const [openModal, setOpenModal] = React.useState(false);
   const handleModalClose = () => {
@@ -92,6 +92,7 @@ export default function Comment({ comment }) {
           my: 1,
           p: 2,
           textAlign: "left",
+          
         }}
       >
         <Grid container wrap="nowrap" spacing={2}>

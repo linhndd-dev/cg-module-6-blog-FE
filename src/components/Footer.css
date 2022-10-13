@@ -101,7 +101,7 @@
 }
 
 .footer .footer-center p a {
-  color: #0099ff;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -119,7 +119,7 @@
 }
 
 .footer h2 span {
-  color: #0099ff;
+  color: #ffffff;
 }
 
 .footer .menu {
@@ -136,11 +136,11 @@
 }
 
 .footer .menu a:hover {
-  color: #0099ff;
+  color: gray;
 }
 
 .footer .name {
-  color: #0099ff;
+  color: #fff;
   font-size: 14px;
   font-weight: normal;
   margin: 0;

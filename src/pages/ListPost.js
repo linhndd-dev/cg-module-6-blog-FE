@@ -39,6 +39,7 @@ export default function ListPost() {
 
   const handleChangePage = (e, page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0)
   };
   const handleSubmit = (e) => {
     console.log(e);

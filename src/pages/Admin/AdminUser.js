@@ -55,6 +55,7 @@ export default function AdminUser() {
 
   const handleChangePage = (e,page) => {
     setCurrentPage(page)
+    window.scrollTo(0, 0)
   }
   const handleSubmit = (e) => {
     e.preventDefault();

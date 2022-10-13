@@ -53,6 +53,7 @@ export default function ListPost() {
 
   const handleChangePage = (e,page) => {
     setCurrentPage(page)
+    window.scrollTo(0, 0)
   }
   useEffect(() => {
     dispatch(getPostsFromAdmin());

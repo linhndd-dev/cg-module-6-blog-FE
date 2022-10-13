@@ -20,6 +20,8 @@ import { getComments } from "../redux/apis";
 import Comment from "../components/Comment";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -84,7 +86,7 @@ function SinglePost() {
             paddingRight={2}
             align="justify"
             dangerouslySetInnerHTML={{ __html: post.content }}
-            sx={{overflow:"hidden"}}
+            sx={{ overflow: "hidden" }}
           ></Typography>
         </Box>
       </Box>
@@ -120,6 +122,9 @@ function SinglePost() {
             ))}
         </Box>
       </div>
+      <IconButton onClick={() => window.scrollTo(0, 0)} sx={{ position: "fixed", bottom: "100px", right: "10px" }}>
+        <KeyboardDoubleArrowUpIcon fontSize="large" />
+      </IconButton>
     </Box>
   );
 }

@@ -69,8 +69,6 @@ const Login = () => {
                 type="text"
                 placeholder="Username"
                 name="username"
-                // onChange={handleChange}
-                // value={data.email}
                 required
                 className={styles.input}
               />
@@ -84,8 +82,6 @@ const Login = () => {
                 type="password"
                 placeholder="Password"
                 name="password"
-                // onChange={handleChange}
-                // value={data.password}
                 required
                 className={styles.input}
               />

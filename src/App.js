@@ -26,7 +26,6 @@ import { getMyNotification } from "./redux/slices/authSlice";
 import LayoutUser from "./pages/LayoutUser";
 import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/Profile/UpdateProfile";
-import UpdateProfileDemo from "./pages/UpdateProfileDemo";
 
 
 function App() {
@@ -60,7 +59,7 @@ function App() {
         </Route>
         <Route element={<LayoutUser />}>
         <Route path="/user/profile" element={<Profile />}></Route>
-        <Route path='/user/profile/changeinfo' element={<UpdateProfileDemo />}></Route>
+        <Route path='/user/profile/changeinfo' element={<UpdateProfile />}></Route>
 
         </Route>
 
