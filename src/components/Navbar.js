@@ -18,6 +18,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import { useDispatch, useSelector } from "react-redux";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import CommentIcon from '@mui/icons-material/Comment';
 
 const drawerWidth = 240;
 
@@ -58,7 +60,7 @@ export default function Navbar() {
                     }}
                   >
                     <ListItemIcon>
-                      <ListIcon />
+                      <ThumbUpIcon />
                     </ListItemIcon>
                     <ListItemText primary="Likes" />
                   </ListItemButton>
@@ -70,7 +72,7 @@ export default function Navbar() {
                     }}
                   >
                     <ListItemIcon>
-                      <ListIcon />
+                      <CommentIcon />
                     </ListItemIcon>
                     <ListItemText primary="Comments" />
                   </ListItemButton>
