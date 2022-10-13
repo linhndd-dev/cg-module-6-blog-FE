@@ -34,6 +34,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import SearchIcon from "@mui/icons-material/Search";
 import Swal from "sweetalert2";
+import Loading from "../../components/Loading";
 
 export default function ListPost() {
   const navigate = useNavigate();
@@ -42,6 +43,17 @@ export default function ListPost() {
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
   const { posts, status } = useSelector((state) => state.post);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost,indexOfLastPost)
+  const totalPages = Math.ceil(posts.length/postsPerPage)
+
+  const handleChangePage = (e,page) => {
+    setCurrentPage(page)
+  }
   useEffect(() => {
     dispatch(getPostsFromAdmin());
   }, []);
@@ -76,6 +88,11 @@ export default function ListPost() {
   };
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
+      {status === "loading" && (
+          <>
+            <Loading />
+          </>
+        )}
       <Box
         display="grid"
         gridColumn="span 10"
@@ -159,7 +176,7 @@ export default function ListPost() {
           <TableBody>
             {posts.length > 0 &&
               status === "successful" &&
-              posts.map((row) => {
+              currentPosts.map((row) => {
                 const date = new Date(row.createdAt);
                 return (
                   <TableRow
@@ -208,6 +225,9 @@ export default function ListPost() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Stack alignItems="center">
+      <Pagination count={totalPages} color="primary" onChange={handleChangePage} size="large" variant="outlined" shape="rounded" />
+      </Stack>
       <Stack spacing={2}>
         {posts.length === 0 && status === "successful" && (
           <p>You don't have any post yet!</p>

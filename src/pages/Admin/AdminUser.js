@@ -31,6 +31,7 @@ import LockOpenRoundedIcon from "@mui/icons-material/LockOpenRounded";
 import { searchUsersByUsername } from "../../redux/adminApi";
 import SearchIcon from "@mui/icons-material/Search";
 import Swal from "sweetalert2";
+import Loading from "../../components/Loading";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -44,8 +45,17 @@ export default function AdminUser() {
   const { users, status } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
   const query = useQuery();
-  const searchQuery = query.get("searchQuery");
-  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(10);
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser,indexOfLastUser)
+  const totalPages = Math.ceil(users.length/usersPerPage)
+
+  const handleChangePage = (e,page) => {
+    setCurrentPage(page)
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search) {
@@ -163,7 +173,7 @@ export default function AdminUser() {
           <TableBody>
             {users.length > 0 &&
               status === "successful" &&
-              users.map((row) => {
+              currentUsers.map((row) => {
                 const date = new Date(row.createdAt);
                 return (
                   <TableRow
@@ -204,6 +214,9 @@ export default function AdminUser() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Stack alignItems="center">
+      <Pagination count={totalPages} color="primary" onChange={handleChangePage} size="large" variant="outlined" shape="rounded" />
+      </Stack>
       <Stack spacing={2}>
         {users.length === 0 && status === "successful" && (
           <p>There is no user!</p>
