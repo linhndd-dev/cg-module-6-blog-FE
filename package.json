@@ -10,6 +10,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.7",
     "@mui/styled-engine-sc": "^5.10.6",
+    "@mui/system": "^5.10.7",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -17,10 +18,12 @@
     "@tinymce/tinymce-react": "^4.2.0",
     "axios": "^0.27.2",
     "firebase": "^9.10.0",
-    "formik": "^2.2.9",
+    "formik": "^2.2.9","mui-image": "^1.0.7",
+
     "gapi-script": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-read-more-read-less": "^1.0.7",
     "react-google-login": "^5.2.2",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.1",
@@ -28,10 +31,11 @@
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.4.35",
     "swiper": "^8.4.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --max-http-header-size=1024 start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

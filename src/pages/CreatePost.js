@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Box, Container, CssBaseline, FormControl } from "@mui/material";
+import { Box, Button, Container, CssBaseline, FormControl } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import {} from "@mui/icons-material";
 import "./create-post.css";
@@ -72,7 +72,7 @@ export default function CreatePost() {
                 summary: "",
                 content: { editor },
                 avatar: "",
-                accessModified: "",
+                accessModified: "Public",
               }}
               validate={(values) => {
                 const errors = {};
@@ -204,13 +204,13 @@ export default function CreatePost() {
                     )}
                   </Field>
                   <br />
-                  <button
+                  <Button
                     type="submit"
-                    className="inputSubmit"
+                    variant="contained"
                     disabled={isSubmitting}
                   >
                     Create
-                  </button>
+                  </Button>
                 </Form>
               )}
             </Formik>

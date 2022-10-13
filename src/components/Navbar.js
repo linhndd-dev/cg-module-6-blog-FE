@@ -18,6 +18,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import { useDispatch, useSelector } from "react-redux";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import CommentIcon from '@mui/icons-material/Comment';
 
 const drawerWidth = 240;
 
@@ -41,21 +43,9 @@ export default function Navbar() {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            <ListItem>
-              <ListItemButton
-                onClick={() => {
-                  navigate("/")
-                }}
-              >
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItemButton>
-            </ListItem>
             {isLoggedIn && (
               <>
-                <ListItem>
+                <ListItem sx={{borderBottom:"1px solid #000"}}>
                   <ListItemButton onClick={() => navigate("/user/post/create")}>
                     <ListItemIcon>
                       <AddIcon />
@@ -70,7 +60,7 @@ export default function Navbar() {
                     }}
                   >
                     <ListItemIcon>
-                      <ListIcon />
+                      <ThumbUpIcon />
                     </ListItemIcon>
                     <ListItemText primary="Likes" />
                   </ListItemButton>
@@ -82,7 +72,7 @@ export default function Navbar() {
                     }}
                   >
                     <ListItemIcon>
-                      <ListIcon />
+                      <CommentIcon />
                     </ListItemIcon>
                     <ListItemText primary="Comments" />
                   </ListItemButton>

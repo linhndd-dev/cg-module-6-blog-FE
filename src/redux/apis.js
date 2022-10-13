@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "axios"
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import postSlice from "./slices/postSlice";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import Swal from "sweetalert2";
 
 if ("login" in localStorage) {
@@ -115,6 +115,39 @@ export const getDetailPost = createAsyncThunk(
     
   }
 );
+export const profileUser = createAsyncThunk(
+    'auth/profileUser',
+    async (id) => {
+        let {data} = await axios.get(`http://localhost:5000/auth/profile/${id}`)
+        return data
+    }
+)
+
+export const updateProfile = createAsyncThunk(
+    'auth/updateProfile',
+    async (prop) => {
+        let {data} =  await axios.put(`http://localhost:5000/auth/profile/${prop.userId}`, prop.values)
+        return data
+    }
+)
+export const resetPassword = createAsyncThunk(
+    'auth/resetPassword',
+    async ({userId, password}) => {
+      try {
+        await axios.put(`http://localhost:5000/auth/profile/resetPassword/${userId}`, {password: password})
+        Swal.fire({
+          icon: "success",
+          title: "Reset password successful!",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      }
+    }
+)
 
 export const likePost = async (postId) => {
   try {

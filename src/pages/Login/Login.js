@@ -79,6 +79,7 @@ const Login = () => {
                 className={styles.error_msg}
                 name="username"
               ></ErrorMessage>
+              <br/>
               <Field
                 type="password"
                 placeholder="Password"

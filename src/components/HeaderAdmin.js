@@ -49,7 +49,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   maxWidth: 300,
   color: theme.palette.text.primary,
 }));
-export default function Header() {
+export default function HeaderAdmin() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { isLoggedIn, user, notifications } = useSelector(
     (state) => state.auth
@@ -217,19 +217,6 @@ export default function Header() {
             height="74px"
             src="https://firebasestorage.googleapis.com/v0/b/image-blog-dbb1d.appspot.com/o/files%2Flogo-blog-13.png?alt=media&token=7da77104-fae0-423e-a670-20482a33b5c6"
           />
-          {isLoggedIn ? (
-            <Box sx={{ paddingLeft: " 20px" }}>
-              <Button
-                id="demo-positioned-button"
-                onClick={() => navigate("/user/post/list")}
-                sx={{ color: "black" }}
-              >
-                MyPost
-              </Button>
-            </Box>
-          ) : (
-            <></>
-          )}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {isLoggedIn ? (

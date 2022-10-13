@@ -95,7 +95,7 @@ export default function ListPost() {
                 <Box>
                   <FormControl
                     className="d-flex input-group w-auto"
-                    sx={{ width: "200px", bgColor: "white" }}
+                    sx={{ bgColor: "white" }}
                   >
                     <form onSubmit={handleSubmit}>
                       <TextField

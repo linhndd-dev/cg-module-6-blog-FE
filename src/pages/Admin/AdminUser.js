@@ -1,4 +1,11 @@
-import { Box, Button, Fab, Pagination, TextField, FormControl } from "@mui/material";
+import {
+  Box,
+  Button,
+  Fab,
+  Pagination,
+  TextField,
+  FormControl,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -23,6 +30,8 @@ import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import LockOpenRoundedIcon from "@mui/icons-material/LockOpenRounded";
 import { searchUsersByUsername } from "../../redux/adminApi";
 import SearchIcon from "@mui/icons-material/Search";
+import Swal from "sweetalert2";
+import Loading from "../../components/Loading";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -31,44 +40,53 @@ function useQuery() {
 export default function AdminUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState(0);
   const [userStatus, setUserStatus] = useState("");
   const { users, status } = useSelector((state) => state.user);
   const [search, setSearch] = useState("");
   const query = useQuery();
-  const searchQuery = query.get("searchQuery");
-  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(10);
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser,indexOfLastUser)
+  const totalPages = Math.ceil(users.length/usersPerPage)
+
+  const handleChangePage = (e,page) => {
+    setCurrentPage(page)
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search) {
       dispatch(searchUsersByUsername(search));
       navigate(`/admin/users/search?searchQuery=${search}`);
-      // setSearch("");
     } else {
       dispatch(getUsersFromAdmin());
     }
   };
 
   const handleChangeUserStatus = (prop) => {
-    dispatch(
-      changeUserStatusFromAdmin({
-        id: prop.userId,
-        currentStatus: prop.currentStatus,
-      })
-    );
-
-    handleClose();
-  };
-
-  const handleClickOpen = (id, userStatus) => {
-    setUserStatus(userStatus);
-    setUserId(id);
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await setUserStatus(userStatus);
+        await setUserId(prop.userId);
+        await dispatch(
+          changeUserStatusFromAdmin({
+            id: prop.userId,
+            currentStatus: prop.currentStatus,
+          })
+        );
+      }
+    });
   };
 
   useEffect(() => {
@@ -98,7 +116,6 @@ export default function AdminUser() {
             display: "flex",
             paddingTop: "10px",
             justifyContent: "flex-end",
-            paddingRight: "20px",
           }}
         >
           <Box>
@@ -114,7 +131,7 @@ export default function AdminUser() {
           <Box>
             <FormControl
               className="d-flex input-group w-auto"
-              sx={{ width: "200px", bgColor: "white" }}
+              sx={{ bgColor: "white" }}
             >
               <form onSubmit={handleSubmit}>
                 <TextField
@@ -136,85 +153,70 @@ export default function AdminUser() {
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                <h3>USERNAME</h3>
+                <h3>User Name</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>CREATED AT</h3>
+                <h3>Create At</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>AVATAR</h3>
+                <h3>Posts</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>FULLNAME</h3>
+                <h3>Full Name</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>STATUS</h3>
+                <h3>Status</h3>
               </TableCell>
-              <TableCell align="center">
-                <h3>ACTIONS</h3>
-              </TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.length > 0 &&
               status === "successful" &&
-              users.map((row) => (
-                <TableRow
-                  key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="center">{row.username}</TableCell>
-                  <TableCell align="center">{row.createdAt}</TableCell>
-                  <TableCell component="th" scope="row" align="center">
-                    <img style={{ width: "100px" }} src={`${row.avatar}`} />
-                  </TableCell>
-                  <TableCell align="center">{row.fullname}</TableCell>
-                  <TableCell align="center">{row.status}</TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="warning"
-                      aria-label="delete"
-                      onClick={() => handleClickOpen(row._id, row.status)}
-                    >
-                      {row.status === "Inactive" ? (
-                        <LockRoundedIcon fontSize="large" />
-                      ) : (
-                        <LockOpenRoundedIcon fontSize="large" />
-                      )}
-                    </Fab>
-                  </TableCell>
-                </TableRow>
-              ))}
+              currentUsers.map((row) => {
+                const date = new Date(row.createdAt);
+                return (
+                  <TableRow
+                    key={row._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="center">{row.username}</TableCell>
+                    <TableCell align="center">
+                      {date.toLocaleString()}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.totalPosts}
+                    </TableCell>
+                    <TableCell align="center">{row.fullname}</TableCell>
+                    <TableCell align="center">{row.status}</TableCell>
+                    <TableCell align="center">
+                      <Fab
+                        color="warning"
+                        aria-label="delete"
+                        size="small"
+                        onClick={() =>
+                          handleChangeUserStatus({
+                            userId: row._id,
+                            currentStatus: row.status,
+                          })
+                        }
+                      >
+                        {row.status === "Inactive" ? (
+                          <LockRoundedIcon fontSize="small" />
+                        ) : (
+                          <LockOpenRoundedIcon fontSize="small" />
+                        )}
+                      </Fab>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"You sure you want to change the status of this user?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description"></DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button
-            onClick={() =>
-              handleChangeUserStatus({
-                userId: userId,
-                currentStatus: userStatus,
-              })
-            }
-            autoFocus
-          >
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Stack alignItems="center">
+      <Pagination count={totalPages} color="primary" onChange={handleChangePage} size="large" variant="outlined" shape="rounded" />
+      </Stack>
       <Stack spacing={2}>
         {users.length === 0 && status === "successful" && (
           <p>There is no user!</p>

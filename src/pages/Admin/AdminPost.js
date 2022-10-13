@@ -1,8 +1,19 @@
-import { Box, Button, Fab, Pagination, TextField, FormControl } from "@mui/material";
+import {
+  Box,
+  Button,
+  Fab,
+  Pagination,
+  TextField,
+  FormControl,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getPostsFromAdmin, deletePostFromAdmin, searchPostsByTitle } from "../../redux/adminApi";
+import {
+  getPostsFromAdmin,
+  deletePostFromAdmin,
+  searchPostsByTitle,
+} from "../../redux/adminApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -22,10 +33,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import SearchIcon from "@mui/icons-material/Search";
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+import Swal from "sweetalert2";
+import Loading from "../../components/Loading";
 
 export default function ListPost() {
   const navigate = useNavigate();
@@ -34,36 +43,56 @@ export default function ListPost() {
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState(0);
   const { posts, status } = useSelector((state) => state.post);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost,indexOfLastPost)
+  const totalPages = Math.ceil(posts.length/postsPerPage)
+
+  const handleChangePage = (e,page) => {
+    setCurrentPage(page)
+  }
   useEffect(() => {
     dispatch(getPostsFromAdmin());
   }, []);
-  const handleDeletePost = async (id) => {
-    await dispatch(deletePostFromAdmin(id));
-    handleClose();
+  const handleDeletePost = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deletePostFromAdmin(id));
+      }
+    });
   };
   const handleShowDetail = async (id) => {
     navigate(`/post/${id}`);
   };
-  const handleClickOpen = (id) => {
-    setPostId(id);
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const [search, setSearch] = useState("");
   const handleSubmit = (e) => {
-      e.preventDefault();
-      if (search) {
-        dispatch(searchPostsByTitle(search));
-        navigate(`/admin/posts/search?searchQuery=${search}`);
-      } else {
-        dispatch(getPostsFromAdmin());
-      }
-    };
+    e.preventDefault();
+    if (search) {
+      dispatch(searchPostsByTitle(search));
+      navigate(`/admin/posts/search?searchQuery=${search}`);
+    } else {
+      dispatch(getPostsFromAdmin());
+    }
+  };
   return (
     <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
+      {status === "loading" && (
+          <>
+            <Loading />
+          </>
+        )}
       <Box
         display="grid"
         gridColumn="span 10"
@@ -82,9 +111,8 @@ export default function ListPost() {
           textAlign={"right"}
           sx={{
             display: "flex",
-            paddingTop: "10px",
             justifyContent: "flex-end",
-            paddingRight: "20px",
+            paddingTop: "10px",
           }}
         >
           <Box>
@@ -100,7 +128,7 @@ export default function ListPost() {
           <Box>
             <FormControl
               className="d-flex input-group w-auto"
-              sx={{ width: "200px", bgColor: "white" }}
+              sx={{ bgColor: "white" }}
             >
               <form onSubmit={handleSubmit}>
                 <TextField
@@ -122,104 +150,84 @@ export default function ListPost() {
           <TableHead>
             <TableRow>
               <TableCell align="center">
-                <h3>AVATAR</h3>
+                <h3>Avatar</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>TITLE</h3>
+                <h3>Title</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>DESCRIPTION</h3>
+                <h3>Likes</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>LIKES</h3>
+                <h3>Comments</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>COMMENTS</h3>
+                <h3>Status</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>STATUS</h3>
+                <h3>Author</h3>
               </TableCell>
               <TableCell align="center">
-                <h3>USERNAME</h3>
+                <h3>Create At</h3>
               </TableCell>
-              <TableCell align="center">
-                <h3>CREATED AT</h3>
-              </TableCell>
-              <TableCell align="center" colSpan={2}>
-                <h3>ACTIONS</h3>
-              </TableCell>
+              <TableCell align="center" colSpan={2}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {posts.length > 0 &&
               status === "successful" &&
-              posts.map((row) => (
-                <TableRow
-                  key={row._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    <img style={{ width: "100px" }} src={`${row.avatar}`} />
-                  </TableCell>
-                  <TableCell align="left">
-                    <h4>{row.title}</h4>
-                  </TableCell>
-                  <TableCell align="left">{row.summary}</TableCell>
-                  <TableCell align="center">
-                    <ThumbUpIcon fontSize="medium" />
-                    <br />
-                    {row.like}
-                  </TableCell>
-                  <TableCell align="center">
-                    <SmsIcon fontSize="medium" />
-                    <br />
-                    {row.comment}
-                  </TableCell>
-                  <TableCell align="left">{row.accessModified}</TableCell>
-                  <TableCell align="left">{row.author.username}</TableCell>
-                  <TableCell align="left">{row.createdAt}</TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="secondary"
-                      aria-label="showdetail"
-                      onClick={() => handleShowDetail(row._id)}
-                    >
-                      <InfoIcon />
-                    </Fab>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Fab
-                      color="warning"
-                      aria-label="delete"
-                      onClick={() => handleClickOpen(row._id)}
-                    >
-                      <DeleteIcon />
-                    </Fab>
-                  </TableCell>
-                </TableRow>
-              ))}
+              currentPosts.map((row) => {
+                const date = new Date(row.createdAt);
+                return (
+                  <TableRow
+                    key={row._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      <img style={{ width: "100px" }} src={`${row.avatar}`} />
+                    </TableCell>
+                    <TableCell align="left">
+                      <h4>{row.title}</h4>
+                    </TableCell>
+                    <TableCell align="center">
+                      <br />
+                      {row.like}
+                    </TableCell>
+                    <TableCell align="center">
+                      <br />
+                      {row.comment}
+                    </TableCell>
+                    <TableCell align="left">{row.accessModified}</TableCell>
+                    <TableCell align="left">{row.author.username}</TableCell>
+                    <TableCell align="left">{date.toLocaleString()}</TableCell>
+                    <TableCell align="center">
+                      <Fab
+                        color="secondary"
+                        aria-label="showdetail"
+                        onClick={() => handleShowDetail(row._id)}
+                        size="small"
+                      >
+                        <InfoIcon fontSize="small" />
+                      </Fab>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Fab
+                        color="warning"
+                        onClick={() => handleDeletePost(row._id)}
+                        size="small"
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </Fab>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to delete this post?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description"></DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={() => handleDeletePost(postId)} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Stack alignItems="center">
+      <Pagination count={totalPages} color="primary" onChange={handleChangePage} size="large" variant="outlined" shape="rounded" />
+      </Stack>
       <Stack spacing={2}>
         {posts.length === 0 && status === "successful" && (
           <p>You don't have any post yet!</p>

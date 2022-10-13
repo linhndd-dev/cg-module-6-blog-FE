@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Grid, Toolbar } from "@mui/material";
@@ -25,7 +24,9 @@ import AdminRoute from "./utils/AdminRoute";
 import ProtectedPostRoute from "./utils/ProtectedPostRoute";
 import { getMyNotification } from "./redux/slices/authSlice";
 import LayoutUser from "./pages/LayoutUser";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
+import UpdateProfile from "./pages/Profile/UpdateProfile";
+import UpdateProfileDemo from "./pages/UpdateProfileDemo";
 
 
 function App() {
@@ -52,13 +53,15 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
-        
+
         <Route element={<Layout />}>
           <Route path="/" element={<Home />}></Route>
           <Route path="/post/:id" element={<SinglePost />}></Route>
         </Route>
         <Route element={<LayoutUser />}>
         <Route path="/user/profile" element={<Profile />}></Route>
+        <Route path='/user/profile/changeinfo' element={<UpdateProfileDemo />}></Route>
+
         </Route>
 
         <Route path="/user/post" element={<LayoutUser />}>

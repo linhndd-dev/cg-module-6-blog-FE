@@ -83,7 +83,7 @@ const postSlice = createSlice({
       })
       .addCase(editPost.fulfilled, (state, action) => {
         state.posts.map((item) => {
-          if (item._id == action.payload.id) {
+          if (item._id === action.payload.id) {
             item = action.payload.values;
             item._id = action.payload.id;
           }

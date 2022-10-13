@@ -21,6 +21,7 @@ import { getComments } from "../redux/apis";
 import { useDispatch, useSelector } from "react-redux";
 import ModalComment from "./ModalComment";
 import { editComment } from "../redux/apis";
+import Swal from "sweetalert2";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -44,14 +45,24 @@ export default function Comment({ comment }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleDeleteComment = async (e) => {
+  const handleDeleteComment = (e) => {
     e.stopPropagation();
-    const confirmation = window.confirm("Are you sure to delete this post?");
-    if (!confirmation) return;
-    const response = await deleteComment(comment._id);
-    if (response) {
-      dispatch(getComments(id));
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await deleteComment(comment._id);
+        if (response) {
+          dispatch(getComments(id));
+        }
+      }
+    })
   };
   const [openModal, setOpenModal] = React.useState(false);
   const handleModalClose = () => {
@@ -89,9 +100,11 @@ export default function Comment({ comment }) {
           </Grid>
           <Grid item xs>
             <Typography sx={{ fontWeight: "bold", marginRight: "0px" }}>
-              {comment.userId.username} - 
-              <i style={{ opacity: "0.4", fontSize: "12px", marginRight: "0px" }}>
-              {time.toLocaleString()}
+              {comment.userId.username} -
+              <i
+                style={{ opacity: "0.4", fontSize: "12px", marginRight: "0px" }}
+              >
+                {time.toLocaleString()}
               </i>
             </Typography>
             <hr style={{ opacity: "0.1", margin: "2px 0" }} />
